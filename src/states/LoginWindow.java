@@ -1,40 +1,33 @@
 package states;
 
 import java.awt.Color;
-import javax.swing.JFrame;
+import java.awt.Font;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import main.Global;
 import main.Settings;
 
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import javax.swing.JButton;
-
-public class LoginWindow extends JFrame {
-
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+public class LoginWindow extends JPanel {
+	private static final long serialVersionUID = -8071787828056377082L;
 	private JTextField loginfield;
 	private JTextField passwordfield;
+	private JLabel bg;
 
 	public LoginWindow() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLayout(null);
 		
 		JPanel loginpanel = new JPanel();
 		loginpanel.setBounds(0, 0, 784, 561);
 		loginpanel.setBackground(new Color(255, 255, 255));
-		contentPane.add(loginpanel);
+		add(loginpanel);
 		loginpanel.setLayout(null);
 		
 		loginfield = new JTextField();
@@ -65,12 +58,25 @@ public class LoginWindow extends JFrame {
 		passwordtitle.setBounds(302, 366, 137, 22);
 		loginpanel.add(passwordtitle);
 		
-		JButton btnRegister = new JButton("Register");
+		JButton btnRegister = new JButton(Settings.lang.get("register.text"));
 		btnRegister.setBounds(398, 456, 84, 44);
 		loginpanel.add(btnRegister);
 		
-		JButton btnLogin = new JButton("Login");
+		JButton btnLogin = new JButton(Settings.lang.get("loggingin.text"));
+		btnLogin.addActionListener(e -> changeTheme());
 		btnLogin.setBounds(302, 456, 84, 44);
 		loginpanel.add(btnLogin);
+		
+		bg = new JLabel("");
+		bg.setBounds(0, 0, 784, 575);
+		loginpanel.add(bg);
+		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
+		bg.setHorizontalAlignment(SwingConstants.CENTER);
+	}
+	void changeTheme() {
+		Settings.currentSettings.put("theme", "dark");
+		System.out.println(Settings.currentSettings);
+		Global.frame.reloadLAF();
+		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
 	}
 }
