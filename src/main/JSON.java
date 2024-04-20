@@ -17,6 +17,7 @@ public class JSON {
 	static {
 		defaultSettings = new HashMap<>();
 		defaultSettings.put("lang", "lv");
+		defaultSettings.put("theme", "light");
 		System.out.println("[DEFAULT SETTINGS] "+defaultSettings);
     }
 	
