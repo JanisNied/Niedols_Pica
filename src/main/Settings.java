@@ -7,4 +7,5 @@ public class Settings {
 			new HashMap<String, String>();
 	public static HashMap<String, String> lang = 
 			new HashMap<String, String>();
+	
 }

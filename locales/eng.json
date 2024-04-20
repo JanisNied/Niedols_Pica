@@ -1,4 +1,6 @@
 {
 	"login.text":"Login",
-	"password.text":"Password"
+	"password.text":"Password",
+	"register.text":"Register",
+	"loggingin.text":"Login"
 }
