@@ -2,7 +2,8 @@ package states;
 
 import java.awt.Color;
 import java.awt.Font;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -10,16 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import main.Global;
 import main.Settings;
 
 public class LoginWindow extends JPanel {
 	private static final long serialVersionUID = -8071787828056377082L;
-	private JTextField loginfield;
-	private JTextField passwordfield;
-	private JLabel bg;
-
+	private JTextField loginfield, passwordfield;
+	private JLabel bg, passwordtitle, logintitle, themeSwitch;
+	private JButton btnRegister, btnLogin;
+	
 	public LoginWindow() {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
@@ -29,6 +29,18 @@ public class LoginWindow extends JPanel {
 		loginpanel.setBackground(new Color(255, 255, 255));
 		add(loginpanel);
 		loginpanel.setLayout(null);
+		
+		themeSwitch = new JLabel();
+		themeSwitch.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	changeTheme();     
+            }
+        });
+		themeSwitch.setHorizontalAlignment(SwingConstants.CENTER);
+		themeSwitch.setBounds(724, 500, 50, 50);
+		themeSwitch.setIcon(getThemeIcon());
+		loginpanel.add(themeSwitch);
 		
 		loginfield = new JTextField();
 		loginfield.setBounds(302, 311, 180, 44);
@@ -40,7 +52,7 @@ public class LoginWindow extends JPanel {
 		passwordfield.setBounds(302, 391, 180, 44);
 		loginpanel.add(passwordfield);
 		
-		JLabel logintitle = new JLabel(Settings.lang.get("login.text"));
+		logintitle = new JLabel(Settings.lang.get("login.text"));
 		logintitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		logintitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		logintitle.setBounds(302, 286, 180, 22);
@@ -52,30 +64,41 @@ public class LoginWindow extends JPanel {
 		logoimage.setBounds(218, 0, 348, 325);
 		loginpanel.add(logoimage);
 		
-		JLabel passwordtitle = new JLabel(Settings.lang.get("password.text"));
+		passwordtitle = new JLabel(Settings.lang.get("password.text"));
 		passwordtitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		passwordtitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		passwordtitle.setBounds(302, 366, 137, 22);
 		loginpanel.add(passwordtitle);
 		
-		JButton btnRegister = new JButton(Settings.lang.get("register.text"));
+		btnRegister = new JButton(Settings.lang.get("register.text"));
 		btnRegister.setBounds(398, 456, 84, 44);
 		loginpanel.add(btnRegister);
 		
-		JButton btnLogin = new JButton(Settings.lang.get("loggingin.text"));
-		btnLogin.addActionListener(e -> changeTheme());
+		btnLogin = new JButton(Settings.lang.get("loggingin.text"));
 		btnLogin.setBounds(302, 456, 84, 44);
 		loginpanel.add(btnLogin);
 		
 		bg = new JLabel("");
-		bg.setBounds(0, 0, 784, 575);
+		bg.setBounds(0, 0, 784, 600);
 		loginpanel.add(bg);
 		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
 		bg.setHorizontalAlignment(SwingConstants.CENTER);
 	}
-	void changeTheme() {
+	private void changeTheme() {
 		Global.themeSwitcher();
 		Global.reloadLAF();
+		themeSwitch.setIcon(getThemeIcon());
 		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
 	}
+    private void updateLanguage() {
+    	Global.changeLanguage("lv");
+        logintitle.setText(Settings.lang.get("login.text"));
+        passwordtitle.setText(Settings.lang.get("password.text"));
+        btnRegister.setText(Settings.lang.get("register.text"));
+        btnLogin.setText(Settings.lang.get("loggingin.text"));
+    }
+    private ImageIcon getThemeIcon() {
+    	ImageIcon theme = new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/themeicons/"+Settings.currentSettings.get("theme")+".png")).getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
+    	return theme;
+    }
 }
