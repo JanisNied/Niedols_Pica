@@ -3,6 +3,8 @@ package db;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -41,4 +43,52 @@ public class Database {
         }
     }
 
+	public static String insertStatement(File db, String login, String password) {
+		String status = "unknown";
+		if (login.isEmpty() || password.isEmpty())
+			status = "empty";
+		else {
+			Connection connection = null;
+			String checkUserSql = "SELECT COUNT(*) FROM User WHERE login = ?";
+			String insertSql = "INSERT INTO User (login, password) VALUES (?, ?)";
+	        try {
+	            Class.forName("org.sqlite.JDBC");
+	            String url = "jdbc:sqlite:"+db;
+	            connection = DriverManager.getConnection(url);        
+	            System.out.println("[DB] Connected to the database.");
+	            PreparedStatement checkUserStmt = connection.prepareStatement(checkUserSql);
+	            PreparedStatement insertStmt = connection.prepareStatement(insertSql);
+	            checkUserStmt.setString(1, login);
+	            ResultSet resultSet = checkUserStmt.executeQuery();
+	            resultSet.next();
+	            if (resultSet.getInt(1) == 0) {
+	            	insertStmt.setString(1, login);
+	            	insertStmt.setString(2, password);
+	            	insertStmt.executeUpdate();
+	            	System.out.println("[DB] Data inserted successfully for user: " + login);
+	            	status = "success";
+	            } else {
+	            	System.out.println("[DB] Data already exists for user: " + login);
+	            	status = "exists";
+	            }
+	        } catch (ClassNotFoundException e) {
+	            System.out.println("[DB] SQLite JDBC driver not found.");
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            System.out.println("[DB] Failed to connect to the database or create table.");
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (connection != null) {
+	                    connection.close();
+	                    System.out.println("[DB] Connection closed.");
+	                }
+	            } catch (SQLException e) {
+	                System.out.println("[DB] Failed to close the connection.");
+	                e.printStackTrace();
+	            }
+	        }
+		}
+        return status;
+	}
 }
