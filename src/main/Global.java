@@ -2,9 +2,10 @@ package main;
 
 
 import java.io.File;
+import java.util.HashMap;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
 import states.WindowHandler;
 import themes.DarkTheme;
 import themes.LightTheme;
@@ -15,6 +16,12 @@ public class Global {
 	public static File persistenceLocation = new File(System.getProperty("user.home") + fileSeparator + ".pizzeria/SliceHaven");
 	public static File settings = new File(persistenceLocation + fileSeparator + "settings.json");
 	public static File database = new File(persistenceLocation + fileSeparator + "users.db");
+	public static HashMap <String, String> sounds;
+	static {
+		sounds = new HashMap<>();
+		sounds.put("err", "/sounds/NewProfitQuota.wav");
+		sounds.put("success", "/sounds/accountmade.wav");
+    }
 	
 	
 	public static void reloadLAF() {

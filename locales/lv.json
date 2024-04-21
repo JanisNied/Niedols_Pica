@@ -4,5 +4,9 @@
 	"loggingin.text":"Ieiet",
 	"register.text":"Reģistrēt",
 	"language":"Latviešu",
-	"emoji":"\uD83C\uDDF1\uD83C\uDDFB"
+	"emoji":"\uD83C\uDDF1\uD83C\uDDFB",
+	"empty.text":"Viens vai vairāki ievades lauki ir tukši!",
+	"success.text":"Konts veiksmīgi reģistrēts!",
+	"exists.text":"Šāds konts jau eksistē!",
+	"unknown.text":"Kļūda datubāzē vai programmā!"
 }

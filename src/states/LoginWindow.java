@@ -17,21 +17,26 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
-import classes.BoxItem;
+import db.Database;
 import main.Global;
 import main.JSON;
 import main.Settings;
+import objects.BoxItem;
+import objects.Sound;
+import ui.Shaker;
 
 public class LoginWindow extends JPanel {
 	private static final long serialVersionUID = -8071787828056377082L;
 	private JTextField loginfield;
 	private JPasswordField passwordfield;
-	private JLabel bg, passwordtitle, logintitle, themeSwitch, languageSwitch;
+	private JLabel bg, passwordtitle, logintitle, themeSwitch, languageSwitch, infolabel;
 	private JButton btnRegister, btnLogin;
 	private JComboBox<BoxItem> comboBox;
 	private boolean valid = false;
+	private Timer debounce;
 	
 	public LoginWindow() {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -113,12 +118,20 @@ public class LoginWindow extends JPanel {
 		loginpanel.add(passwordtitle);
 		
 		btnRegister = new JButton(Settings.lang.get("register.text"));
+		btnRegister.addActionListener(e -> registerData());
 		btnRegister.setBounds(398, 456, 84, 44);
 		loginpanel.add(btnRegister);
 		
 		btnLogin = new JButton(Settings.lang.get("loggingin.text"));
 		btnLogin.setBounds(302, 456, 84, 44);
 		loginpanel.add(btnLogin);
+		
+		infolabel = new JLabel("");
+		infolabel.setHorizontalAlignment(SwingConstants.CENTER);
+		infolabel.setForeground(Color.RED);
+		infolabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		infolabel.setBounds(260, 511, 264, 39);
+		loginpanel.add(infolabel);
 		
 		bg = new JLabel("");
 		bg.setBounds(0, 0, 784, 600);
@@ -142,6 +155,7 @@ public class LoginWindow extends JPanel {
         passwordtitle.setText(Settings.lang.get("password.text"));
         btnRegister.setText(Settings.lang.get("register.text"));
         btnLogin.setText(Settings.lang.get("loggingin.text"));
+        infolabel.setText("");
     }
     private ImageIcon getThemeIcon() {
     	ImageIcon theme = new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/themeicons/"+Settings.currentSettings.get("theme")+".png")).getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
@@ -165,5 +179,54 @@ public class LoginWindow extends JPanel {
 				}
 			}
 		}
+    }
+    private void registerData() {
+    	int cooldown = 1000;
+    	if (debounce != null)
+    		debounce.stop();
+    	String status = Database.insertStatement(Global.database, loginfield.getText(), new String(passwordfield.getPassword()));
+    	switch (status) {
+    		case "unknown":
+    		case "exists":
+    		case "empty":
+    			Shaker lbl = new Shaker(infolabel, cooldown);
+    			lbl.startShaking();
+    			if (!status.equalsIgnoreCase("unknown")) {
+	    			if (status.equalsIgnoreCase("exists"))
+	    				infolabel.setText(Settings.lang.get("exists.text"));
+	    			else	
+	    				infolabel.setText(Settings.lang.get("empty.text"));
+	    			infolabel.setForeground(Color.RED);
+	    			new Sound(Global.sounds.get("err"), 1f, false).play();
+    			} else {
+    				infolabel.setText(Settings.lang.get("unknown.text"));
+    				infolabel.setForeground(new Color(214, 210, 84));
+	    			new Sound(Global.sounds.get("err"), 1f, false).play();
+    			}
+    			break;
+    		case "success":
+    			infolabel.setText(Settings.lang.get("success.text"));
+    			infolabel.setForeground(new Color(115, 199, 107));
+    			new Sound(Global.sounds.get("success"), 1f, false).play();
+    			break;
+    	}
+    	btnLogin.setEnabled(false);
+    	btnRegister.setEnabled(false);
+    	loginfield.setEditable(false);
+    	passwordfield.setEditable(false);
+    	passwordfield.setText("");
+    	loginfield.setText("");
+    	debounce = new Timer(cooldown, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {                           	
+            	infolabel.setText("");
+            	btnLogin.setEnabled(true);
+            	btnRegister.setEnabled(true);
+            	loginfield.setEditable(true);
+            	passwordfield.setEditable(true);
+            }
+        });
+    	debounce.setRepeats(false);
+    	debounce.start();
     }
 }

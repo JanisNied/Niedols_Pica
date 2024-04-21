@@ -155,6 +155,12 @@ public class TestingWindow extends JFrame {
 		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
 		bg.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		JLabel infolabel = new JLabel("Viens vai vairāki ievades lauki ir tukši!");
+		infolabel.setHorizontalAlignment(SwingConstants.CENTER);
+		infolabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		infolabel.setBounds(260, 511, 264, 39);
+		loginpanel.add(infolabel);
+		
 		setupLanguageSelector();
 	}
 	private void changeTheme() {
