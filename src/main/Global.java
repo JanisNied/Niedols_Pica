@@ -1,6 +1,7 @@
 package main;
 
 
+import java.awt.Insets;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.HashMap;
@@ -41,6 +42,9 @@ public class Global {
 		    UIManager.put("TextComponent.arc", 30);
 		    UIManager.put("Button.arc", 15);
 		    UIManager.put("ComboBox.arc", 30);
+		    UIManager.put( "TabbedPane.showTabSeparators", true );
+		    UIManager.put("TabbedPane.minimumTabWidth", 100);
+			UIManager.put("TabbedPane.tabAreaAlignment", "center");
 		    if (frame != null)
 		    	SwingUtilities.updateComponentTreeUI(frame);
 		} catch( Exception ex ) {
