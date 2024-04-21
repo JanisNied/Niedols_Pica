@@ -1,4 +1,6 @@
 {
 	"login.text":"Lietotājvārds",
-	"password.text":"Parole"
+	"password.text":"Parole",
+	"loggingin.text":"Ieiet",
+	"register.text":"Reģistrēt"
 }
