@@ -74,9 +74,8 @@ public class LoginWindow extends JPanel {
 		bg.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 	void changeTheme() {
-		Settings.currentSettings.put("theme", "dark");
-		System.out.println(Settings.currentSettings);
-		Global.frame.reloadLAF();
+		Global.themeSwitcher();
+		Global.reloadLAF();
 		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
 	}
 }
