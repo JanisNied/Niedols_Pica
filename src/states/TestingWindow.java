@@ -25,7 +25,7 @@ import main.Global;
 import main.JSON;
 import main.Settings;
 
-public class Testing extends JFrame {
+public class TestingWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -45,7 +45,7 @@ public class Testing extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Testing frame = new Testing();
+					TestingWindow frame = new TestingWindow();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public class Testing extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Testing() {
+	public TestingWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		getContentPane().setLayout(null);
@@ -91,7 +91,7 @@ public class Testing extends JFrame {
             }
         });
 		try {
-            InputStream inputStream = Testing.class.getClassLoader().getResourceAsStream("fonts/font.ttf");
+            InputStream inputStream = TestingWindow.class.getClassLoader().getResourceAsStream("fonts/font.ttf");
             Font customFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

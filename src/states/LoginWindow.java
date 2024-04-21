@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -25,7 +26,8 @@ import main.Settings;
 
 public class LoginWindow extends JPanel {
 	private static final long serialVersionUID = -8071787828056377082L;
-	private JTextField loginfield, passwordfield;
+	private JTextField loginfield;
+	private JPasswordField passwordfield;
 	private JLabel bg, passwordtitle, logintitle, themeSwitch, languageSwitch;
 	private JButton btnRegister, btnLogin;
 	private JComboBox<BoxItem> comboBox;
@@ -87,7 +89,7 @@ public class LoginWindow extends JPanel {
 		loginpanel.add(loginfield);
 		loginfield.setColumns(10);
 		
-		passwordfield = new JTextField();
+		passwordfield = new JPasswordField();
 		passwordfield.setColumns(10);
 		passwordfield.setBounds(302, 391, 180, 44);
 		loginpanel.add(passwordfield);
