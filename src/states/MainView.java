@@ -1,21 +1,22 @@
 package states;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import animation.AnimatePanelY;
 import main.Global;
 import main.JSON;
 import main.Settings;
-import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 public class MainView extends JFrame {
 
@@ -52,19 +53,19 @@ public class MainView extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(35, 35, 35));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		
-		setContentPane(contentPane);
-		
-		JPanel mainpanel = new JPanel();
-		mainpanel.setBounds(0, 0, 784, 561);
-		mainpanel.setBackground(new Color(35, 35, 35));
-		contentPane.add(mainpanel);
+		contentPane.setLayout(new BorderLayout());
+
+        setContentPane(contentPane);
+
+        JPanel mainpanel = new JPanel();
+        mainpanel.setBackground(new Color(35, 35, 35));
+        contentPane.add(mainpanel, BorderLayout.CENTER);
 		mainpanel.setLayout(null);
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
+		tabbedPane.putClientProperty( "JComponent.roundRect", true );
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabbedPane.setBounds(0, 0, 784, 561);
+		tabbedPane.setBounds(0, 0, 774, 551);
 		mainpanel.add(tabbedPane);
 		
 		JPanel presetpizza = new JPanel();
@@ -72,6 +73,22 @@ public class MainView extends JFrame {
 		
 		JPanel custompizza = new JPanel();
 		tabbedPane.addTab("New tab", null, custompizza, null);
+		
+		JPanel cart = new JPanel();
+		tabbedPane.addTab("New tab", null, cart, null);
+		
+		JPanel bakery = new JPanel();
+		tabbedPane.addTab("New tab", null, bakery, null);
+		
+		JLabel username = new JLabel("Profile: 20characters12345678");
+		username.setHorizontalAlignment(SwingConstants.LEADING);
+		username.setBounds(9, 528, 166, 19);
+		mainpanel.add(username);
+		
+		JLabel orders = new JLabel("Orders Taken: 9999");
+		orders.setHorizontalAlignment(SwingConstants.TRAILING);
+		orders.setBounds(595, 528, 166, 19);
+		mainpanel.add(orders);
 		
 //		transitionpanel = new JPanel();
 //		transitionpanel.setBackground(getPanelColor());
