@@ -2,5 +2,7 @@
 	"login.text":"Lietotājvārds",
 	"password.text":"Parole",
 	"loggingin.text":"Ieiet",
-	"register.text":"Reģistrēt"
+	"register.text":"Reģistrēt",
+	"language":"Latviešu",
+	"emoji":"\uD83C\uDDF1\uD83C\uDDFB"
 }
