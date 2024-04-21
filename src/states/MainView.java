@@ -91,18 +91,18 @@ public class MainView extends JFrame {
 //		AnimatePanelY animation = new AnimatePanelY(transitionpanel, 0, -600, 1000);
 //    	animation.startAnimation();
 	}
-//	private Color getPanelColor() {
-//		Color cl = null;
-//		switch(Settings.currentSettings.get("theme")) {
-//			case "light":
-//				cl = Color.WHITE;
-//				break;
-//			case "dark":
-//				cl = new Color(72, 72, 72);
-//				break;
-//		}
-//		return cl;
-//	}
+	private Color getPanelColor() {
+		Color cl = null;
+		switch(Settings.currentSettings.get("theme")) {
+			case "light":
+				cl = Color.WHITE;
+				break;
+			case "dark":
+				cl = new Color(72, 72, 72);
+				break;
+		}
+		return cl;
+	}
 	private Color getBGPanelColor() {
 		switch(Settings.currentSettings.get("theme")) {
 		case "light":
