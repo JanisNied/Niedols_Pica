@@ -4,5 +4,9 @@
 	"register.text":"Register",
 	"loggingin.text":"Login",
 	"language": "English",
-	"emoji":"\uD83C\uDDEC\uD83C\uDDE7"
+	"emoji":"\uD83C\uDDEC\uD83C\uDDE7",
+	"empty.text":"One or multiple input fields are empty!",
+	"success.text":"Account registered successfully!",
+	"exists.text":"Account already exists!",
+	"unknown.text":"A runtime error has occured!"
 }

@@ -13,7 +13,7 @@ import db.Database;
 
 @SuppressWarnings("unchecked")
 public class JSON {
-	private static final HashMap <String, String> defaultSettings;
+	private static HashMap <String, String> defaultSettings;
 	
 	// Initialize HashMap
 	static {
