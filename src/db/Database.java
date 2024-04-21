@@ -50,7 +50,7 @@ public class Database {
 		else {
 			Connection connection = null;
 			String checkUserSql = "SELECT COUNT(*) FROM User WHERE login = ?";
-			String insertSql = "INSERT INTO User (login, password) VALUES (?, ?)";
+			String insertSql = "INSERT INTO User (login, password, orders) VALUES (?, ?, ?)";
 	        try {
 	            Class.forName("org.sqlite.JDBC");
 	            String url = "jdbc:sqlite:"+db;
@@ -64,6 +64,7 @@ public class Database {
 	            if (resultSet.getInt(1) == 0) {
 	            	insertStmt.setString(1, login);
 	            	insertStmt.setString(2, password);
+	            	insertStmt.setInt(3, 0);
 	            	insertStmt.executeUpdate();
 	            	System.out.println("[DB] Data inserted successfully for user: " + login);
 	            	status = "success";
