@@ -5,9 +5,8 @@ import states.LoginWindow;
 import states.WindowHandler;
 
 public class Initialize {
-	// File Variables
 	public static void main(String[] args) {
-		JSON.setupFiles(Global.persistenceLocation, Global.settings);
+		JSON.setupFiles(Global.persistenceLocation, Global.settings, Global.database);
 		Settings.currentSettings = JSON.jsonToHashMap(Global.settings, "CURRENT SETTINGS");
 		Settings.lang = JSON.jsonToHashMap(new File(System.getProperty("user.dir")+Global.fileSeparator+"locales"+Global.fileSeparator+Settings.currentSettings.get("lang")+".json"), "LANGUAGE");
 		Global.reloadLAF();
