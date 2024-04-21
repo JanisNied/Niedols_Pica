@@ -1,7 +1,5 @@
 package main;
 
-
-import java.awt.Insets;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.HashMap;

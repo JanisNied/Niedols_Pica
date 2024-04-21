@@ -3,8 +3,6 @@ package states;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -16,7 +14,6 @@ import javax.swing.border.EmptyBorder;
 import main.Global;
 import main.JSON;
 import main.Settings;
-import javax.swing.SwingConstants;
 
 public class MainView extends JFrame {
 
@@ -68,16 +65,16 @@ public class MainView extends JFrame {
 		mainpanel.add(tabbedPane);
 		
 		JPanel presetpizza = new JPanel();
-		tabbedPane.addTab("New tab", null, presetpizza, null);
+		tabbedPane.addTab("Gatavas Picas", null, presetpizza, null);
 		
 		JPanel custompizza = new JPanel();
-		tabbedPane.addTab("New tab", null, custompizza, null);
+		tabbedPane.addTab("Pielāgota Pica", null, custompizza, null);
 		
 		JPanel cart = new JPanel();
-		tabbedPane.addTab("New tab", null, cart, null);
+		tabbedPane.addTab("Grozs", null, cart, null);
 		
 		JPanel bakery = new JPanel();
-		tabbedPane.addTab("New tab", null, bakery, null);	
+		tabbedPane.addTab("Virtuve", null, bakery, null);
 		
 //		transitionpanel = new JPanel();
 //		transitionpanel.setBackground(getPanelColor());
