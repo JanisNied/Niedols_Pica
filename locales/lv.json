@@ -8,5 +8,7 @@
 	"empty.text":"Viens vai vairāki ievades lauki ir tukši!",
 	"success.text":"Konts veiksmīgi reģistrēts!",
 	"exists.text":"Šāds konts jau eksistē!",
-	"unknown.text":"Kļūda datubāzē vai programmā!"
+	"unknown.text":"Kļūda datubāzē vai programmā!",
+	"deny.text":"Nepareizi ievadīti dati!",
+	"none.text":"Šāds konts neeksistē!"
 }

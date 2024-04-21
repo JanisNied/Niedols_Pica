@@ -123,6 +123,7 @@ public class LoginWindow extends JPanel {
 		loginpanel.add(btnRegister);
 		
 		btnLogin = new JButton(Settings.lang.get("loggingin.text"));
+		btnLogin.addActionListener(e -> login());
 		btnLogin.setBounds(302, 456, 84, 44);
 		loginpanel.add(btnLogin);
 		
@@ -209,6 +210,64 @@ public class LoginWindow extends JPanel {
     			infolabel.setForeground(new Color(115, 199, 107));
     			new Sound(Global.sounds.get("success"), 1f, false).play();
     			break;
+    	}
+    	btnLogin.setEnabled(false);
+    	btnRegister.setEnabled(false);
+    	loginfield.setEditable(false);
+    	passwordfield.setEditable(false);
+    	passwordfield.setText("");
+    	loginfield.setText("");
+    	debounce = new Timer(cooldown, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {                           	
+            	infolabel.setText("");
+            	btnLogin.setEnabled(true);
+            	btnRegister.setEnabled(true);
+            	loginfield.setEditable(true);
+            	passwordfield.setEditable(true);
+            }
+        });
+    	debounce.setRepeats(false);
+    	debounce.start();
+    }
+    private void login() {
+    	int cooldown = 1000;
+    	if (debounce != null)
+    		debounce.stop();
+    	String status = Database.checkData(Global.database, loginfield.getText(), new String(passwordfield.getPassword()));
+    	switch (status) {
+    		case "unknown":
+    		case "deny":
+    		case "empty":
+    		case "none":
+    			Shaker lbl = new Shaker(infolabel, cooldown);
+    			lbl.startShaking();
+    			if (!status.equalsIgnoreCase("unknown")) {
+    				switch(status) {
+    					case "deny":
+    						infolabel.setText(Settings.lang.get("deny.text"));
+    						break;
+    					case "empty":
+    						infolabel.setText(Settings.lang.get("empty.text"));
+    						break;
+    					default:
+    						infolabel.setText(Settings.lang.get("none.text"));
+    				}   			
+	    			infolabel.setForeground(Color.RED);
+	    			new Sound(Global.sounds.get("err"), 1f, false).play();
+    			} else {
+    				infolabel.setText(Settings.lang.get("unknown.text"));
+    				infolabel.setForeground(new Color(214, 210, 84));
+	    			new Sound(Global.sounds.get("err"), 1f, false).play();
+    			}
+    			break;
+    		case "accept":
+    			new Sound(Global.sounds.get("success"), 1f, false).play();
+    			btnLogin.setEnabled(false);
+    	    	btnRegister.setEnabled(false);
+    	    	loginfield.setEditable(false);
+    	    	passwordfield.setEditable(false);
+    			return;
     	}
     	btnLogin.setEnabled(false);
     	btnRegister.setEnabled(false);
