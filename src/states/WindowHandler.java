@@ -12,4 +12,11 @@ public class WindowHandler extends JFrame {
 		setResizable(false);
 		getContentPane().setLayout(null);
 	}
+	
+	public void replaceContentPane(JPanel contentPane) {
+		getContentPane().removeAll();
+		setContentPane(contentPane);
+		repaint();
+		revalidate();
+	}
 }

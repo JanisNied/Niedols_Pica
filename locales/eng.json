@@ -10,5 +10,6 @@
 	"exists.text":"Account already exists!",
 	"unknown.text":"A runtime error has occured!",
 	"deny.text":"Incorrect credentials!",
-	"none.text":"Account not registered!"
+	"none.text":"Account not registered!",
+	"welcome.text":"Welcome, "
 }
