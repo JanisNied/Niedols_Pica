@@ -42,7 +42,6 @@ public class Database {
             }
         }
     }
-
 	public static String insertStatement(File db, String login, String password) {
 		String status = "unknown";
 		if (login.isEmpty() || password.isEmpty())
@@ -71,11 +70,59 @@ public class Database {
 	            	System.out.println("[DB] Data already exists for user: " + login);
 	            	status = "exists";
 	            }
+	            resultSet.close();
+	            checkUserStmt.close();
+	            insertStmt.close();
 	        } catch (ClassNotFoundException e) {
 	            System.out.println("[DB] SQLite JDBC driver not found.");
 	            e.printStackTrace();
 	        } catch (SQLException e) {
-	            System.out.println("[DB] Failed to connect to the database or create table.");
+	            System.out.println("[DB] Failed to connect to the database or make changes.");
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (connection != null) {
+	                    connection.close();
+	                    System.out.println("[DB] Connection closed.");
+	                }
+	            } catch (SQLException e) {
+	                System.out.println("[DB] Failed to close the connection.");
+	                e.printStackTrace();
+	            }
+	        }
+		}
+        return status;
+	}
+	public static String checkData(File db, String login, String password) {
+		String status = "unknown";
+		if (login.isEmpty() || password.isEmpty())
+			status = "empty";
+		else {
+			Connection connection = null;
+			String sql = "SELECT password FROM User WHERE login = ?";
+	        try {
+	            Class.forName("org.sqlite.JDBC");
+	            String url = "jdbc:sqlite:"+db;
+	            connection = DriverManager.getConnection(url);        
+	            System.out.println("[DB] Connected to the database.");
+	            PreparedStatement pstmt = connection.prepareStatement(sql);
+	            pstmt.setString(1, login);
+	            ResultSet rs = pstmt.executeQuery();
+	            if (rs.next()) {
+	            	String psStrg = rs.getString("password");
+	            	if (password.equals(psStrg)) {
+	            		status = "accept";
+	            	} else
+	            		status = "deny";
+	            }  else
+	            	status = "none";
+	            rs.close();
+	            pstmt.close();
+	        } catch (ClassNotFoundException e) {
+	            System.out.println("[DB] SQLite JDBC driver not found.");
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            System.out.println("[DB] Failed to connect to the database or make changes.");
 	            e.printStackTrace();
 	        } finally {
 	            try {

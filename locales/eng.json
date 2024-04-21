@@ -1,12 +1,14 @@
 {
 	"login.text":"Login",
 	"password.text":"Password",
-	"register.text":"Register",
 	"loggingin.text":"Login",
+	"register.text":"Register",
 	"language": "English",
 	"emoji":"\uD83C\uDDEC\uD83C\uDDE7",
 	"empty.text":"One or multiple input fields are empty!",
 	"success.text":"Account registered successfully!",
 	"exists.text":"Account already exists!",
-	"unknown.text":"A runtime error has occured!"
+	"unknown.text":"A runtime error has occured!",
+	"deny.text":"Incorrect credentials!",
+	"none.text":"Account not registered!"
 }
