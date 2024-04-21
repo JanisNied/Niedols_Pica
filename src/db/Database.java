@@ -19,7 +19,8 @@ public class Database {
             Statement statement = connection.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS User (" +
                     "login TEXT NOT NULL," +
-                    "password TEXT NOT NULL" +
+                    "password TEXT NOT NULL," +
+                    "orders INTEGER NOT NULL" +
                     ")";
             statement.execute(sql);
             System.out.println("[DB] Table created successfully.");
