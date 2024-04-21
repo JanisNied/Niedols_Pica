@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
+import animation.AnimatePanelY;
 import db.Database;
 import main.Global;
 import main.JSON;
@@ -32,9 +33,11 @@ public class LoginWindow extends JPanel {
 	private static final long serialVersionUID = -8071787828056377082L;
 	private JTextField loginfield;
 	private JPasswordField passwordfield;
-	private JLabel bg, passwordtitle, logintitle, themeSwitch, languageSwitch, infolabel;
+	private JLabel bg, passwordtitle, logintitle, 
+	themeSwitch, languageSwitch, infolabel, welcomelabel;
 	private JButton btnRegister, btnLogin;
 	private JComboBox<BoxItem> comboBox;
+	private JPanel transitionpanel;
 	private boolean valid = false;
 	private Timer debounce;
 	
@@ -48,6 +51,17 @@ public class LoginWindow extends JPanel {
 		add(loginpanel);
 		loginpanel.setLayout(null);
 		
+		transitionpanel = new JPanel();
+		transitionpanel.setBackground(getPanelColor());
+		transitionpanel.setLayout(null);
+		transitionpanel.setBounds(0, 600, 784, 561);
+		loginpanel.add(transitionpanel);
+		
+		welcomelabel = new JLabel("{Welcome.text}, {user}!");
+		welcomelabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		welcomelabel.setHorizontalAlignment(SwingConstants.CENTER);
+		welcomelabel.setBounds(182, 230, 420, 100);
+		transitionpanel.add(welcomelabel);	
 		themeSwitch = new JLabel();
 		themeSwitch.addMouseListener(new MouseAdapter() {
             @Override
@@ -145,10 +159,23 @@ public class LoginWindow extends JPanel {
 	}
 	private void changeTheme() {
 		Global.themeSwitcher();
-		Global.reloadLAF();
+		Global.reloadLAF();		
 		themeSwitch.setIcon(getThemeIcon());
 		languageSwitch.setIcon(getLanguageIcon());
+		transitionpanel.setBackground(getPanelColor());
 		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
+	}
+	private Color getPanelColor() {
+		Color cl = null;
+		switch(Settings.currentSettings.get("theme")) {
+			case "light":
+				cl = Color.WHITE;
+				break;
+			case "dark":
+				cl = new Color(72, 72, 72);
+				break;
+		}
+		return cl;
 	}
     private void updateLanguage(String lang) {
     	Global.changeLanguage(lang);
@@ -262,30 +289,42 @@ public class LoginWindow extends JPanel {
     			}
     			break;
     		case "accept":
+    			int animtime = 1000;
+    			Global.user = loginfield.getText();
     			new Sound(Global.sounds.get("success"), 1f, false).play();
-    			btnLogin.setEnabled(false);
-    	    	btnRegister.setEnabled(false);
-    	    	loginfield.setEditable(false);
-    	    	passwordfield.setEditable(false);
+    			fieldReset(false);
+    	    	Global.removeMLs(languageSwitch);
+    	    	Global.removeMLs(themeSwitch);
+    	    	welcomelabel.setText(Settings.lang.get("welcome.text")+Global.user+"!");   	   
+    	    	AnimatePanelY animation = new AnimatePanelY(transitionpanel, 600, 0, animtime);
+    	    	animation.startAnimation();
+    	    	Timer transition = new Timer(animtime + 500, new ActionListener() {
+    	            @Override
+    	            public void actionPerformed(ActionEvent e) {                           	
+    	            	Global.frame.replaceContentPane(new LoginWindow());
+    	            }
+    	        });
+    	    	transition.setRepeats(false);
+    	    	transition.start();  	    	
     			return;
     	}
-    	btnLogin.setEnabled(false);
-    	btnRegister.setEnabled(false);
-    	loginfield.setEditable(false);
-    	passwordfield.setEditable(false);
-    	passwordfield.setText("");
-    	loginfield.setText("");
+    	fieldReset(false);
     	debounce = new Timer(cooldown, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {                           	
             	infolabel.setText("");
-            	btnLogin.setEnabled(true);
-            	btnRegister.setEnabled(true);
-            	loginfield.setEditable(true);
-            	passwordfield.setEditable(true);
+            	fieldReset(true);
             }
         });
     	debounce.setRepeats(false);
     	debounce.start();
+    }
+    private void fieldReset(boolean toggle) {
+    	btnLogin.setEnabled(toggle);
+    	btnRegister.setEnabled(toggle);
+    	loginfield.setEditable(toggle);
+    	passwordfield.setEditable(toggle);
+    	passwordfield.setText("");
+    	loginfield.setText("");
     }
 }

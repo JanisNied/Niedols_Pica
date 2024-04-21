@@ -1,11 +1,14 @@
 package main;
 
 
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.HashMap;
 
+import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
 import states.WindowHandler;
 import themes.DarkTheme;
 import themes.LightTheme;
@@ -23,6 +26,7 @@ public class Global {
 		sounds.put("success", "/sounds/accountmade.wav");
     }
 	
+	public static String user = "John Doe";
 	
 	public static void reloadLAF() {
 		switch(Settings.currentSettings.get("theme")) {
@@ -76,4 +80,9 @@ public class Global {
 	        return filename;
 	    return filename.substring(0, extensionIndex);
 	}
+	public static void removeMLs(JComponent component) {
+        for (MouseListener listener : component.getMouseListeners()) {
+                component.removeMouseListener(listener);
+        }
+    }
 }
