@@ -9,6 +9,8 @@ import java.util.HashMap;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import db.Database;
+
 @SuppressWarnings("unchecked")
 public class JSON {
 	private static final HashMap <String, String> defaultSettings;
@@ -29,8 +31,10 @@ public class JSON {
 					location.mkdirs();
 				if (!json.exists())
 					json.createNewFile();
-				if (!db.exists())
+				if (!db.exists()) {
 					db.createNewFile();
+					Database.initializeDB(db);
+				}
 				defaultData(json);
 				System.out.println("[PERSISTENCE] File created!");
 			} catch (IOException e) {

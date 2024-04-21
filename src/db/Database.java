@@ -1,18 +1,17 @@
 package db;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import main.Global;
-
 public class Database {
-	public static void initializeDB() {
+	public static void initializeDB(File db) {
         Connection connection = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            String url = "jdbc:sqlite:"+Global.database;
+            String url = "jdbc:sqlite:"+db;
             connection = DriverManager.getConnection(url);
             System.out.println("[DB] Connected to the database.");
             Statement statement = connection.createStatement();
