@@ -22,11 +22,15 @@ public class JSON {
     }
 	
 	// Initialize non-existent Files/Directories, set default settings for persistence
-	public static void setupFiles(File location, File json) {
-		if (!location.exists() || !json.exists()) {
+	public static void setupFiles(File location, File json, File db) {
+		if (!location.exists() || !json.exists() || !db.exists()) {
 			try {
-				location.mkdirs();
-				json.createNewFile();
+				if (!location.exists())
+					location.mkdirs();
+				if (!json.exists())
+					json.createNewFile();
+				if (!db.exists())
+					db.createNewFile();
 				defaultData(json);
 				System.out.println("[PERSISTENCE] File created!");
 			} catch (IOException e) {
