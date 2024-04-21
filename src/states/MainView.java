@@ -51,19 +51,18 @@ public class MainView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(35, 35, 35));
+		contentPane.setBackground(getBGPanelColor());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout());
 
         setContentPane(contentPane);
 
         JPanel mainpanel = new JPanel();
-        mainpanel.setBackground(new Color(35, 35, 35));
+        mainpanel.setBackground(getBGPanelColor());
         contentPane.add(mainpanel, BorderLayout.CENTER);
 		mainpanel.setLayout(null);
         
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
-		tabbedPane.putClientProperty( "JComponent.roundRect", true );
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setBounds(0, 0, 774, 551);
 		mainpanel.add(tabbedPane);
@@ -78,17 +77,7 @@ public class MainView extends JFrame {
 		tabbedPane.addTab("New tab", null, cart, null);
 		
 		JPanel bakery = new JPanel();
-		tabbedPane.addTab("New tab", null, bakery, null);
-		
-		JLabel username = new JLabel("Profile: 20characters12345678");
-		username.setHorizontalAlignment(SwingConstants.LEADING);
-		username.setBounds(9, 528, 166, 19);
-		mainpanel.add(username);
-		
-		JLabel orders = new JLabel("Orders Taken: 9999");
-		orders.setHorizontalAlignment(SwingConstants.TRAILING);
-		orders.setBounds(595, 528, 166, 19);
-		mainpanel.add(orders);
+		tabbedPane.addTab("New tab", null, bakery, null);	
 		
 //		transitionpanel = new JPanel();
 //		transitionpanel.setBackground(getPanelColor());
@@ -117,4 +106,12 @@ public class MainView extends JFrame {
 //		}
 //		return cl;
 //	}
+	private Color getBGPanelColor() {
+		switch(Settings.currentSettings.get("theme")) {
+		case "light":
+			return new Color(225, 225, 225);
+		default:
+			return new Color(35, 35, 35);
+		}
+	}
 }
