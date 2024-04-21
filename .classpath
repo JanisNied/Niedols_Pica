@@ -22,5 +22,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-2.0.13.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.45.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-simple-2.0.13.jar"/>
+	<classpathentry kind="lib" path="lib/TimingFramework-0.55.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

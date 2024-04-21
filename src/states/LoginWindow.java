@@ -19,8 +19,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-
-import animation.AnimatePanelY;
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
+import org.jdesktop.animation.timing.interpolation.Interpolator;
+import animation.CustomInterpolator;
 import db.Database;
 import main.Global;
 import main.JSON;
@@ -289,16 +291,26 @@ public class LoginWindow extends JPanel {
     			}
     			break;
     		case "accept":
-    			int animtime = 1000;
+    			int animtime = 2500;
     			Global.user = loginfield.getText();
     			new Sound(Global.sounds.get("success"), 1f, false).play();
     			fieldReset(false);
     	    	Global.removeMLs(languageSwitch);
     	    	Global.removeMLs(themeSwitch);
-    	    	welcomelabel.setText(Settings.lang.get("welcome.text")+Global.user+"!");   	   
-    	    	AnimatePanelY animation = new AnimatePanelY(transitionpanel, 600, 0, animtime);
-    	    	animation.startAnimation();
-    	    	Timer transition = new Timer(animtime + 500, new ActionListener() {
+    	    	welcomelabel.setText(Settings.lang.get("welcome.text")+Global.user+"!");
+    	    	TimingTargetAdapter timingTarget = new TimingTargetAdapter() {
+                    @Override
+                    public void timingEvent(float fraction) {
+                        int newY = (int) (transitionpanel.getY() + (0 - transitionpanel.getY()) * fraction);
+                        transitionpanel.setBounds(0, newY, 784, 561);
+                    }
+                };
+                Animator animator = new Animator(animtime, timingTarget);
+                animator.setEndBehavior(Animator.EndBehavior.HOLD);
+                Interpolator interpolator = new CustomInterpolator();
+                animator.setInterpolator(interpolator);
+                animator.start();
+    	    	Timer transition = new Timer(animtime, new ActionListener() {
     	            @Override
     	            public void actionPerformed(ActionEvent e) {                           	
     	            	Global.frame.replaceContentPane(new LoginWindow());
