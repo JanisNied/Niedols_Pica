@@ -2,23 +2,34 @@ package states;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.HashMap;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import classes.BoxItem;
 import main.Global;
+import main.JSON;
 import main.Settings;
 
 public class LoginWindow extends JPanel {
 	private static final long serialVersionUID = -8071787828056377082L;
 	private JTextField loginfield, passwordfield;
-	private JLabel bg, passwordtitle, logintitle, themeSwitch;
+	private JLabel bg, passwordtitle, logintitle, themeSwitch, languageSwitch;
 	private JButton btnRegister, btnLogin;
+	private JComboBox<BoxItem> comboBox;
+	private boolean valid = false;
 	
 	public LoginWindow() {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -41,6 +52,35 @@ public class LoginWindow extends JPanel {
 		themeSwitch.setBounds(724, 500, 50, 50);
 		themeSwitch.setIcon(getThemeIcon());
 		loginpanel.add(themeSwitch);
+		
+		languageSwitch = new JLabel();
+		languageSwitch.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	comboBox.setVisible(!comboBox.isVisible());
+            }
+        });
+		languageSwitch.setIcon(getLanguageIcon());
+		languageSwitch.setHorizontalAlignment(SwingConstants.CENTER);
+		languageSwitch.setBounds(664, 500, 50, 50);
+		loginpanel.add(languageSwitch);
+		
+		comboBox = new JComboBox<BoxItem>();
+		comboBox.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 11));
+		((JLabel)comboBox.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if (valid) {
+	            	BoxItem item = (BoxItem)comboBox.getSelectedItem();
+	            	updateLanguage(item.getValue());
+	            	comboBox.setVisible(false);
+            	}
+            }
+        });
+		comboBox.setBounds(664, 456, 110, 34);
+		comboBox.setVisible(false);
+		loginpanel.add(comboBox);
 		
 		loginfield = new JTextField();
 		loginfield.setBounds(302, 311, 180, 44);
@@ -83,15 +123,19 @@ public class LoginWindow extends JPanel {
 		loginpanel.add(bg);
 		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
 		bg.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		setupLanguageSelector();
+		valid = true;
 	}
 	private void changeTheme() {
 		Global.themeSwitcher();
 		Global.reloadLAF();
 		themeSwitch.setIcon(getThemeIcon());
+		languageSwitch.setIcon(getLanguageIcon());
 		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
 	}
-    private void updateLanguage() {
-    	Global.changeLanguage("lv");
+    private void updateLanguage(String lang) {
+    	Global.changeLanguage(lang);
         logintitle.setText(Settings.lang.get("login.text"));
         passwordtitle.setText(Settings.lang.get("password.text"));
         btnRegister.setText(Settings.lang.get("register.text"));
@@ -100,5 +144,24 @@ public class LoginWindow extends JPanel {
     private ImageIcon getThemeIcon() {
     	ImageIcon theme = new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/themeicons/"+Settings.currentSettings.get("theme")+".png")).getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
     	return theme;
+    }
+    private ImageIcon getLanguageIcon() {
+    	ImageIcon theme = new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+"themeglobe.png")).getImage().getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH));
+    	return theme;
+    }
+    private void setupLanguageSelector() {
+    	File locales = new File(System.getProperty("user.dir")+Global.fileSeparator+"locales");
+    	for(File f : locales.listFiles()){
+			if(f.isFile()){
+				if (f.getName().endsWith(".json")) {
+					HashMap<String, String> temporary = JSON.jsonToHashMap(f, "LOCALE ADDITION");
+					String noextension = Global.removeExtension(f.getName());
+					BoxItem item = new BoxItem(noextension, temporary.get("language"));
+					comboBox.addItem(item);
+					if (noextension.equalsIgnoreCase(Settings.currentSettings.get("lang")))
+						comboBox.setSelectedItem(item);
+				}
+			}
+		}
     }
 }

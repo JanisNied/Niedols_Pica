@@ -2,5 +2,7 @@
 	"login.text":"Login",
 	"password.text":"Password",
 	"register.text":"Register",
-	"loggingin.text":"Login"
+	"loggingin.text":"Login",
+	"language": "English",
+	"emoji":"\uD83C\uDDEC\uD83C\uDDE7"
 }
