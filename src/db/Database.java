@@ -17,13 +17,23 @@ public class Database {
             connection = DriverManager.getConnection(url);
             System.out.println("[DB] Connected to the database.");
             Statement statement = connection.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS User (" +
-                    "login TEXT NOT NULL," +
-                    "password TEXT NOT NULL," +
-                    "orders INTEGER NOT NULL" +
+            String usertable = 
+            		"CREATE TABLE IF NOT EXISTS Users (" +
+            				"login TEXT NOT NULL," +
+            				"password TEXT NOT NULL," +
+            				"orders INTEGER NOT NULL" +
                     ")";
-            statement.execute(sql);
-            System.out.println("[DB] Table created successfully.");
+            
+            String customerregistry = 
+            		"CREATE TABLE IF NOT EXISTS Customers (" +
+            				"firstname TEXT NOT NULL,"+
+            				"lastname TEXT NOT NULL, "+
+            				"phonenumber TEXT NOT NULL,"+
+            				"address TEXT NOT NULL"+
+            		")";
+            statement.execute(customerregistry);
+            statement.execute(usertable);
+            System.out.println("[DB] Table(s) created successfully.");
             statement.close();
         } catch (ClassNotFoundException e) {
             System.out.println("[DB] SQLite JDBC driver not found.");
@@ -49,8 +59,8 @@ public class Database {
 			status = "empty";
 		else {
 			Connection connection = null;
-			String checkUserSql = "SELECT COUNT(*) FROM User WHERE login = ?";
-			String insertSql = "INSERT INTO User (login, password, orders) VALUES (?, ?, ?)";
+			String checkUserSql = "SELECT COUNT(*) FROM Users WHERE login = ?";
+			String insertSql = "INSERT INTO Users (login, password, orders) VALUES (?, ?, ?)";
 	        try {
 	            Class.forName("org.sqlite.JDBC");
 	            String url = "jdbc:sqlite:"+db;
@@ -101,7 +111,7 @@ public class Database {
 			status = "empty";
 		else {
 			Connection connection = null;
-			String sql = "SELECT password FROM User WHERE login = ?";
+			String sql = "SELECT password FROM Users WHERE login = ?";
 	        try {
 	            Class.forName("org.sqlite.JDBC");
 	            String url = "jdbc:sqlite:"+db;

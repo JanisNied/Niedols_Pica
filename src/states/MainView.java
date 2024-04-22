@@ -1,16 +1,22 @@
 package states;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
+import org.jdesktop.animation.timing.interpolation.Interpolator;
+
+import animation.CustomInterpolator;
 import main.Global;
 import main.JSON;
 import main.Settings;
@@ -50,15 +56,28 @@ public class MainView extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(getBGPanelColor());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout());
 
         setContentPane(contentPane);
+        contentPane.setLayout(null);
+        
+        transitionpanel = new JPanel();
+        transitionpanel.setBounds(0, 0, 784, 561);
+        contentPane.add(transitionpanel);
+        transitionpanel.setBackground(getPanelColor());
+        transitionpanel.setLayout(null);
+        
+        welcomelabel = new JLabel("{Welcome.text}, {user}!");
+        welcomelabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
+        welcomelabel.setHorizontalAlignment(SwingConstants.CENTER);
+        welcomelabel.setBounds(182, 230, 420, 100);
+        transitionpanel.add(welcomelabel);
 
         JPanel mainpanel = new JPanel();
+        mainpanel.setBounds(5, 5, 774, 551);
         mainpanel.setBackground(getBGPanelColor());
-        contentPane.add(mainpanel, BorderLayout.CENTER);
+        contentPane.add(mainpanel);
 		mainpanel.setLayout(null);
-        
+		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setBounds(0, 0, 774, 551);
@@ -75,21 +94,18 @@ public class MainView extends JFrame {
 		
 		JPanel bakery = new JPanel();
 		tabbedPane.addTab("Virtuve", null, bakery, null);
-		
-//		transitionpanel = new JPanel();
-//		transitionpanel.setBackground(getPanelColor());
-//		transitionpanel.setLayout(null);
-//		transitionpanel.setBounds(0, 0, 784, 561);
-//		mainpanel.add(transitionpanel);
-//		
-//		welcomelabel = new JLabel("{Welcome.text}, {user}!");
-//		welcomelabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
-//		welcomelabel.setHorizontalAlignment(SwingConstants.CENTER);
-//		welcomelabel.setBounds(182, 230, 420, 100);
-//		transitionpanel.add(welcomelabel);
-//		
-//		AnimatePanelY animation = new AnimatePanelY(transitionpanel, 0, -600, 1000);
-//    	animation.startAnimation();
+			TimingTargetAdapter timingTarget = new TimingTargetAdapter() {
+	            @Override
+	            public void timingEvent(float fraction) {
+	                int newY = (int) (transitionpanel.getY() + (-600 - transitionpanel.getY()) * fraction);
+	                transitionpanel.setBounds(0, newY, 784, 561);
+	            }
+	        };
+	        Animator animator = new Animator(10000, timingTarget);
+	        animator.setEndBehavior(Animator.EndBehavior.HOLD);
+	        Interpolator interpolator = new CustomInterpolator();
+	        animator.setInterpolator(interpolator);
+	        animator.start();
 	}
 	private Color getPanelColor() {
 		Color cl = null;
