@@ -17,7 +17,7 @@ public class Global {
 	public static String fileSeparator = System.getProperty("file.separator");
 	public static File persistenceLocation = new File(System.getProperty("user.home") + fileSeparator + ".pizzeria/SliceHaven");
 	public static File settings = new File(persistenceLocation + fileSeparator + "settings.json");
-	public static File database = new File(persistenceLocation + fileSeparator + "users.db");
+	public static File database = new File(persistenceLocation + fileSeparator + "data.db");
 	public static HashMap <String, String> sounds;
 	static {
 		sounds = new HashMap<>();
