@@ -103,7 +103,8 @@ public class MainView extends JFrame {
         verticalScrollBar.setPreferredSize(new Dimension(0, 0));
         scrollPane.setVerticalScrollBar(verticalScrollBar);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBounds(7,11,749,501);
+        scrollPane.setBounds(7, 11, 749, 501);
+        
 		presetpizzascrollpanel.add(scrollPane);
 		
 		// END OF PRESET PIZZA TAB
