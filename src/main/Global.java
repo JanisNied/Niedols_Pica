@@ -27,6 +27,13 @@ public class Global {
 	
 	public static String user = "John Doe";
 	
+	public static void setup() {
+		JSON.setupFiles(Global.persistenceLocation, Global.settings, Global.database);
+		Settings.currentSettings = JSON.jsonToHashMap(Global.settings, "CURRENT SETTINGS");
+		Settings.lang = JSON.jsonToHashMap(new File(System.getProperty("user.dir")+Global.fileSeparator+"locales"+Global.fileSeparator+Settings.currentSettings.get("lang")+".json"), "LANGUAGE");
+		reloadLAF();
+	}
+	
 	public static void reloadLAF() {
 		switch(Settings.currentSettings.get("theme")) {
 			case "light":

@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import main.Global;
+import main.Settings;
 import ui.DraggablePanel;
 import ui.RoundPanel;
 
@@ -23,6 +25,7 @@ public class LanyardBadge extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		Global.setup();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -56,7 +59,7 @@ public class LanyardBadge extends JFrame {
 		contentPane.add(personalinfo);
 		personalinfo.setLayout(null);
 		
-		JPanel profilepicture = new RoundPanel(20);
+		JPanel profilepicture = new RoundPanel(20, getScrollBG(), getScrollBorder());
 		profilepicture.setBounds(66, 47, 105, 98);
 		personalinfo.add(profilepicture);
 		
@@ -93,5 +96,21 @@ public class LanyardBadge extends JFrame {
 		lanyard.setIcon(new ImageIcon(LanyardBadge.class.getResource("/img/lanyardasset.png")));
 		lanyard.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lanyard);
+	}
+	private Color getScrollBG() {
+		switch(Settings.currentSettings.get("theme")) {
+		case "light":
+			return new Color(200, 200, 200, 50);
+		default:
+			return new Color(50, 50, 50, 50);
+		}
+	}
+	private Color getScrollBorder() {
+		switch(Settings.currentSettings.get("theme")) {
+		case "light":
+			return new Color(0,0,0);
+		default:
+			return new Color(200, 200, 200);
+		}
 	}
 }
