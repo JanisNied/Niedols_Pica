@@ -15,6 +15,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
+import org.jdesktop.animation.timing.interpolation.Interpolator;
+
+import animation.EaseInQuad;
 import main.Global;
 import main.Settings;
 import ui.RoundPanel;
@@ -55,17 +61,17 @@ public class MainView extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
-//        transitionpanel = new JPanel();
-//        transitionpanel.setBounds(0, 0, 784, 561);
-//        contentPane.add(transitionpanel);
-//        transitionpanel.setBackground(getPanelColor());
-//        transitionpanel.setLayout(null);
-//        
-//        welcomelabel = new JLabel("{Welcome.text}, {user}!");
-//        welcomelabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
-//        welcomelabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        welcomelabel.setBounds(182, 230, 420, 100);
-//        transitionpanel.add(welcomelabel);
+        transitionpanel = new JPanel();
+        transitionpanel.setBounds(0, 0, 784, 561);
+        contentPane.add(transitionpanel);
+        transitionpanel.setBackground(getPanelColor());
+        transitionpanel.setLayout(null);
+        
+        welcomelabel = new JLabel("{Welcome.text}, {user}!");
+        welcomelabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
+        welcomelabel.setHorizontalAlignment(SwingConstants.CENTER);
+        welcomelabel.setBounds(182, 230, 420, 100);
+        transitionpanel.add(welcomelabel);
 
         JPanel mainpanel = new JPanel();
         mainpanel.setBounds(5, 5, 774, 551);
@@ -108,6 +114,8 @@ public class MainView extends JFrame {
 		presetpizzascrollpanel.add(scrollPane);
 		
 		// END OF PRESET PIZZA TAB
+		
+		
 		JPanel custompizza = new JPanel();
 		tabbedPane.addTab("Pielāgota Pica", null, custompizza, null);
 		
@@ -116,18 +124,18 @@ public class MainView extends JFrame {
 		
 		JPanel bakery = new JPanel();
 		tabbedPane.addTab("Virtuve", null, bakery, null);
-//			TimingTargetAdapter timingTarget = new TimingTargetAdapter() {
-//	            @Override
-//	            public void timingEvent(float fraction) {
-//	                int newY = (int) (transitionpanel.getY() + (-600 - transitionpanel.getY()) * fraction);
-//	                transitionpanel.setBounds(0, newY, 784, 561);
-//	            }
-//	        };
-//	        Animator animator = new Animator(10000, timingTarget);
-//	        animator.setEndBehavior(Animator.EndBehavior.HOLD);
-//	        Interpolator interpolator = new CustomInterpolator();
-//	        animator.setInterpolator(interpolator);
-//	        animator.start();
+		TimingTargetAdapter timingTarget = new TimingTargetAdapter() {
+			@Override
+	        public void timingEvent(float fraction) {
+				int newY = (int) (transitionpanel.getY() + (-600 - transitionpanel.getY()) * fraction);
+				transitionpanel.setBounds(0, newY, 784, 561);
+			}
+		};
+		Animator animator = new Animator(6000, timingTarget);
+		animator.setEndBehavior(Animator.EndBehavior.HOLD);
+		Interpolator interpolator = new EaseInQuad();
+		animator.setInterpolator(interpolator);
+		animator.start();
 		addPizza();
 		addPizza();
 		addPizza();
@@ -136,22 +144,6 @@ public class MainView extends JFrame {
 		addPizza();
 	}
 	
-	private Color getScrollBG() {
-		switch(Settings.currentSettings.get("theme")) {
-		case "light":
-			return new Color(200, 200, 200, 50);
-		default:
-			return new Color(50, 50, 50, 50);
-		}
-	}
-	private Color getScrollBorder() {
-		switch(Settings.currentSettings.get("theme")) {
-		case "light":
-			return new Color(0,0,0);
-		default:
-			return new Color(200, 200, 200);
-		}
-	}
 	private Color getPanelColor() {
 		Color cl = null;
 		switch(Settings.currentSettings.get("theme")) {
@@ -191,4 +183,22 @@ public class MainView extends JFrame {
 	private void addPizza() {
 		presetpizzascroll.add(new PizzaPanel(20, getPizzaPanelBG(), getPizzaPanelBorder()));
 	}
+	/* Unused methods:
+	 
+	private Color getScrollBG() {
+		switch(Settings.currentSettings.get("theme")) {
+		case "light":
+			return new Color(200, 200, 200, 50);
+		default:
+			return new Color(50, 50, 50, 50);
+		}
+	}
+	private Color getScrollBorder() {
+		switch(Settings.currentSettings.get("theme")) {
+		case "light":
+			return new Color(0,0,0);
+		default:
+			return new Color(200, 200, 200);
+		}
+	}*/
 }

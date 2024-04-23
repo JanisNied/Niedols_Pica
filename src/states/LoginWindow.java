@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.Interpolator;
-import animation.CustomInterpolator;
+import animation.EaseInQuad;
 import db.Database;
 import main.Global;
 import main.JSON;
@@ -307,7 +307,7 @@ public class LoginWindow extends JPanel {
                 };
                 Animator animator = new Animator(animtime, timingTarget);
                 animator.setEndBehavior(Animator.EndBehavior.HOLD);
-                Interpolator interpolator = new CustomInterpolator();
+                Interpolator interpolator = new EaseInQuad();
                 animator.setInterpolator(interpolator);
                 animator.start();
     	    	Timer transition = new Timer(animtime, new ActionListener() {
