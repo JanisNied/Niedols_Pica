@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-import java.io.File;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -13,10 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import main.Global;
-import main.JSON;
 import main.Settings;
 import ui.RoundPanel;
 
@@ -78,15 +77,17 @@ public class MainView extends JFrame {
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setBounds(0, 0, 774, 551);
 		mainpanel.add(tabbedPane);
-		// PRESET PIZZA
+		// PRESET PIZZA TAB
 		
 		JPanel presetpizza = new JPanel();
 		tabbedPane.addTab("Gatavas Picas", null, presetpizza, null);
 		presetpizza.setLayout(null);
 		
-		RoundPanel presetpizzascrollpanel = new RoundPanel(20, getScrollBG(), getScrollBorder());
+		RoundPanel presetpizzascrollpanel = new RoundPanel(20, new Color(0,0,0,0), new Color(0,0,0,0));
 		presetpizzascrollpanel.setBounds(10, 11, 749, 501);
+		presetpizzascrollpanel.setLayout(null);
 		presetpizza.add(presetpizzascrollpanel);
+		
 		presetpizzascroll = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		presetpizzascroll.setOpaque(false);
@@ -102,9 +103,10 @@ public class MainView extends JFrame {
         verticalScrollBar.setPreferredSize(new Dimension(0, 0));
         scrollPane.setVerticalScrollBar(verticalScrollBar);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(0, 0, 229, 367);
+        scrollPane.setBounds(7,11,749,501);
 		presetpizzascrollpanel.add(scrollPane);
-		// END OF PRESET PIZZA
+		
+		// END OF PRESET PIZZA TAB
 		JPanel custompizza = new JPanel();
 		tabbedPane.addTab("Pielāgota Pica", null, custompizza, null);
 		
@@ -125,6 +127,12 @@ public class MainView extends JFrame {
 //	        Interpolator interpolator = new CustomInterpolator();
 //	        animator.setInterpolator(interpolator);
 //	        animator.start();
+		addPizza();
+		addPizza();
+		addPizza();
+		addPizza();
+		addPizza();
+		addPizza();
 	}
 	
 	private Color getScrollBG() {
@@ -162,5 +170,24 @@ public class MainView extends JFrame {
 		default:
 			return new Color(35, 35, 35);
 		}
+	}
+	private Color getPizzaPanelBG() {
+		switch(Settings.currentSettings.get("theme")) {
+		case "dark":
+			return new Color(200, 200, 200, 50);
+		default:
+			return new Color(50, 50, 50, 50);
+		}
+	}
+	private Color getPizzaPanelBorder() {
+		switch(Settings.currentSettings.get("theme")) {
+		case "light":
+			return new Color(0,0,0);
+		default:
+			return new Color(200, 200, 200);
+		}
+	}
+	private void addPizza() {
+		presetpizzascroll.add(new PizzaPanel(20, getPizzaPanelBG(), getPizzaPanelBorder()));
 	}
 }

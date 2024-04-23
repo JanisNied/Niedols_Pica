@@ -1,10 +1,13 @@
 package main;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.HashMap;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -32,6 +35,8 @@ public class Global {
 		Settings.currentSettings = JSON.jsonToHashMap(Global.settings, "CURRENT SETTINGS");
 		Settings.lang = JSON.jsonToHashMap(new File(System.getProperty("user.dir")+Global.fileSeparator+"locales"+Global.fileSeparator+Settings.currentSettings.get("lang")+".json"), "LANGUAGE");
 		reloadLAF();
+		if (frame != null)
+			centerFrameOnScreen(frame);
 	}
 	
 	public static void reloadLAF() {
@@ -93,5 +98,11 @@ public class Global {
         for (MouseListener listener : component.getMouseListeners()) {
                 component.removeMouseListener(listener);
         }
+    }
+	public static void centerFrameOnScreen(JFrame frame) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - frame.getWidth()) / 2;
+        int y = (screenSize.height - frame.getHeight()) / 2;
+        frame.setLocation(x, y);
     }
 }
