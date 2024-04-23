@@ -136,6 +136,8 @@ public class MainView extends JFrame {
 		Interpolator interpolator = new EaseInQuad();
 		animator.setInterpolator(interpolator);
 		animator.start();
+		
+		// placeholder
 		addPizza();
 		addPizza();
 		addPizza();
