@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import ui.RoundPanel;
@@ -26,7 +25,7 @@ public class PizzaPanel extends RoundPanel {
         setLayout(null);
         setPreferredSize(new Dimension(360, 155));
         
-        RoundPanel pizza = new RoundPanel(20, bg.brighter(), border.brighter());
+        RoundPanel pizza = new RoundPanel(20, new Color(0,0,0,0), new Color(0,0,0,0));
         pizza.setBounds(10, 11, 133, 133);
         add(pizza);
         pizza.setLayout(null);
