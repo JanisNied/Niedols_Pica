@@ -1,5 +1,8 @@
 package states;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -11,6 +14,12 @@ public class WindowHandler extends JFrame {
 		setContentPane(contentPane);
 		setResizable(false);
 		getContentPane().setLayout(null);
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				System.out.print(e);
+			}
+		});
 	}
 	
 	public void replaceContentPane(JPanel contentPane) {

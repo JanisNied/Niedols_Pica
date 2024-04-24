@@ -11,5 +11,9 @@
 	"unknown.text":"Kļūda datubāzē vai programmā!",
 	"deny.text":"Nepareizi ievadīti dati!",
 	"none.text":"Šāds konts neeksistē!",
-	"welcome.text":"Sveicināti, "
+	"welcome.text":"Sveicināti, ",
+	"premade.text":"Gatavas Picas",
+	"custom.text":"Pielāgota Pica",
+	"kitchen.text":"Virtuve",
+	"cart.text":"Grozs"
 }
