@@ -10,7 +10,6 @@ import java.io.File;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,11 +18,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.Interpolator;
+
 import animation.EaseInQuad;
 import db.Database;
+import localisation.LocalisedButton;
+import localisation.LocalisedLabel;
+import localisation.ThemeIcon;
+import localisation.ThemePanel;
 import main.Global;
 import main.JSON;
 import main.Settings;
@@ -35,11 +40,14 @@ public class LoginWindow extends JPanel {
 	private static final long serialVersionUID = -8071787828056377082L;
 	private JTextField loginfield;
 	private JPasswordField passwordfield;
-	private JLabel bg, passwordtitle, logintitle, 
-	themeSwitch, languageSwitch, infolabel, welcomelabel;
-	private JButton btnRegister, btnLogin;
+	
+	private JLabel infolabel, welcomelabel;
+	private ThemeIcon themeSwitch, languageSwitch, bg;
+	
+	private LocalisedLabel passwordtitle, logintitle;
+	private LocalisedButton btnRegister, btnLogin;
 	private JComboBox<BoxItem> comboBox;
-	private JPanel transitionpanel;
+	private ThemePanel transitionpanel;
 	private boolean valid = false;
 	private Timer debounce;
 	
@@ -53,18 +61,18 @@ public class LoginWindow extends JPanel {
 		add(loginpanel);
 		loginpanel.setLayout(null);
 		
-		transitionpanel = new JPanel();
-		transitionpanel.setBackground(getPanelColor());
+		transitionpanel = new ThemePanel(Color.WHITE, new Color(72, 72, 72));
 		transitionpanel.setLayout(null);
 		transitionpanel.setBounds(0, 600, 784, 561);
 		loginpanel.add(transitionpanel);
 		
-		welcomelabel = new JLabel("{Welcome.text}, {user}!");
+		welcomelabel = new JLabel("empty");
 		welcomelabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
 		welcomelabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomelabel.setBounds(182, 230, 420, 100);
 		transitionpanel.add(welcomelabel);	
-		themeSwitch = new JLabel();
+		
+		themeSwitch = new ThemeIcon(new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/themeicons/light.png")).getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)), new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/themeicons/dark.png")).getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
 		themeSwitch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -73,17 +81,15 @@ public class LoginWindow extends JPanel {
         });
 		themeSwitch.setHorizontalAlignment(SwingConstants.CENTER);
 		themeSwitch.setBounds(724, 500, 50, 50);
-		themeSwitch.setIcon(getThemeIcon());
 		loginpanel.add(themeSwitch);
 		
-		languageSwitch = new JLabel();
+		languageSwitch = new ThemeIcon(new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/lightthemeglobe.png")).getImage().getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH)), new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/darkthemeglobe.png")).getImage().getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH)));
 		languageSwitch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
             	comboBox.setVisible(!comboBox.isVisible());
             }
         });
-		languageSwitch.setIcon(getLanguageIcon());
 		languageSwitch.setHorizontalAlignment(SwingConstants.CENTER);
 		languageSwitch.setBounds(664, 500, 50, 50);
 		loginpanel.add(languageSwitch);
@@ -115,7 +121,7 @@ public class LoginWindow extends JPanel {
 		passwordfield.setBounds(302, 391, 180, 44);
 		loginpanel.add(passwordfield);
 		
-		logintitle = new JLabel(Settings.lang.get("login.text"));
+		logintitle = new LocalisedLabel("login.text");
 		logintitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		logintitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		logintitle.setBounds(302, 286, 180, 22);
@@ -127,19 +133,17 @@ public class LoginWindow extends JPanel {
 		logoimage.setBounds(218, 0, 348, 325);
 		loginpanel.add(logoimage);
 		
-		passwordtitle = new JLabel(Settings.lang.get("password.text"));
+		passwordtitle = new LocalisedLabel("password.text");
 		passwordtitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		passwordtitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		passwordtitle.setBounds(302, 366, 137, 22);
 		loginpanel.add(passwordtitle);
 		
-		btnRegister = new JButton(Settings.lang.get("register.text"));
-		btnRegister.addActionListener(e -> registerData());
+		btnRegister = new LocalisedButton("register.text", this::registerData);
 		btnRegister.setBounds(398, 456, 84, 44);
 		loginpanel.add(btnRegister);
 		
-		btnLogin = new JButton(Settings.lang.get("loggingin.text"));
-		btnLogin.addActionListener(e -> login());
+		btnLogin = new LocalisedButton("loggingin.text", this::login);
 		btnLogin.setBounds(302, 456, 84, 44);
 		loginpanel.add(btnLogin);
 		
@@ -150,10 +154,9 @@ public class LoginWindow extends JPanel {
 		infolabel.setBounds(260, 511, 264, 39);
 		loginpanel.add(infolabel);
 		
-		bg = new JLabel("");
+		bg = new ThemeIcon(new ImageIcon(LoginWindow.class.getResource("/img/light.png")), new ImageIcon(LoginWindow.class.getResource("/img/dark.png")));
 		bg.setBounds(0, 0, 784, 600);
 		loginpanel.add(bg);
-		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
 		bg.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		setupLanguageSelector();
@@ -162,38 +165,12 @@ public class LoginWindow extends JPanel {
 	private void changeTheme() {
 		Global.themeSwitcher();
 		Global.reloadLAF();		
-		themeSwitch.setIcon(getThemeIcon());
-		languageSwitch.setIcon(getLanguageIcon());
-		transitionpanel.setBackground(getPanelColor());
-		bg.setIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+".png")));
-	}
-	private Color getPanelColor() {
-		Color cl = null;
-		switch(Settings.currentSettings.get("theme")) {
-			case "light":
-				cl = Color.WHITE;
-				break;
-			case "dark":
-				cl = new Color(72, 72, 72);
-				break;
-		}
-		return cl;
+		repaint();
 	}
     private void updateLanguage(String lang) {
     	Global.changeLanguage(lang);
-        logintitle.setText(Settings.lang.get("login.text"));
-        passwordtitle.setText(Settings.lang.get("password.text"));
-        btnRegister.setText(Settings.lang.get("register.text"));
-        btnLogin.setText(Settings.lang.get("loggingin.text"));
         infolabel.setText("");
-    }
-    private ImageIcon getThemeIcon() {
-    	ImageIcon theme = new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/themeicons/"+Settings.currentSettings.get("theme")+".png")).getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
-    	return theme;
-    }
-    private ImageIcon getLanguageIcon() {
-    	ImageIcon theme = new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/"+Settings.currentSettings.get("theme")+"themeglobe.png")).getImage().getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH));
-    	return theme;
+        repaint();
     }
     private void setupLanguageSelector() {
     	File locales = new File(System.getProperty("user.dir")+Global.fileSeparator+"locales");
