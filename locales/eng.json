@@ -12,8 +12,8 @@
 	"deny.text":"Incorrect credentials!",
 	"none.text":"Account not registered!",
 	"welcome.text":"Welcome, ",
-	"premade.text":"Premade Pizzas",
-	"custom.text":"Custom Pizzas",
+	"premade.text":"Premade Pizza's",
+	"custom.text":"Custom Pizza",
 	"kitchen.text":"Kitchen",
 	"cart.text":"Cart"
 }

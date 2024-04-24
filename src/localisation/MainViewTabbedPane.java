@@ -4,6 +4,8 @@ import java.awt.Graphics;
 
 import javax.swing.JTabbedPane;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import main.Settings;
 
 @SuppressWarnings("serial")
