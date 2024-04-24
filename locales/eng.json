@@ -11,5 +11,9 @@
 	"unknown.text":"A runtime error has occured!",
 	"deny.text":"Incorrect credentials!",
 	"none.text":"Account not registered!",
-	"welcome.text":"Welcome, "
+	"welcome.text":"Welcome, ",
+	"premade.text":"Premade Pizzas",
+	"custom.text":"Custom Pizzas",
+	"kitchen.text":"Kitchen",
+	"cart.text":"Cart"
 }

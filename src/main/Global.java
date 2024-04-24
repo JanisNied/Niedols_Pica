@@ -5,10 +5,12 @@ import java.awt.Toolkit;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -106,4 +108,13 @@ public class Global {
         int y = (screenSize.height - frame.getHeight()) / 2;
         frame.setLocation(x, y);
     }
+	
+	public static void periodicUpdates() {
+		// using later
+		
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(() -> {
+            System.out.println("Task executed at: " + System.currentTimeMillis());
+        }, 0, 5, TimeUnit.SECONDS);
+	}
 }

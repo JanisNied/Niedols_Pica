@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -112,6 +113,13 @@ public class LoginWindow extends JPanel {
 		loginpanel.add(comboBox);
 		
 		loginfield = new JTextField();
+		loginfield.addKeyListener(new java.awt.event.KeyAdapter() {
+		    public void keyTyped(java.awt.event.KeyEvent evt) {
+		        if(loginfield.getText().length() >= 20&&!(evt.getKeyChar()==KeyEvent.VK_DELETE||evt.getKeyChar()==KeyEvent.VK_BACK_SPACE)) {
+		            evt.consume();
+		         }
+		     }
+		});
 		loginfield.setBounds(302, 311, 180, 44);
 		loginpanel.add(loginfield);
 		loginfield.setColumns(10);

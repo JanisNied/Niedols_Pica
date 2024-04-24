@@ -21,15 +21,17 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.Interpolator;
 
 import animation.EaseInQuad;
+import localisation.MainViewTabbedPane;
+import localisation.ThemePanel;
 import main.Global;
-import main.Settings;
 import ui.RoundPanel;
 
 public class MainView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane, transitionpanel, presetpizzascroll;
+	private JPanel presetpizzascroll;
 	private JLabel welcomelabel;
+	private ThemePanel contentPane, transitionpanel;
 	
 	/**
 	 * Launch the application.
@@ -54,17 +56,15 @@ public class MainView extends JFrame {
 	public MainView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBackground(getBGPanelColor());
+		contentPane = new ThemePanel(new Color(225, 225, 225), new Color(35, 35, 35));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
-        transitionpanel = new JPanel();
+        transitionpanel = new ThemePanel(Color.WHITE, new Color(72, 72, 72));
         transitionpanel.setBounds(0, 0, 784, 561);
         contentPane.add(transitionpanel);
-        transitionpanel.setBackground(getPanelColor());
         transitionpanel.setLayout(null);
         
         welcomelabel = new JLabel("{Welcome.text}, {user}!");
@@ -73,13 +73,13 @@ public class MainView extends JFrame {
         welcomelabel.setBounds(182, 230, 420, 100);
         transitionpanel.add(welcomelabel);
 
-        JPanel mainpanel = new JPanel();
+        ThemePanel mainpanel = new ThemePanel(new Color(225, 225, 225), new Color(35, 35, 35));
         mainpanel.setBounds(5, 5, 774, 551);
-        mainpanel.setBackground(getBGPanelColor());
         contentPane.add(mainpanel);
 		mainpanel.setLayout(null);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
+		MainViewTabbedPane tabbedPane = new MainViewTabbedPane(4, new String[]{"premade.text", "custom.text", "kitchen.text", "cart.text"});
+		tabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setBounds(0, 0, 774, 551);
 		mainpanel.add(tabbedPane);
@@ -145,62 +145,12 @@ public class MainView extends JFrame {
 		addPizza();
 		addPizza();
 	}
-	
-	private Color getPanelColor() {
-		Color cl = null;
-		switch(Settings.currentSettings.get("theme")) {
-			case "light":
-				cl = Color.WHITE;
-				break;
-			case "dark":
-				cl = new Color(72, 72, 72);
-				break;
-		}
-		return cl;
-	}
-	private Color getBGPanelColor() {
-		switch(Settings.currentSettings.get("theme")) {
-		case "light":
-			return new Color(225, 225, 225);
-		default:
-			return new Color(35, 35, 35);
-		}
-	}
-	private Color getPizzaPanelBG() {
-		switch(Settings.currentSettings.get("theme")) {
-		case "dark":
-			return new Color(200, 200, 200, 50);
-		default:
-			return new Color(50, 50, 50, 50);
-		}
-	}
-	private Color getPizzaPanelBorder() {
-		switch(Settings.currentSettings.get("theme")) {
-		case "light":
-			return new Color(0,0,0);
-		default:
-			return new Color(200, 200, 200);
-		}
-	}
 	private void addPizza() {
-		presetpizzascroll.add(new PizzaPanel(20, getPizzaPanelBG(), getPizzaPanelBorder()));
+		presetpizzascroll.add(new PizzaPanel(20, new Color(50, 50, 50, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200)));
 	}
-	/* Unused methods:
-	 
-	private Color getScrollBG() {
-		switch(Settings.currentSettings.get("theme")) {
-		case "light":
-			return new Color(200, 200, 200, 50);
-		default:
-			return new Color(50, 50, 50, 50);
-		}
+	private void changeTheme() {
+		Global.themeSwitcher();
+		Global.reloadLAF();		
+		repaint();
 	}
-	private Color getScrollBorder() {
-		switch(Settings.currentSettings.get("theme")) {
-		case "light":
-			return new Color(0,0,0);
-		default:
-			return new Color(200, 200, 200);
-		}
-	}*/
 }
