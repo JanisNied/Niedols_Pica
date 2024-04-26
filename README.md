@@ -14,8 +14,7 @@ Java Swing programma integrēta ar FlatLaf (Look And Feel), kuru mērķis ir sim
 - [x] Galvenais Skats 2/4🎯
   - [x] Picas Klase
   - [x] Picas Bildes
-  - [x] Picas sastāvdaļu pogas
-  - [x] Pievienot Visas Sastāvdaļas 
+  - [x] Picas sastāvdaļu pogas 
 - [x] Galvenais Skats 3/4
   - [ ] Vērtību nodošana grozam
   - [ ] Iespēja izvelēties adresi caur kādas kartes API ar HTTP bibliotēku
