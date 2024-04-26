@@ -1,6 +1,5 @@
 package main;
 import java.awt.EventQueue;
-
 import states.LoginWindow;
 import states.WindowHandler;
 

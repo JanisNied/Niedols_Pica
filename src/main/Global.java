@@ -1,7 +1,7 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -14,6 +14,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 
 import states.WindowHandler;
 import themes.DarkTheme;
@@ -46,10 +49,20 @@ public class Global {
 	public static void reloadLAF() {
 		switch(Settings.currentSettings.get("theme")) {
 			case "light":
-				LightTheme.setup();
+				 EventQueue.invokeLater(() -> {
+	                    FlatAnimatedLafChange.showSnapshot();
+	                    LightTheme.setup();
+	                    FlatLaf.updateUI();
+	                    FlatAnimatedLafChange.hideSnapshotWithAnimation();
+	            });
 				break;
 			case "dark":
-				DarkTheme.setup();
+				EventQueue.invokeLater(() -> {
+                    FlatAnimatedLafChange.showSnapshot();
+                    DarkTheme.setup();
+                    FlatLaf.updateUI();
+                    FlatAnimatedLafChange.hideSnapshotWithAnimation();
+				});
 				break;			
 		}
 		try {
