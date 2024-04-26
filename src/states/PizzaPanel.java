@@ -143,6 +143,7 @@ public class PizzaPanel extends JPanel{
         desc.getCaret().setVisible(false);
         desc.setFocusable(false);
         desc.setBackground(new Color(0,0,0,0));
+        desc.validate();
         desc.setWrapStyleWord(true);
         desc.setFont(new Font("Tahoma", Font.PLAIN, 13));
         desc.setLineWrap(true);
