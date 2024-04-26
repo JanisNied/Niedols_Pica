@@ -125,118 +125,215 @@ public class MainView extends JFrame {
 		tabbedPane.addTab("Pielāgota Pica", null, custompizza, null);
 		custompizza.setLayout(null);
 		
-		ThemeRoundPanel pizzaimg = new ThemeRoundPanel(20, new Color(50, 50, 50, 20), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
+//		ThemeRoundPanel pizzaimg = new ThemeRoundPanel(20, new Color(50, 50, 50, 20), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
+		JPanel pizzaimg = new JPanel();
 		pizzaimg.setBounds(10, 11, 250, 250);
 		custompizza.add(pizzaimg);
 		pizzaimg.setLayout(null);
-		
-		JLabel bbq = new JLabel("");
-        bbq.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/bbq.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        bbq.setHorizontalAlignment(SwingConstants.CENTER);
-        bbq.setBounds(0, 0, 250, 250);
-        pizzaimg.add(bbq);
-        
-        JLabel chicken = new JLabel("");
-        chicken.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/chicken.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        chicken.setHorizontalAlignment(SwingConstants.CENTER);
-        chicken.setBounds(0, 0, 250, 250);
-        pizzaimg.add(chicken);
-        
-        JLabel ham = new JLabel("");
-        ham.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/ham.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        ham.setHorizontalAlignment(SwingConstants.CENTER);
-        ham.setBounds(0, 0, 250, 250);
-        pizzaimg.add(ham);
-        
-        JLabel salami = new JLabel("");
-        salami.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/salami.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        salami.setHorizontalAlignment(SwingConstants.CENTER);
-        salami.setBounds(0, 0, 250, 250);
-        pizzaimg.add(salami);
-        
-        JLabel jalapeno = new JLabel("");
-        jalapeno.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/jalapeno.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        jalapeno.setHorizontalAlignment(SwingConstants.CENTER);
-        jalapeno.setBounds(0, 0, 250, 250);
-        pizzaimg.add(jalapeno);
-        
-        JLabel mushroom = new JLabel("");
-        mushroom.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/mushroom.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        mushroom.setHorizontalAlignment(SwingConstants.CENTER);
-        mushroom.setBounds(0, 0, 250, 250);
-        pizzaimg.add(mushroom);
-        
-        JLabel pineapple = new JLabel("");
-        pineapple.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/pineapple.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        pineapple.setHorizontalAlignment(SwingConstants.CENTER);
-        pineapple.setBounds(0, 0, 250, 250);
-        pizzaimg.add(pineapple);
-        
-        JLabel pickle = new JLabel("");
-        pickle.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/pickle.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        pickle.setHorizontalAlignment(SwingConstants.CENTER);
-        pickle.setBounds(0, 0, 250, 250);
-        pizzaimg.add(pickle);
-        
-        JLabel tomato = new JLabel("");
-        tomato.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/tomato.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        tomato.setHorizontalAlignment(SwingConstants.CENTER);
-        tomato.setBounds(0, 0, 250, 250);
-        pizzaimg.add(tomato);
-        
-        JLabel onion = new JLabel("");
-        onion.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/onion.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        onion.setHorizontalAlignment(SwingConstants.CENTER);
-        onion.setBounds(0, 0, 250, 250);
-        pizzaimg.add(onion);
-        
-        JLabel ketchup = new JLabel("");
-        ketchup.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/ketchup.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        ketchup.setHorizontalAlignment(SwingConstants.CENTER);
-        ketchup.setBounds(0, 0, 250, 250);
-        pizzaimg.add(ketchup);
-        
-        JLabel mozzarella = new JLabel("");
-        mozzarella.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/mozzarellacheese.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        mozzarella.setHorizontalAlignment(SwingConstants.CENTER);
-        mozzarella.setBounds(0, 0, 250, 250);
-        pizzaimg.add(mozzarella);
-        
-        JLabel bluecheese = new JLabel("");
-        bluecheese.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/bluecheese.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        bluecheese.setHorizontalAlignment(SwingConstants.CENTER);
-        bluecheese.setBounds(0, 0, 250, 250);
-        pizzaimg.add(bluecheese);
-        
-        JLabel normalcheese = new JLabel("");
-        normalcheese.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/normalcheese.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        normalcheese.setHorizontalAlignment(SwingConstants.CENTER);
-        normalcheese.setBounds(0, 0, 250, 250);
-        pizzaimg.add(normalcheese);
-        
-        JLabel dough = new JLabel(""); 
-        dough.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/dough.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        dough.setHorizontalAlignment(SwingConstants.CENTER);
-        dough.setBounds(0, 0, 250, 250);
-        pizzaimg.add(dough);
+//		
+//		JLabel bbq = new JLabel("");
+//        bbq.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/bbq.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        bbq.setHorizontalAlignment(SwingConstants.CENTER);
+//        bbq.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(bbq);
+//        
+//        JLabel chicken = new JLabel("");
+//        chicken.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/chicken.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        chicken.setHorizontalAlignment(SwingConstants.CENTER);
+//        chicken.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(chicken);
+//        
+//        JLabel ham = new JLabel("");
+//        ham.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/ham.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        ham.setHorizontalAlignment(SwingConstants.CENTER);
+//        ham.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(ham);
+//        
+//        JLabel salami = new JLabel("");
+//        salami.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/salami.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        salami.setHorizontalAlignment(SwingConstants.CENTER);
+//        salami.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(salami);
+//        
+//        JLabel jalapeno = new JLabel("");
+//        jalapeno.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/jalapeno.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        jalapeno.setHorizontalAlignment(SwingConstants.CENTER);
+//        jalapeno.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(jalapeno);
+//        
+//        JLabel mushroom = new JLabel("");
+//        mushroom.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/mushroom.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        mushroom.setHorizontalAlignment(SwingConstants.CENTER);
+//        mushroom.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(mushroom);
+//        
+//        JLabel pineapple = new JLabel("");
+//        pineapple.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/pineapple.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        pineapple.setHorizontalAlignment(SwingConstants.CENTER);
+//        pineapple.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(pineapple);
+//        
+//        JLabel pickle = new JLabel("");
+//        pickle.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/pickle.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        pickle.setHorizontalAlignment(SwingConstants.CENTER);
+//        pickle.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(pickle);
+//        
+//        JLabel tomato = new JLabel("");
+//        tomato.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/tomato.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        tomato.setHorizontalAlignment(SwingConstants.CENTER);
+//        tomato.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(tomato);
+//        
+//        JLabel onion = new JLabel("");
+//        onion.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/onion.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        onion.setHorizontalAlignment(SwingConstants.CENTER);
+//        onion.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(onion);
+//        
+//        JLabel ketchup = new JLabel("");
+//        ketchup.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/ketchup.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        ketchup.setHorizontalAlignment(SwingConstants.CENTER);
+//        ketchup.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(ketchup);
+//        
+//        JLabel mozzarella = new JLabel("");
+//        mozzarella.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/mozzarellacheese.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        mozzarella.setHorizontalAlignment(SwingConstants.CENTER);
+//        mozzarella.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(mozzarella);
+//        
+//        JLabel bluecheese = new JLabel("");
+//        bluecheese.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/bluecheese.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        bluecheese.setHorizontalAlignment(SwingConstants.CENTER);
+//        bluecheese.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(bluecheese);
+//        
+//        JLabel normalcheese = new JLabel("");
+//        normalcheese.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/normalcheese.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        normalcheese.setHorizontalAlignment(SwingConstants.CENTER);
+//        normalcheese.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(normalcheese);
+//        
+//        JLabel dough = new JLabel(""); 
+//        dough.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/dough.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+//        dough.setHorizontalAlignment(SwingConstants.CENTER);
+//        dough.setBounds(0, 0, 250, 250);
+//        pizzaimg.add(dough);
         
 		JTextArea desc = new JTextArea();
 		desc.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		desc.setBounds(10, 272, 250, 193);
 		custompizza.add(desc);
 		
-		JButton btnNewButton = new JButton("Add to Order");
-		btnNewButton.setBounds(86, 476, 174, 36);
-		custompizza.add(btnNewButton);
+		JButton orderbutton = new JButton("Add to Order - $99.99");
+		orderbutton.setBounds(86, 476, 174, 36);
+		custompizza.add(orderbutton);
 		
 		JSpinner spinner = new JSpinner();
 		spinner.setBounds(10, 476, 66, 36);
 		custompizza.add(spinner);
 		
+		JLabel sizelbl = new JLabel("Izmērs");
+		sizelbl.setFont(new Font("Tahoma", Font.BOLD, 14));
+		sizelbl.setBounds(270, 11, 119, 36);
+		custompizza.add(sizelbl);
+		
+		JPanel sizepanel = new JPanel();
+		sizepanel.setBounds(270, 41, 221, 70);
+		custompizza.add(sizepanel);
+		
+		JPanel doughpanel = new JPanel();
+		doughpanel.setBounds(270, 158, 221, 70);
+		custompizza.add(doughpanel);
+		
+		JLabel lblMkla = new JLabel("Mīkla");
+		lblMkla.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMkla.setBounds(270, 128, 119, 36);
+		custompizza.add(lblMkla);
+		
+		JLabel lblMrce = new JLabel("Mērce");
+		lblMrce.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblMrce.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMrce.setBounds(640, 11, 119, 36);
+		custompizza.add(lblMrce);
+		
+		JPanel saucepanel = new JPanel();
+		saucepanel.setBounds(538, 41, 221, 70);
+		custompizza.add(saucepanel);
+		
+		JPanel cheesepanel = new JPanel();
+		cheesepanel.setBounds(538, 158, 221, 70);
+		custompizza.add(cheesepanel);
+		
+		JLabel lblSiers = new JLabel("Siers");
+		lblSiers.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblSiers.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblSiers.setBounds(640, 128, 119, 36);
+		custompizza.add(lblSiers);
+		
+		JPanel meatpanel = new JPanel();
+		meatpanel.setBounds(538, 269, 221, 70);
+		custompizza.add(meatpanel);
+		
+		JLabel lblMeat = new JLabel("Gaļa");
+		lblMeat.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblMeat.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMeat.setBounds(640, 239, 119, 36);
+		custompizza.add(lblMeat);
+		
+		JPanel additivepanel = new JPanel();
+		additivepanel.setBounds(538, 380, 221, 70);
+		custompizza.add(additivepanel);
+		
+		JLabel lblMrce_1_1_1 = new JLabel("Piedevas");
+		lblMrce_1_1_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblMrce_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMrce_1_1_1.setBounds(640, 350, 119, 36);
+		custompizza.add(lblMrce_1_1_1);
+		
+		JPanel infopanel = new JPanel();
+		infopanel.setBounds(270, 269, 221, 181);
+		custompizza.add(infopanel);
+		infopanel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("LabelForProduct");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(10, 11, 201, 14);
+		infopanel.add(lblNewLabel);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(60, 40, 100, 100);
+		infopanel.add(panel);
+		
+		JLabel lblNewLabel_1 = new JLabel("$99.99");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_1.setBounds(10, 156, 201, 14);
+		infopanel.add(lblNewLabel_1);
+		
+		JLabel lblInfo = new JLabel("Info par Izvēli");
+		lblInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblInfo.setBounds(270, 239, 221, 36);
+		custompizza.add(lblInfo);
+		
 		
 		
 		JPanel cart = new JPanel();
 		tabbedPane.addTab("Grozs", null, cart, null);
+		cart.setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 47, 245, 465);
+		cart.add(panel_1);
+		
+		JLabel grozslbl = new JLabel("Grozs");
+		grozslbl.setHorizontalAlignment(SwingConstants.CENTER);
+		grozslbl.setFont(new Font("Tahoma", Font.BOLD, 20));
+		grozslbl.setBounds(10, 11, 245, 34);
+		cart.add(grozslbl);
 		
 		JPanel bakery = new JPanel();
 		tabbedPane.addTab("Virtuve", null, bakery, null);
