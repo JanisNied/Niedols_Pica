@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.MouseListener;
@@ -58,6 +59,7 @@ public class Global {
 		    UIManager.put( "TabbedPane.showTabSeparators", true );
 		    UIManager.put("TabbedPane.minimumTabWidth", 100);
 			UIManager.put("TabbedPane.tabAreaAlignment", "center");
+			UIManager.put("Component.arc", 15);
 		    if (frame != null)
 		    	SwingUtilities.updateComponentTreeUI(frame);
 		} catch( Exception ex ) {

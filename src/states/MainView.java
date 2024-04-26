@@ -222,6 +222,7 @@ public class MainView extends JFrame {
 //        pizzaimg.add(dough);
         
 		JTextArea desc = new JTextArea();
+		
 		desc.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		desc.setBounds(10, 272, 250, 193);
 		custompizza.add(desc);
@@ -297,27 +298,27 @@ public class MainView extends JFrame {
 		custompizza.add(infopanel);
 		infopanel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("LabelForProduct");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 11, 201, 14);
-		infopanel.add(lblNewLabel);
+		JLabel prdctlbl = new JLabel("LabelForProduct");
+		prdctlbl.setFont(new Font("Tahoma", Font.BOLD, 14));
+		prdctlbl.setHorizontalAlignment(SwingConstants.CENTER);
+		prdctlbl.setBounds(10, 11, 201, 14);
+		infopanel.add(prdctlbl);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(60, 40, 100, 100);
-		infopanel.add(panel);
+		JPanel img = new JPanel();
+		img.setBounds(60, 40, 100, 100);
+		infopanel.add(img);
+		img.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("$99.99");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(10, 156, 201, 14);
-		infopanel.add(lblNewLabel_1);
+		JLabel imglbl = new JLabel("");
+		imglbl.setHorizontalAlignment(SwingConstants.CENTER);
+		imglbl.setBounds(0, 0, 100, 100);
+		img.add(imglbl);
 		
-		JLabel lblInfo = new JLabel("Info par Izvēli");
-		lblInfo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblInfo.setBounds(270, 239, 221, 36);
-		custompizza.add(lblInfo);
+		JLabel prdctprc = new JLabel("$99.99");
+		prdctprc.setHorizontalAlignment(SwingConstants.CENTER);
+		prdctprc.setFont(new Font("Tahoma", Font.BOLD, 14));
+		prdctprc.setBounds(10, 156, 201, 14);
+		infopanel.add(prdctprc);
 		
 		
 		
@@ -349,6 +350,7 @@ public class MainView extends JFrame {
 //		Interpolator interpolator = new EaseInQuad();
 //		animator.setInterpolator(interpolator);
 //		animator.start();
+		addPizza();
 	}
 	private void addPizza() {
 		presetpizzascroll.add(new PizzaPanel(20, new Color(50, 50, 50, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200)));
