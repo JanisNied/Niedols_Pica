@@ -7,13 +7,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import main.Settings;
@@ -137,6 +140,8 @@ public class PizzaPanel extends JPanel{
         add(pizzatitle);
         
         JTextArea desc = new JTextArea();
+        desc.getCaret().setVisible(false);
+        desc.setFocusable(false);
         desc.setBackground(new Color(0,0,0,0));
         desc.setWrapStyleWord(true);
         desc.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -147,8 +152,13 @@ public class PizzaPanel extends JPanel{
         add(desc);
         
         JButton addtocart = new JButton("Add to Order");
-        addtocart.setBounds(261, 105, 89, 39);
+        addtocart.setBounds(242, 105, 108, 39);
         add(addtocart);
+        
+        JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));   
+        ((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setEditable(false);
+        spinner.setBounds(153, 105, 79, 39);
+        add(spinner);
 	}
 	@Override
     protected void paintComponent(Graphics g) {
