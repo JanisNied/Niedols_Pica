@@ -9,7 +9,6 @@ public class Pizza {
 	private IngredientHolder doughType;
 	private String nickname;
 	private ArrayList<IngredientHolder> ingredients;
-	private double price, doughsizetypemultiplier;
 	
 	public Pizza(int doughSize, String nickname, IngredientHolder doughType) {
 		this.doughSize = doughSize;
@@ -22,10 +21,10 @@ public class Pizza {
 		this.doughSize = pizza.doughSize;
 		this.doughType = pizza.doughType;
 		this.ingredients = new ArrayList<IngredientHolder>(pizza.ingredients);
-		this.price = pizza.price;
 	}
 	public Double getPrice() {
-		price = 0;
+		double doughsizetypemultiplier, price = 0;
+		
 		for (IngredientHolder i : ingredients) {
 			price += Settings.prices.get(i.getIdentifier());
 		}

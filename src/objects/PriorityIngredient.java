@@ -10,6 +10,7 @@ import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,12 +21,14 @@ import main.Settings;
 
 @SuppressWarnings("serial")
 public class PriorityIngredient extends JPanel {
+	private JLabel lblNewLabel;
 	private String name, classification, displayString = "";
 	private ImageIcon displayIcon;
 	private int bordersize;
 	private Color bglight, bgdark, borderlight, borderdark;
 	private boolean enabled;
 	private Runnable disableOthers, info, infooff;
+	private boolean action = false, selected = false;
 	
 	/**
 	 * @wbp.parser.constructor
@@ -71,6 +74,7 @@ public class PriorityIngredient extends JPanel {
 		this.bordersize = bordersize;
 		this.enabled = enabled;
 		this.disableOthers = disableOthers;
+		action = true;
 		init();
 	}
 	public PriorityIngredient(String name, String classification, ImageIcon displayIcon, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers) {
@@ -84,9 +88,11 @@ public class PriorityIngredient extends JPanel {
 		this.bordersize = bordersize;
 		this.enabled = enabled;
 		this.disableOthers = disableOthers;
+		action = true;
 		init();
 	}
 	private void init() {
+		DecimalFormat df = new DecimalFormat("0.00");
 		setLayout(null);
         setPreferredSize(new Dimension(67, 60));
         setOpaque(false);
@@ -99,17 +105,33 @@ public class PriorityIngredient extends JPanel {
             }
             @Override
             public void mouseEntered(MouseEvent e) {
+            	selected = true;
+            	repaint();
             	if (info != null)
             		info.run();
+            	if (action) {
+            		lblNewLabel.setIcon(null);
+            		if (classification.equalsIgnoreCase("dough"))
+            			lblNewLabel.setText("€"+df.format(Settings.prices.get(name)));
+            		else	
+            			lblNewLabel.setText("€"+df.format(Settings.prices.get(name.subSequence(0, 2))));
+            	}
             }
             @Override
             public void mouseExited(MouseEvent e) {
+            	selected = false;
+            	repaint();
             	if (infooff != null)
             		infooff.run();
+            	if (action) {
+            		if (displayIcon != null)
+            			lblNewLabel.setIcon(new ImageIcon(displayIcon.getImage().getScaledInstance(54, 54, java.awt.Image.SCALE_SMOOTH)));
+            		lblNewLabel.setText(displayString);
+            	}
             }
         });
         
-        JLabel lblNewLabel = new JLabel(displayString);
+        lblNewLabel = new JLabel(displayString);
         if (displayIcon != null)
         	lblNewLabel.setIcon(new ImageIcon(displayIcon.getImage().getScaledInstance(54, 54, java.awt.Image.SCALE_SMOOTH)));
         lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -165,9 +187,11 @@ public class PriorityIngredient extends JPanel {
         g2d.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, bordersize, bordersize);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, bordersize, bordersize);
         super.paintComponent(g2d);
-        if (enabled)
+        if (selected)      	
+        	g2d.setColor(new Color(89, 222, 222));
+        else if (enabled)
         	g2d.setColor(new Color(87, 245, 39));
-        else
+        else	
         	g2d.setColor(theme[1]);
         g2d.draw(shape);
 
@@ -186,5 +210,8 @@ public class PriorityIngredient extends JPanel {
 				break;
 		}
 		return array;
+	}
+	public void setAction(boolean action) {
+		this.action = action;
 	}
 }

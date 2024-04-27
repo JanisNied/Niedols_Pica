@@ -477,9 +477,9 @@ public class MainView extends JFrame {
 	}
 	private void addIngredients() {
 		infopanel.setVisible(false);
-		twenty = new PriorityIngredient("20 cm", "size", "20 cm", 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setSize(sizepanelScroll, "20 cm"), () -> info("20 cm", "20 cm", null, Settings.prices.get("20")), this::infoOff);
-		thirty = new PriorityIngredient("30 cm", "size", "30 cm", 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelScroll, "30 cm"), () -> info("30 cm", "30 cm", null, Settings.prices.get("30")), this::infoOff);
-		sixty = new PriorityIngredient("60 cm", "size", "60 cm", 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelScroll, "60 cm"), () -> info("60 cm", "60 cm", null, Settings.prices.get("60")), this::infoOff);
+		twenty = new PriorityIngredient("20 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough20.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setSize(sizepanelScroll, "20 cm"), () -> info("20 cm", null, new ImageIcon(LoginWindow.class.getResource("/img/dough20.png")), Settings.prices.get("20")), this::infoOff);
+		thirty = new PriorityIngredient("30 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough30.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelScroll, "30 cm"), () -> info("30 cm", null, new ImageIcon(LoginWindow.class.getResource("/img/dough30.png")), Settings.prices.get("30")), this::infoOff);
+		sixty = new PriorityIngredient("60 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough60.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelScroll, "60 cm"), () -> info("60 cm", null, new ImageIcon(LoginWindow.class.getResource("/img/dough60.png")), Settings.prices.get("60")), this::infoOff);
 		sizepanelScroll.add(twenty);
 		sizepanelScroll.add(thirty);
 		sizepanelScroll.add(sixty);
