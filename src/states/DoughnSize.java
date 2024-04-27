@@ -13,6 +13,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -24,6 +25,7 @@ import localisation.LocalisedLabel;
 import localisation.ThemeRoundPanel;
 import main.Settings;
 import objects.CartItem;
+import objects.IngredientHolder;
 import objects.PriorityIngredient;
 import raven.glasspanepopup.GlassPanePopup;
 
@@ -31,8 +33,8 @@ import raven.glasspanepopup.GlassPanePopup;
 public class DoughnSize extends JPanel {
 	private CartItem cartitem;
 	private int bordersize;
-	private JPanel sizepanelscroll;
-	private JLabel price;
+	private JPanel sizepanelscroll, doughpanelscroll;
+	private JLabel price, lblAddS, lblAddD;
 	private JScrollBar verticalScrollBar;
 	private Color bglight, bgdark, borderlight, borderdark;
 	private LocalisedButton btnAtgriezties;
@@ -61,21 +63,55 @@ public class DoughnSize extends JPanel {
 		lblSize.setBounds(10, 39, 113, 21);
 		add(lblSize);
 		
+		lblAddS = new JLabel("");
+		lblAddS.setHorizontalAlignment(SwingConstants.LEFT);
+		lblAddS.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblAddS.setBounds(10, 150, 113, 21);
+		add(lblAddS);
+		
+		lblAddD = new JLabel();
+		lblAddD.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAddD.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblAddD.setBounds(357, 150, 113, 21);
+		add(lblAddD);
+		
 		LocalisedLabel lblDoughType = new LocalisedLabel("dough.text");
 		lblDoughType.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDoughType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDoughType.setBounds(357, 39, 113, 21);
 		add(lblDoughType);
 		
-		JPanel doughpanel = new ThemeRoundPanel(20, new Color(10,10,10, 10), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
-		doughpanel.setLayout(null);
+		JPanel sizepanel = new ThemeRoundPanel(20, new Color(10,10,10, 10), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
+		sizepanel.setLayout(null);
 		
 		sizepanelscroll = new JPanel(new FlowLayout(FlowLayout.LEFT));	
 		sizepanelscroll.setOpaque(false);
 		sizepanelscroll.setBackground(new Color(0,0,0,0));
 		sizepanelscroll.setPreferredSize(new Dimension(0, 0));
 		
-		JScrollPane doughPanelScr = new JScrollPane(sizepanelscroll);
+		JScrollPane sizepanelScr = new JScrollPane(sizepanelscroll);
+		sizepanelScr.setBorder(BorderFactory.createEmptyBorder());
+		sizepanelScr.setOpaque(false);
+		sizepanelScr.getViewport().setOpaque(false);              
+		sizepanelScr.setVerticalScrollBar(verticalScrollBar);
+		sizepanelScr.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		sizepanelScr.setBounds(0, 0, 221, 70);
+        
+        sizepanel.add(sizepanelScr);
+        sizepanel.setBounds(10, 65, 221, 70);
+		add(sizepanel);
+		
+		JPanel doughpanel = new ThemeRoundPanel(20, new Color(10,10,10, 10), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
+		doughpanel.setBounds(249, 65, 221, 70);
+		add(doughpanel);
+		doughpanel.setLayout(null);
+		
+		doughpanelscroll = new JPanel(new FlowLayout(FlowLayout.LEFT));	
+		doughpanelscroll.setOpaque(false);
+		doughpanelscroll.setBackground(new Color(0,0,0,0));
+		doughpanelscroll.setPreferredSize(new Dimension(0, 0));
+		
+		JScrollPane doughPanelScr = new JScrollPane(doughpanelscroll);
 		doughPanelScr.setBorder(BorderFactory.createEmptyBorder());
 		doughPanelScr.setOpaque(false);
 		doughPanelScr.getViewport().setOpaque(false);              
@@ -84,12 +120,6 @@ public class DoughnSize extends JPanel {
         doughPanelScr.setBounds(0, 0, 221, 70);
         
         doughpanel.add(doughPanelScr);
-		doughpanel.setBounds(10, 65, 221, 70);
-		add(doughpanel);
-		
-		JPanel panel_1 = new ThemeRoundPanel(20, new Color(10,10,10, 10), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
-		panel_1.setBounds(249, 65, 221, 70);
-		add(panel_1);
 		
 		LocalisedButton btnNewButton = new LocalisedButton("back.text", this::back);
 		btnNewButton.setBounds(10, 9, 89, 23);
@@ -139,9 +169,24 @@ public class DoughnSize extends JPanel {
 		return array;
 	}
 	private void addIngredients() {
-		sizepanelscroll.add(new PriorityIngredient("20 cm", "size", "20 cm", 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setSize(sizepanelscroll, "20 cm")));
-		sizepanelscroll.add(new PriorityIngredient("30 cm", "size", "30 cm", 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelscroll, "30 cm")));
-		sizepanelscroll.add(new PriorityIngredient("60 cm", "size", "60 cm", 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelscroll, "60 cm")));
+		sizepanelscroll.add(new PriorityIngredient("20 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough20.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setSize(sizepanelscroll, "20 cm"), () -> editLabel(lblAddS, "* 20 cm"), () -> editLabel(lblAddS, "")));
+		sizepanelscroll.add(new PriorityIngredient("30 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough30.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelscroll, "30 cm"), () -> editLabel(lblAddS, "* 30 cm"), () -> editLabel(lblAddS, "")));
+		sizepanelscroll.add(new PriorityIngredient("60 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough60.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelscroll, "60 cm"), () -> editLabel(lblAddS, "* 60 cm"), () -> editLabel(lblAddS, "")));
+		doughpanelscroll.add(new PriorityIngredient("thick", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thick.text", "thick", "dough"), "thick"), () -> editLabel(lblAddD, Settings.lang.get("thick.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
+		doughpanelscroll.add(new PriorityIngredient("regular", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "regular.text", "regular", "dough"), "regular"), () -> editLabel(lblAddD, Settings.lang.get("regular.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
+		doughpanelscroll.add(new PriorityIngredient("thin", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thin.text", "thin", "dough"), "thin"), () -> editLabel(lblAddD, Settings.lang.get("thin.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
+		for (Component i : sizepanelscroll.getComponents()) {
+			if (i instanceof PriorityIngredient) {
+				PriorityIngredient temp = (PriorityIngredient)i;
+				temp.setAction(true);
+			}
+		}
+		for (Component i : doughpanelscroll.getComponents()) {
+			if (i instanceof PriorityIngredient) {
+				PriorityIngredient temp = (PriorityIngredient)i;
+				temp.setAction(true);
+			}
+		}
 	}
 	private void addToCart() {
 		if (Settings.lang.containsKey(cartitem.getPizzaObj().getNickname()))
@@ -163,6 +208,20 @@ public class DoughnSize extends JPanel {
 			}
 		}
 		info();
+	}
+	private void setDoughType(JPanel parent, IngredientHolder dough, String exception) {
+		for (Component child : parent.getComponents()) {
+			if (child instanceof PriorityIngredient && !child.getName().equals(exception)) {
+				PriorityIngredient temp = (PriorityIngredient)child;
+				temp.enableIngredient(false);
+			} else {
+					cartitem.getPizzaObj().setDoughType(dough);		
+			}
+		}
+		info();
+	}
+	private void editLabel(JLabel label, String text) {
+		label.setText(text);
 	}
 	private void info() {
 		DecimalFormat df = new DecimalFormat("0.00");
