@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="lib/TimingFramework-0.55.jar"/>
 	<classpathentry kind="lib" path="lib/flatlaf-extras-3.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/jsvg-1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/glasspane-popup-2.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

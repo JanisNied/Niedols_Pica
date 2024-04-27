@@ -44,8 +44,7 @@ public class PriorityIngredient extends JPanel {
 		this.info = info;
 		this.infooff = infooff;
 		init();
-	}
-	
+	}	
 	public PriorityIngredient(String name, String classification, ImageIcon displayIcon, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers, Runnable info, Runnable infooff) {
 		this.name = name;
 		this.classification = classification;
@@ -61,6 +60,32 @@ public class PriorityIngredient extends JPanel {
 		this.infooff = infooff;
 		init();
 	}
+	public PriorityIngredient(String name, String classification, String displayString, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers) {
+		this.name = name;
+		this.classification = classification;
+		this.displayString = displayString;
+		this.bglight = bglight;
+		this.bgdark = bgdark;
+		this.borderlight = borderlight;
+		this.borderdark = borderdark;
+		this.bordersize = bordersize;
+		this.enabled = enabled;
+		this.disableOthers = disableOthers;
+		init();
+	}
+	public PriorityIngredient(String name, String classification, ImageIcon displayIcon, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers) {
+		this.name = name;
+		this.classification = classification;
+		this.displayIcon = displayIcon;
+		this.bglight = bglight;
+		this.bgdark = bgdark;
+		this.borderlight = borderlight;
+		this.borderdark = borderdark;
+		this.bordersize = bordersize;
+		this.enabled = enabled;
+		this.disableOthers = disableOthers;
+		init();
+	}
 	private void init() {
 		setLayout(null);
         setPreferredSize(new Dimension(67, 60));
@@ -74,11 +99,13 @@ public class PriorityIngredient extends JPanel {
             }
             @Override
             public void mouseEntered(MouseEvent e) {
-            	info.run();
+            	if (info != null)
+            		info.run();
             }
             @Override
             public void mouseExited(MouseEvent e) {
-            	infooff.run();
+            	if (infooff != null)
+            		infooff.run();
             }
         });
         

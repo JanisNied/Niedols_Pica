@@ -7,8 +7,6 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,6 +37,7 @@ import main.Settings;
 import objects.IngredientHolder;
 import objects.Pizza;
 import objects.PriorityIngredient;
+import raven.glasspanepopup.GlassPanePopup;
 import ui.RoundPanel;
 
 public class MainView extends JFrame {
@@ -55,7 +54,7 @@ public class MainView extends JFrame {
 	private JSpinner spinner;
 	private JTextArea desc;
 	// Custom pizza
-	private Pizza custom = new Pizza(20, new IngredientHolder("dough", "thin.text", "thin"));
+	private Pizza custom = new Pizza(20, "Custom", new IngredientHolder("dough", "thin.text", "thin", "dough"));
 	
 	/**
 	 * Launch the application.
@@ -66,6 +65,7 @@ public class MainView extends JFrame {
 			public void run() {
 				try {
 					MainView frame = new MainView();
+					GlassPanePopup.install(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -103,7 +103,7 @@ public class MainView extends JFrame {
         contentPane.add(mainpanel);
 		mainpanel.setLayout(null);
 		
-		MainViewTabbedPane tabbedPane = new MainViewTabbedPane(4, new String[]{"premade.text", "custom.text", "kitchen.text", "cart.text"});
+		MainViewTabbedPane tabbedPane = new MainViewTabbedPane(4, new String[]{"premade.text", "custom.text", "cart.text", "kitchen.text"});
 		tabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setBounds(0, 0, 774, 551);
@@ -151,6 +151,13 @@ public class MainView extends JFrame {
 		custompizza.add(pizzaimg);
 		pizzaimg.setLayout(null);
       
+		
+		JLabel bbq = new JLabel("");
+        bbq.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/bbq.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+        bbq.setHorizontalAlignment(SwingConstants.CENTER);
+        bbq.setBounds(0, 0, 250, 250);
+        pizzaimg.add(bbq);
+        
         JLabel chicken = new JLabel("");
         chicken.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/chicken.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
         chicken.setHorizontalAlignment(SwingConstants.CENTER);
@@ -223,11 +230,6 @@ public class MainView extends JFrame {
         normalcheese.setBounds(0, 0, 250, 250);
         pizzaimg.add(normalcheese);
         
-        JLabel bbq = new JLabel("");
-        bbq.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/bbq.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        bbq.setHorizontalAlignment(SwingConstants.CENTER);
-        bbq.setBounds(0, 0, 250, 250);
-        pizzaimg.add(bbq);
         
         JLabel ketchup = new JLabel("");
         ketchup.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/ketchup.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
@@ -255,7 +257,7 @@ public class MainView extends JFrame {
 		desc.setBackground(new Color(0,0,0,0));
 		desc.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		desc.setBounds(10, 272, 250, 193);
-		desc.setText(custom.description());
+		desc.setText(custom.description(true));
 		custompizza.add(desc);
 		
 		orderbutton = new JButton("Add to Order - $99.99");
@@ -381,7 +383,7 @@ public class MainView extends JFrame {
 		prdctlbl = new JLabel("LabelForProduct");
 		prdctlbl.setFont(new Font("Tahoma", Font.BOLD, 14));
 		prdctlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		prdctlbl.setBounds(10, 11, 201, 14);
+		prdctlbl.setBounds(10, 11, 201, 20);
 		infopanel.add(prdctlbl);
 		
 		JPanel img = new ThemeRoundPanel(20, new Color(10,10,10, 10), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
@@ -435,7 +437,43 @@ public class MainView extends JFrame {
 		updateDesc();
 	}
 	private void addPizza() {
-		presetpizzascroll.add(new PizzaPanel(20, new Color(50, 50, 50, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200)));
+		Pizza cheesePizza = new Pizza(20, "cheesepizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
+		cheesePizza.addIngredient(new IngredientHolder("sauce", "tomatosauce.text", "tomatosauce", "tomatosauce"));
+		cheesePizza.addIngredient(new IngredientHolder("cheese", "bluecheese.text", "bluecheese", "bluecheese"));
+		cheesePizza.addIngredient(new IngredientHolder("cheese", "mozzarella.text", "mozzarella", "mozzarella"));
+		cheesePizza.addIngredient(new IngredientHolder("cheese", "normal.text", "normal", "normal"));
+		PizzaPanel cheesepizzapnl = new PizzaPanel(cheesePizza, 20, new Color(50, 50, 50, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200));
+		cheesepizzapnl.update();
+		
+		Pizza pineapple = new Pizza(20, "pineapplepizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
+		pineapple.addIngredient(new IngredientHolder("sauce", "tomatosauce.text", "tomatosauce", "tomatosauce"));
+		pineapple.addIngredient(new IngredientHolder("cheese", "mozzarella.text", "mozzarella", "mozzarella"));
+		pineapple.addIngredient(new IngredientHolder("veggie", "pineapple.text", "pineapple", "pineapple"));
+		pineapple.addIngredient(new IngredientHolder("meat", "ham.text", "ham", "ham"));
+		PizzaPanel pineapplepnl = new PizzaPanel(pineapple, 20, new Color(50, 50, 50, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200));
+		pineapplepnl.update();
+		
+		Pizza shroom = new Pizza(20, "shroompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
+		shroom.addIngredient(new IngredientHolder("sauce", "tomatosauce.text", "tomatosauce", "tomatosauce"));
+		shroom.addIngredient(new IngredientHolder("cheese", "mozzarella.text", "mozzarella", "mozzarella"));
+		shroom.addIngredient(new IngredientHolder("veggie", "mushroom.text", "mushroom", "mushroom"));
+		shroom.addIngredient(new IngredientHolder("meat", "ham.text", "ham", "ham"));
+		PizzaPanel shroompnl = new PizzaPanel(shroom, 20, new Color(50, 50, 50, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200));
+		shroompnl.update();
+		
+		Pizza meatlovers = new Pizza(20, "meatlovers.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
+		meatlovers.addIngredient(new IngredientHolder("sauce", "tomatosauce.text", "tomatosauce", "tomatosauce"));
+		meatlovers.addIngredient(new IngredientHolder("cheese", "mozzarella.text", "mozzarella", "mozzarella"));
+		meatlovers.addIngredient(new IngredientHolder("meat", "ham.text", "ham", "ham"));
+		meatlovers.addIngredient(new IngredientHolder("meat", "chicken.text", "chicken", "chicken"));
+		meatlovers.addIngredient(new IngredientHolder("meat", "salami.text", "salami", "salami"));
+		PizzaPanel meatloverspnl = new PizzaPanel(meatlovers, 20, new Color(50, 50, 50, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200));
+		meatloverspnl.update();
+		
+		presetpizzascroll.add(cheesepizzapnl);
+		presetpizzascroll.add(pineapplepnl);
+		presetpizzascroll.add(shroompnl);
+		presetpizzascroll.add(meatloverspnl);
 	}
 	private void addIngredients() {
 		infopanel.setVisible(false);
@@ -445,9 +483,9 @@ public class MainView extends JFrame {
 		sizepanelScroll.add(twenty);
 		sizepanelScroll.add(thirty);
 		sizepanelScroll.add(sixty);
-		doughpanelscroll.add(new PriorityIngredient("thin", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thin.text", "thin"), "thin"), () -> info(Settings.lang.get("thin.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("thin")), this::infoOff));
-		doughpanelscroll.add(new PriorityIngredient("regular", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "regular.text", "regular"), "regular"), () -> info(Settings.lang.get("regular.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("regular")), this::infoOff));
-		doughpanelscroll.add(new PriorityIngredient("thick", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thick.text", "thick"), "thick"), () -> info(Settings.lang.get("thick.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("thick")), this::infoOff));
+		doughpanelscroll.add(new PriorityIngredient("thin", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thin.text", "thin", "dough"), "thin"), () -> info(Settings.lang.get("thin.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("thin")), this::infoOff));
+		doughpanelscroll.add(new PriorityIngredient("regular", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "regular.text", "regular", "dough"), "regular"), () -> info(Settings.lang.get("regular.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("regular")), this::infoOff));
+		doughpanelscroll.add(new PriorityIngredient("thick", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thick.text", "thick", "dough"), "thick"), () -> info(Settings.lang.get("thick.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("thick")), this::infoOff));
 	
 	}
 	private void setSize(JPanel parent, String exception) {
@@ -476,7 +514,7 @@ public class MainView extends JFrame {
 		Integer val = (Integer) spinner.getValue();
 		double spinnerValdb = val.doubleValue();
 		DecimalFormat df = new DecimalFormat("0.00");
-		desc.setText(custom.description());
+		desc.setText(custom.description(true));
 		orderbutton.setText(Settings.lang.get("addorder.text")+" - €"+df.format(custom.getPrice() * spinnerValdb));
 	}
 	private void info(String title, String text, ImageIcon img, double price) {
@@ -484,6 +522,7 @@ public class MainView extends JFrame {
 		infopanel.setVisible(true);
 		prdctlbl.setText(title);
 		if (text != null) {
+			imglbl.setIcon(null);
 			imglbl.setText(text);
 		} else {
 			imglbl.setText("");

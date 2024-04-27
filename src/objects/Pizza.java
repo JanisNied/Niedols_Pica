@@ -7,26 +7,39 @@ import main.Settings;
 public class Pizza {
 	private int doughSize;
 	private IngredientHolder doughType;
-	private ArrayList<IngredientHolder> sauces, cheese, meat, veggies;
+	private String nickname;
+	private ArrayList<IngredientHolder> ingredients;
 	private double price, doughsizetypemultiplier;
 	
-	public Pizza(int doughSize, IngredientHolder doughType) {
+	public Pizza(int doughSize, String nickname, IngredientHolder doughType) {
 		this.doughSize = doughSize;
 		this.doughType = doughType;
-		sauces = new ArrayList<IngredientHolder>();
-		cheese = new ArrayList<IngredientHolder>();
-		meat = new ArrayList<IngredientHolder>();
-		veggies = new ArrayList<IngredientHolder>();
+		ingredients = new ArrayList<IngredientHolder>();
+		this.nickname = nickname;
 	}
-	public void addToPrice(double price) {
-		this.price -= price;
-	}
-	public void removeFromPrice(double price) {
-		this.price -= price;
+	public Pizza(Pizza pizza) {
+		this.nickname = pizza.nickname;
+		this.doughSize = pizza.doughSize;
+		this.doughType = pizza.doughType;
+		this.ingredients = new ArrayList<IngredientHolder>(pizza.ingredients);
+		this.price = pizza.price;
 	}
 	public Double getPrice() {
+		price = 0;
+		for (IngredientHolder i : ingredients) {
+			price += Settings.prices.get(i.getIdentifier());
+		}
 		doughsizetypemultiplier = Settings.prices.get(Integer.toString(doughSize)) * Settings.prices.get(doughType.getName());
 		return price + doughsizetypemultiplier;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public ArrayList<IngredientHolder> ingredients(){
+		return ingredients;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	public void setDoughSize(int doughSize) {
 		this.doughSize = doughSize;
@@ -35,52 +48,30 @@ public class Pizza {
 		this.doughType = doughType;
 	}
 	public void addIngredient(IngredientHolder ingredient) {
-		switch(ingredient.getType()) {
-			case "sauce":
-				sauces.add(ingredient);
-				break;
-			case "cheese":
-				cheese.add(ingredient);
-				break;
-			case "meat":
-				meat.add(ingredient);
-				break;
-			case "veggies":
-				veggies.add(ingredient);
-				break;	
-		}
+		ingredients.add(ingredient);
 	}
 	public void removeIngredient(IngredientHolder ingredient) {
-		switch(ingredient.getType()) {
-			case "sauce":
-				sauces.remove(ingredient);
-				break;
-			case "cheese":
-				cheese.remove(ingredient);
-				break;
-			case "meat":
-				meat.remove(ingredient);
-				break;
-			case "veggies":
-				veggies.remove(ingredient);
-				break;	
-		}
+		ingredients.remove(ingredient);
 	}
-	public String description() {
-		StringBuilder desc = new StringBuilder(doughSize+" cm, " +Settings.lang.get(doughType.getLocale())+" "+Settings.lang.get("dough.text")+"!");
-		int allElements = sauces.size() + cheese.size() + meat.size() + veggies.size();
-		if (allElements > 0) {
+	public String description(boolean defaultinfo) {
+		StringBuilder desc;
+		if (defaultinfo)
+			desc = new StringBuilder(doughSize+" cm, " +Settings.lang.get(doughType.getLocale())+" "+Settings.lang.get("dough.text"));
+		else
+			desc = new StringBuilder(" ");
+		if (ingredients.size() > 0) {
 			desc.deleteCharAt(desc.length() - 1);
-			ArrayList<IngredientHolder> combined = new ArrayList<IngredientHolder>();
-			combined.addAll(sauces);
-			combined.addAll(cheese);
-			combined.addAll(meat);
-			combined.addAll(veggies);
-			for (int i = 0; i < combined.size(); i++) {
-				if (i == combined.size()-1) {
-					desc.append(" and "+Settings.lang.get(combined.get(i).getLocale())+"!");
+			for (int i = 0; i < ingredients.size(); i++) {
+				if (i == ingredients.size()-1) {
+					if (ingredients.size() != 1)
+						desc.append(" "+Settings.lang.get("and.text")+" "+Settings.lang.get(ingredients.get(i).getLocale()));
+					else
+						desc.append(Settings.lang.get(ingredients.get(i).getLocale()));
 				} else
-					desc.append(", "+Settings.lang.get(combined.get(i).getLocale()));
+					if (desc.isEmpty())
+						desc.append(Settings.lang.get(ingredients.get(i).getLocale()));
+					else
+						desc.append(", "+Settings.lang.get(ingredients.get(i).getLocale()));
 			}
 		}
 		return desc.toString();
