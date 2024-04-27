@@ -36,5 +36,10 @@
 	"chicken.text":"Vista",
 	"salami.text":"Salami",
 	"size.text":"Izmērs",
-	"back.text":"Atgriezties"
+	"back.text":"Atgriezties",
+	"sauce.text":"Mērce",
+	"cheese.text":"Siers",
+	"meat.text":"Gaļa",
+	"additives.text":"Piedevas",
+	"bbqsauce.text":"BBQ Mērce"
 }

@@ -55,14 +55,14 @@ public class Pizza {
 	public String description(boolean defaultinfo) {
 		StringBuilder desc;
 		if (defaultinfo)
-			desc = new StringBuilder(doughSize+" cm, " +Settings.lang.get(doughType.getLocale())+" "+Settings.lang.get("dough.text"));
+			desc = new StringBuilder(doughSize+" cm, " +Settings.lang.get(doughType.getLocale())+" "+Settings.lang.get("dough.text")+" ");
 		else
 			desc = new StringBuilder(" ");
 		if (ingredients.size() > 0) {
 			desc.deleteCharAt(desc.length() - 1);
 			for (int i = 0; i < ingredients.size(); i++) {
 				if (i == ingredients.size()-1) {
-					if (ingredients.size() != 1)
+					if (ingredients.size() != 1 || defaultinfo)
 						desc.append(" "+Settings.lang.get("and.text")+" "+Settings.lang.get(ingredients.get(i).getLocale()));
 					else
 						desc.append(Settings.lang.get(ingredients.get(i).getLocale()));

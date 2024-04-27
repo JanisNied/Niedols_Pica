@@ -26,7 +26,7 @@ import localisation.ThemeRoundPanel;
 import main.Settings;
 import objects.CartItem;
 import objects.IngredientHolder;
-import objects.PriorityIngredient;
+import objects.IngredientPanel;
 import raven.glasspanepopup.GlassPanePopup;
 
 @SuppressWarnings("serial")
@@ -169,21 +169,21 @@ public class DoughnSize extends JPanel {
 		return array;
 	}
 	private void addIngredients() {
-		sizepanelscroll.add(new PriorityIngredient("20 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough20.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setSize(sizepanelscroll, "20 cm"), () -> editLabel(lblAddS, "* 20 cm"), () -> editLabel(lblAddS, "")));
-		sizepanelscroll.add(new PriorityIngredient("30 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough30.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelscroll, "30 cm"), () -> editLabel(lblAddS, "* 30 cm"), () -> editLabel(lblAddS, "")));
-		sizepanelscroll.add(new PriorityIngredient("60 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough60.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelscroll, "60 cm"), () -> editLabel(lblAddS, "* 60 cm"), () -> editLabel(lblAddS, "")));
-		doughpanelscroll.add(new PriorityIngredient("thick", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thick.text", "thick", "dough"), "thick"), () -> editLabel(lblAddD, Settings.lang.get("thick.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
-		doughpanelscroll.add(new PriorityIngredient("regular", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "regular.text", "regular", "dough"), "regular"), () -> editLabel(lblAddD, Settings.lang.get("regular.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
-		doughpanelscroll.add(new PriorityIngredient("thin", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thin.text", "thin", "dough"), "thin"), () -> editLabel(lblAddD, Settings.lang.get("thin.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
+		sizepanelscroll.add(new IngredientPanel("20 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough20.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setSize(sizepanelscroll, "20 cm"), () -> editLabel(lblAddS, "* 20 cm"), () -> editLabel(lblAddS, "")));
+		sizepanelscroll.add(new IngredientPanel("30 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough30.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelscroll, "30 cm"), () -> editLabel(lblAddS, "* 30 cm"), () -> editLabel(lblAddS, "")));
+		sizepanelscroll.add(new IngredientPanel("60 cm", "size", new ImageIcon(LoginWindow.class.getResource("/img/dough60.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setSize(sizepanelscroll, "60 cm"), () -> editLabel(lblAddS, "* 60 cm"), () -> editLabel(lblAddS, "")));
+		doughpanelscroll.add(new IngredientPanel("thick", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thick.text", "thick", "dough"), "thick"), () -> editLabel(lblAddD, Settings.lang.get("thick.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
+		doughpanelscroll.add(new IngredientPanel("regular", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "regular.text", "regular", "dough"), "regular"), () -> editLabel(lblAddD, Settings.lang.get("regular.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
+		doughpanelscroll.add(new IngredientPanel("thin", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thin.text", "thin", "dough"), "thin"), () -> editLabel(lblAddD, Settings.lang.get("thin.text")+" "+Settings.lang.get("dough.text")+" *"), () -> editLabel(lblAddD, "")));
 		for (Component i : sizepanelscroll.getComponents()) {
-			if (i instanceof PriorityIngredient) {
-				PriorityIngredient temp = (PriorityIngredient)i;
+			if (i instanceof IngredientPanel) {
+				IngredientPanel temp = (IngredientPanel)i;
 				temp.setAction(true);
 			}
 		}
 		for (Component i : doughpanelscroll.getComponents()) {
-			if (i instanceof PriorityIngredient) {
-				PriorityIngredient temp = (PriorityIngredient)i;
+			if (i instanceof IngredientPanel) {
+				IngredientPanel temp = (IngredientPanel)i;
 				temp.setAction(true);
 			}
 		}
@@ -200,8 +200,8 @@ public class DoughnSize extends JPanel {
 	}
 	private void setSize(JPanel parent, String exception) {
 		for (Component child : parent.getComponents()) {
-			if (child instanceof PriorityIngredient && !child.getName().equals(exception)) {
-				PriorityIngredient temp = (PriorityIngredient)child;
+			if (child instanceof IngredientPanel && !child.getName().equals(exception)) {
+				IngredientPanel temp = (IngredientPanel)child;
 				temp.enableIngredient(false);
 			} else {
 					cartitem.getPizzaObj().setDoughSize(Integer.parseInt(child.getName().substring(0, 2)));			
@@ -211,8 +211,8 @@ public class DoughnSize extends JPanel {
 	}
 	private void setDoughType(JPanel parent, IngredientHolder dough, String exception) {
 		for (Component child : parent.getComponents()) {
-			if (child instanceof PriorityIngredient && !child.getName().equals(exception)) {
-				PriorityIngredient temp = (PriorityIngredient)child;
+			if (child instanceof IngredientPanel && !child.getName().equals(exception)) {
+				IngredientPanel temp = (IngredientPanel)child;
 				temp.enableIngredient(false);
 			} else {
 					cartitem.getPizzaObj().setDoughType(dough);		

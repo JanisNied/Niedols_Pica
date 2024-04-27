@@ -1,5 +1,7 @@
 package objects;
 
+import java.util.Objects;
+
 public class IngredientHolder {
 	private String type, locale, name, identifier;
 	
@@ -41,4 +43,20 @@ public class IngredientHolder {
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IngredientHolder that = (IngredientHolder) o;
+        return type.equals(that.type) &&
+                locale.equals(that.locale) &&
+                name.equals(that.name) &&
+                identifier.equals(that.identifier);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, locale, name, identifier);
+    }
 }
