@@ -32,5 +32,9 @@ public class Settings {
 		
 		prices.put("pineapple", 	2.29);
 		prices.put("mushroom", 		1.99);
+		prices.put("tomato", 		1.89);
+		prices.put("onion", 		0.99);
+		prices.put("pickles", 		1.49);
+		prices.put("jalapeno", 		2.29);
 	}
 }

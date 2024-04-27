@@ -26,7 +26,7 @@
 	"cheesepizza.text":"Siera Pica",
 	"and.text":"un",
 	"bluecheese.text":"Zilais Siers",
-	"normal.text":"Parastais Siers",
+	"normal.text":"Čedaras Siers",
 	"mozzarella.text":"Mocarella Siers",
 	"pineapple.text":"Ananasi",
 	"pineapplepizza.text":"Ananasu Pica",
@@ -41,5 +41,10 @@
 	"cheese.text":"Siers",
 	"meat.text":"Gaļa",
 	"additives.text":"Piedevas",
-	"bbqsauce.text":"BBQ Mērce"
+	"bbqsauce.text":"BBQ Mērce",
+	"custompizza.text":"Pielāgota Pica",
+	"tomato.text":"Tomāts",
+	"onion.text":"Sīpoli",
+	"pickles.text":"Sālītie Gurķi",
+	"jalapeno.text":"Halapenjo"
 }

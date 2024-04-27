@@ -46,7 +46,7 @@ import ui.RoundPanel;
 public class MainView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel presetpizzascroll, sizepanel, sizepanelScroll,infopanel, doughpanel, doughpanelscroll, saucepanelscroll;
+	private JPanel presetpizzascroll, sizepanel, sizepanelScroll,infopanel, doughpanel, doughpanelscroll, saucepanelscroll, cheesepanelscroll, meatpanelscroll, additivepanelscroll;
 	private JLabel welcomelabel, prdctprc, imglbl, prdctlbl;
 	private ThemePanel transitionpanel;
 	private JButton orderbutton;
@@ -206,7 +206,7 @@ public class MainView extends JFrame {
         pizzaimg.add(pineapple);
         
         JLabel pickle = new JLabel("");
-        pickle.setName("pickle");
+        pickle.setName("pickles");
         pickle.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/pickle.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
         pickle.setHorizontalAlignment(SwingConstants.CENTER);
         pickle.setBounds(0, 0, 250, 250);
@@ -381,9 +381,28 @@ public class MainView extends JFrame {
         
 		saucepanel.add(saucepanelscr);
 		// SAUCE PANEL END
-		JPanel cheesepanel = new JPanel();
+		
+		// CHEESE PANEL START
+		JPanel cheesepanel = new ThemeRoundPanel(20, new Color(10,10,10, 10), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
 		cheesepanel.setBounds(538, 158, 221, 70);
 		custompizza.add(cheesepanel);
+		
+		cheesepanel.setLayout(null);
+		
+		cheesepanelscroll = new JPanel(new FlowLayout(FlowLayout.RIGHT));	
+		cheesepanelscroll.setOpaque(false);
+		cheesepanelscroll.setBackground(new Color(0,0,0,0));
+		cheesepanelscroll.setPreferredSize(new Dimension(0, 0));
+		
+		JScrollPane cheesepanelscr = new JScrollPane(cheesepanelscroll);
+		cheesepanelscr.setBorder(BorderFactory.createEmptyBorder());
+		cheesepanelscr.setOpaque(false);
+		cheesepanelscr.getViewport().setOpaque(false);              
+		cheesepanelscr.setVerticalScrollBar(verticalScrollBar);
+		cheesepanelscr.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		cheesepanelscr.setBounds(0, 0, 221, 70);
+        
+		cheesepanel.add(cheesepanelscr);
 		
 		LocalisedLabel lblSiers = new LocalisedLabel("cheese.text");
 		lblSiers.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -391,26 +410,63 @@ public class MainView extends JFrame {
 		lblSiers.setBounds(640, 128, 119, 36);
 		custompizza.add(lblSiers);
 		
-		JPanel meatpanel = new JPanel();
+		// CHEESE PANEL END
+		
+		// MEAT PANEL START
+		JPanel meatpanel = new ThemeRoundPanel(20, new Color(10,10,10, 10), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
 		meatpanel.setBounds(538, 269, 221, 70);
 		custompizza.add(meatpanel);
+		meatpanel.setLayout(null);
+		
+		meatpanelscroll = new JPanel(new FlowLayout(FlowLayout.RIGHT));	
+		meatpanelscroll.setOpaque(false);
+		meatpanelscroll.setBackground(new Color(0,0,0,0));
+		meatpanelscroll.setPreferredSize(new Dimension(0, 0));
+		
+		JScrollPane meatpanelscr = new JScrollPane(meatpanelscroll);
+		meatpanelscr.setBorder(BorderFactory.createEmptyBorder());
+		meatpanelscr.setOpaque(false);
+		meatpanelscr.getViewport().setOpaque(false);              
+		meatpanelscr.setVerticalScrollBar(verticalScrollBar);
+		meatpanelscr.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		meatpanelscr.setBounds(0, 0, 221, 70);
+        
+		meatpanel.add(meatpanelscr);
 		
 		LocalisedLabel lblMeat = new LocalisedLabel("meat.text");
 		lblMeat.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblMeat.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblMeat.setBounds(640, 239, 119, 36);
 		custompizza.add(lblMeat);
+		// MEAT PANEL END
 		
-		JPanel additivepanel = new JPanel();
-		additivepanel.setBounds(538, 380, 221, 70);
+		// ADDITIVE PANEL START
+		JPanel additivepanel = new ThemeRoundPanel(20, new Color(10,10,10, 10), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200,200,200));
+		additivepanel.setBounds(538, 380, 221, 131);
 		custompizza.add(additivepanel);
+		additivepanel.setLayout(null);
+		
+		additivepanelscroll = new JPanel(new FlowLayout(FlowLayout.RIGHT));	
+		additivepanelscroll.setOpaque(false);
+		additivepanelscroll.setBackground(new Color(0,0,0,0));
+		additivepanelscroll.setPreferredSize(new Dimension(0, 0));
+		
+		JScrollPane additivescr = new JScrollPane(additivepanelscroll);
+		additivescr.setBorder(BorderFactory.createEmptyBorder());
+		additivescr.setOpaque(false);
+		additivescr.getViewport().setOpaque(false);              
+		additivescr.setVerticalScrollBar(verticalScrollBar);
+		additivescr.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		additivescr.setBounds(0, 0, 221, 131);
+        
+		additivepanel.add(additivescr);
 		
 		LocalisedLabel lblMrce_1_1_1 = new LocalisedLabel("additives.text");
 		lblMrce_1_1_1.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblMrce_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblMrce_1_1_1.setBounds(640, 350, 119, 36);
 		custompizza.add(lblMrce_1_1_1);
-		
+		// ADDITIVE PANEL END
 		// INFO PANEL
 		infopanel = new JPanel();
 		infopanel.setBounds(270, 269, 221, 181);
@@ -438,7 +494,7 @@ public class MainView extends JFrame {
 		prdctprc.setFont(new Font("Tahoma", Font.BOLD, 14));
 		prdctprc.setBounds(10, 156, 201, 14);
 		infopanel.add(prdctprc);
-		
+		// END OF INFO PANEL
 		// END OF CUSTOM
 		
 		JPanel cart = new JPanel();
@@ -524,8 +580,25 @@ public class MainView extends JFrame {
 		doughpanelscroll.add(new IngredientPanel("thin", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), true, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thin.text", "thin", "dough"), "thin"), () -> info(Settings.lang.get("thin.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("thin")), this::infoOff));
 		doughpanelscroll.add(new IngredientPanel("regular", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "regular.text", "regular", "dough"), "regular"), () -> info(Settings.lang.get("regular.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("regular")), this::infoOff));
 		doughpanelscroll.add(new IngredientPanel("thick", "dough", new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> setDoughType(doughpanelscroll, new IngredientHolder("dough", "thick.text", "thick", "dough"), "thick"), () -> info(Settings.lang.get("thick.text")+" "+Settings.lang.get("dough.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/dough.png")), Settings.prices.get("thick")), this::infoOff));
+		
 		saucepanelscroll.add(new IngredientPanel("tomatosauce", "sauce", new ImageIcon(LoginWindow.class.getResource("/img/tomatosauce.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("tomatosauce.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/tomatosauce.png")), Settings.prices.get("tomatosauce")), this::infoOff, () -> addIngredientToPizza("sauce", "tomatosauce.text", "tomatosauce", "tomatosauce"), () -> removeIngredientFromPizza("sauce", "tomatosauce.text", "tomatosauce", "tomatosauce")));
 		saucepanelscroll.add(new IngredientPanel("bbqsauce", "sauce", new ImageIcon(LoginWindow.class.getResource("/img/bbqsauce.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("bbqsauce.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/bbqsauce.png")), Settings.prices.get("bbqsauce")), this::infoOff, () -> addIngredientToPizza("sauce", "bbqsauce.text", "bbqsauce", "bbqsauce"), () -> removeIngredientFromPizza("sauce", "bbqsauce.text", "bbqsauce", "bbqsauce")));
+	
+		cheesepanelscroll.add(new IngredientPanel("mozzarella", "cheese", new ImageIcon(LoginWindow.class.getResource("/img/mozzarella.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("mozzarella.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/mozzarella.png")), Settings.prices.get("mozzarella")), this::infoOff, () -> addIngredientToPizza("cheese", "mozzarella.text", "mozzarella", "mozzarella"), () -> removeIngredientFromPizza("cheese", "mozzarella.text", "mozzarella", "mozzarella")));
+		cheesepanelscroll.add(new IngredientPanel("bluecheese", "cheese", new ImageIcon(LoginWindow.class.getResource("/img/bluecheese.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("bluecheese.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/bluecheese.png")), Settings.prices.get("bluecheese")), this::infoOff, () -> addIngredientToPizza("cheese", "bluecheese.text", "bluecheese", "bluecheese"), () -> removeIngredientFromPizza("cheese", "bluecheese.text", "bluecheese", "bluecheese")));	
+		cheesepanelscroll.add(new IngredientPanel("normal", "sauce", new ImageIcon(LoginWindow.class.getResource("/img/normal.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("normal.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/normal.png")), Settings.prices.get("normal")), this::infoOff, () -> addIngredientToPizza("cheese", "normal.text", "normal", "normal"), () -> removeIngredientFromPizza("cheese", "normal.text", "normal", "normal")));
+		
+		meatpanelscroll.add(new IngredientPanel("ham", "meat", new ImageIcon(LoginWindow.class.getResource("/img/ham.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("ham.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/ham.png")), Settings.prices.get("ham")), this::infoOff, () -> addIngredientToPizza("meat", "ham.text", "ham", "ham"), () -> removeIngredientFromPizza("meat", "ham.text", "ham", "ham")));
+		meatpanelscroll.add(new IngredientPanel("salami", "meat", new ImageIcon(LoginWindow.class.getResource("/img/salami.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("salami.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/salami.png")), Settings.prices.get("salami")), this::infoOff, () -> addIngredientToPizza("meat", "salami.text", "salami", "salami"), () -> removeIngredientFromPizza("meat", "salami.text", "salami", "salami")));
+		meatpanelscroll.add(new IngredientPanel("chicken", "meat", new ImageIcon(LoginWindow.class.getResource("/img/chicken.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("chicken.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/chicken.png")), Settings.prices.get("chicken")), this::infoOff, () -> addIngredientToPizza("meat", "chicken.text", "chicken", "chicken"), () -> removeIngredientFromPizza("meat", "chicken.text", "chicken", "chicken")));
+		
+		additivepanelscroll.add(new IngredientPanel("mushroom", "veggies", new ImageIcon(LoginWindow.class.getResource("/img/mushroom.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("mushroom.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/mushroom.png")), Settings.prices.get("mushroom")), this::infoOff, () -> addIngredientToPizza("veggies", "mushroom.text", "mushroom", "mushroom"), () -> removeIngredientFromPizza("veggies", "mushroom.text", "mushroom", "mushroom")));
+		additivepanelscroll.add(new IngredientPanel("pineapple", "veggies", new ImageIcon(LoginWindow.class.getResource("/img/pineapple.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("pineapple.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/pineapple.png")), Settings.prices.get("pineapple")), this::infoOff, () -> addIngredientToPizza("veggies", "pineapple.text", "pineapple", "pineapple"), () -> removeIngredientFromPizza("veggies", "pineapple.text", "pineapple", "pineapple")));
+		additivepanelscroll.add(new IngredientPanel("tomato", "veggies", new ImageIcon(LoginWindow.class.getResource("/img/tomato.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("tomato.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/tomato.png")), Settings.prices.get("tomato")), this::infoOff, () -> addIngredientToPizza("veggies", "tomato.text", "tomato", "tomato"), () -> removeIngredientFromPizza("veggies", "tomato.text", "tomato", "tomato")));
+		additivepanelscroll.add(new IngredientPanel("onion", "veggies", new ImageIcon(LoginWindow.class.getResource("/img/onion.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("onion.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/onion.png")), Settings.prices.get("onion")), this::infoOff, () -> addIngredientToPizza("veggies", "onion.text", "onion", "onion"), () -> removeIngredientFromPizza("veggies", "onion.text", "onion", "onion")));
+		additivepanelscroll.add(new IngredientPanel("pickles", "veggies", new ImageIcon(LoginWindow.class.getResource("/img/pickles.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("pickles.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/pickles.png")), Settings.prices.get("pickles")), this::infoOff, () -> addIngredientToPizza("veggies", "pickles.text", "pickles", "pickles"), () -> removeIngredientFromPizza("veggies", "pickles.text", "pickles", "pickles")));
+		additivepanelscroll.add(new IngredientPanel("jalapeno", "veggies", new ImageIcon(LoginWindow.class.getResource("/img/jalapeno.png")), 20, new Color(100, 100, 100, 50), new Color(200, 200, 200, 50), new Color(0,0,0), new Color(200, 200, 200), false, () -> info(Settings.lang.get("jalapeno.text"), null, new ImageIcon(LoginWindow.class.getResource("/img/jalapeno.png")), Settings.prices.get("jalapeno")), this::infoOff, () -> addIngredientToPizza("veggies", "jalapeno.text", "jalapeno", "jalapeno"), () -> removeIngredientFromPizza("veggies", "jalapeno.text", "jalapeno", "jalapeno")));
+		
 	}
 	private void addIngredientToPizza(String type, String locale, String name, String identifier) {
 		custom.addIngredient(new IngredientHolder(type, locale, name, identifier));
