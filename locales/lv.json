@@ -15,5 +15,10 @@
 	"premade.text":"Gatavas Picas",
 	"custom.text":"Pielāgota Pica",
 	"kitchen.text":"Virtuve",
-	"cart.text":"Grozs"
+	"cart.text":"Grozs",
+	"thin.text":"Plāna",
+	"dough.text":"mīkla",
+	"tomatosauce.text":"Tomātu mērce",
+	"ham.text":"Ham",
+	"addorder.text":"Pievienot Grozam"
 }

@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.ImageIcon;
@@ -140,6 +139,7 @@ public class PizzaPanel extends JPanel{
         add(pizzatitle);
         
         JTextArea desc = new JTextArea();
+        desc.setOpaque(false);
         desc.getCaret().setVisible(false);
         desc.setFocusable(false);
         desc.setBackground(new Color(0,0,0,0));

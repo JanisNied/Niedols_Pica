@@ -75,7 +75,7 @@ public class Global {
 			UIManager.put("Component.arc", 15);
 		    if (frame != null)
 		    	SwingUtilities.updateComponentTreeUI(frame);
-		} catch( Exception ex ) {
+		} catch(Exception ex) {
 			 System.err.println("[LAF] Failed to initialize LaF, Stack Trace: ");
 			 ex.printStackTrace();
 		}
