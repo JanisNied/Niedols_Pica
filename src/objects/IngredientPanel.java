@@ -20,20 +20,20 @@ import javax.swing.SwingConstants;
 import main.Settings;
 
 @SuppressWarnings("serial")
-public class PriorityIngredient extends JPanel {
+public class IngredientPanel extends JPanel {
 	private JLabel lblNewLabel;
 	private String name, classification, displayString = "";
 	private ImageIcon displayIcon;
 	private int bordersize;
 	private Color bglight, bgdark, borderlight, borderdark;
 	private boolean enabled;
-	private Runnable disableOthers, info, infooff;
-	private boolean action = false, selected = false;
+	private Runnable disableOthers, info, infooff, add, remove;
+	private boolean action = false, selected = false, toggle = false;
 	
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public PriorityIngredient(String name, String classification, String displayString, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers, Runnable info, Runnable infooff) {
+	public IngredientPanel(String name, String classification, String displayString, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers, Runnable info, Runnable infooff) {
 		this.name = name;
 		this.classification = classification;
 		this.displayString = displayString;
@@ -48,7 +48,7 @@ public class PriorityIngredient extends JPanel {
 		this.infooff = infooff;
 		init();
 	}	
-	public PriorityIngredient(String name, String classification, ImageIcon displayIcon, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers, Runnable info, Runnable infooff) {
+	public IngredientPanel(String name, String classification, ImageIcon displayIcon, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers, Runnable info, Runnable infooff) {
 		this.name = name;
 		this.classification = classification;
 		this.displayIcon = displayIcon;
@@ -63,7 +63,7 @@ public class PriorityIngredient extends JPanel {
 		this.infooff = infooff;
 		init();
 	}
-	public PriorityIngredient(String name, String classification, String displayString, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers) {
+	public IngredientPanel(String name, String classification, String displayString, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers) {
 		this.name = name;
 		this.classification = classification;
 		this.displayString = displayString;
@@ -77,7 +77,7 @@ public class PriorityIngredient extends JPanel {
 		action = true;
 		init();
 	}
-	public PriorityIngredient(String name, String classification, ImageIcon displayIcon, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers) {
+	public IngredientPanel(String name, String classification, ImageIcon displayIcon, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable disableOthers) {
 		this.name = name;
 		this.classification = classification;
 		this.displayIcon = displayIcon;
@@ -91,6 +91,24 @@ public class PriorityIngredient extends JPanel {
 		action = true;
 		init();
 	}
+	public IngredientPanel(String name, String classification, ImageIcon displayIcon, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark, boolean enabled, Runnable info, Runnable infoOff, Runnable add, Runnable remove) {
+		this.name = name;
+		this.classification = classification;
+		this.displayIcon = displayIcon;
+		this.bglight = bglight;
+		this.bgdark = bgdark;
+		this.borderlight = borderlight;
+		this.borderdark = borderdark;
+		this.bordersize = bordersize;
+		this.enabled = enabled;
+		this.info = info;
+		this.infooff = infoOff;
+		this.add = add;
+		this.remove = remove;
+		action = false;
+		toggle = true;
+		init();
+	}
 	private void init() {
 		DecimalFormat df = new DecimalFormat("0.00");
 		setLayout(null);
@@ -99,9 +117,17 @@ public class PriorityIngredient extends JPanel {
         setName(name);
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
-            	enableIngredient(true);
-            	disableOthers.run();
+            public void mouseReleased(MouseEvent e) {          
+            	if (toggle) {
+            		enableIngredient(!enabled);
+            		if (enabled)
+            			add.run();
+            		else
+            			remove.run();
+            	} else {	
+            		enableIngredient(true);
+            		disableOthers.run();
+            	}
             }
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -186,10 +212,13 @@ public class PriorityIngredient extends JPanel {
         g2d.setColor(theme[0]);
         g2d.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, bordersize, bordersize);
         Shape shape = new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, bordersize, bordersize);
-        super.paintComponent(g2d);
-        if (selected)      	
-        	g2d.setColor(new Color(89, 222, 222));
-        else if (enabled)
+        super.paintComponent(g2d);     
+        if (selected) {
+        	g2d.setColor(new Color(13, 162, 255));
+        	if (toggle && enabled) {
+        		g2d.setColor(new Color(252, 11, 3));
+        	}
+        } else if (enabled)
         	g2d.setColor(new Color(87, 245, 39));
         else	
         	g2d.setColor(theme[1]);
