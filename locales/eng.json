@@ -15,5 +15,10 @@
 	"premade.text":"Premade Pizza's",
 	"custom.text":"Custom Pizza",
 	"kitchen.text":"Kitchen",
-	"cart.text":"Cart"
+	"cart.text":"Cart",
+	"thin.text":"Thin",
+	"dough.text":"dough",
+	"tomatosauce.text":"Tomato Sauce",
+	"ham.text":"Ham",
+	"addorder.text":"Add to Cart"
 }

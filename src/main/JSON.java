@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import db.Database;
 
@@ -69,7 +70,7 @@ public class JSON {
 			file.write(jsonObject.toJSONString());
 			file.flush();
 			file.close();
-	    } catch(Exception e) {
+	    } catch(IOException | ParseException e) {
 	        e.printStackTrace();
 	    }
 	}
@@ -82,7 +83,7 @@ public class JSON {
 	         value = (String) jsonObject.get(key);
 	         System.out.print("[JSON KEY: "+key+"] VALUE: "+value);
 	       
-	      } catch(Exception e) {
+	      } catch(IOException | ParseException e) {
 	         e.printStackTrace();
 	      }
 		return value;
@@ -99,7 +100,7 @@ public class JSON {
    	         	String keyValue = (String)jsonObject.get(keyStr);
    	         	map.put(keyStr, keyValue);
    	     	}
-        } catch (Exception e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         System.out.println("["+what+"] "+map);
