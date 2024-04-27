@@ -26,7 +26,7 @@
 	"cheesepizza.text":"Cheese Pizza",
 	"and.text":"and",
 	"bluecheese.text":"Blue Cheese",
-	"normal.text":"Normal Cheese",
+	"normal.text":"Cheddar Cheese",
 	"mozzarella.text":"Mozzarella Cheese",
 	"pineapple.text":"Pineapples",
 	"pineapplepizza.text":"Pineapple Pizza",
@@ -40,6 +40,11 @@
 	"sauce.text":"Sauce",
 	"cheese.text":"Cheese",
 	"meat.text":"Meat",
-	"additives.text":"Additives",
-	"bbqsauce.text":"BBQ Sauce"
+	"additives.text":"Toppings",
+	"bbqsauce.text":"BBQ Sauce",
+	"custompizza.text":"Custom Pizza",
+	"tomato.text":"Tomato",
+	"onion.text":"Onion",
+	"pickles.text":"Pickles",
+	"jalapeno.text":"Jalapeño"
 }

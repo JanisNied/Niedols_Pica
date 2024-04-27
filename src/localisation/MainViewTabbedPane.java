@@ -2,6 +2,7 @@ package localisation;
 
 import java.awt.Graphics;
 import javax.swing.JTabbedPane;
+
 import main.Settings;
 
 @SuppressWarnings("serial")

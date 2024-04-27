@@ -164,6 +164,10 @@ public class IngredientPanel extends JPanel {
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel.setBounds(0, 0, 67, 60);
         add(lblNewLabel);
+        if (classification == "veggies") {
+        	setPreferredSize(new Dimension(67, 58));
+        	lblNewLabel.setBounds(0, 0, 65, 58);
+        }
 	}
 	
 	public void enableIngredient(boolean enabled) {
