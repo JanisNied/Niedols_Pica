@@ -22,7 +22,7 @@
 	"dough.text":"Mīkla",
 	"tomatosauce.text":"Tomātu mērce",
 	"ham.text":"Sķiņķis",
-	"addorder.text":"Pievienot",
+	"addorder.text":"Pievienot Grozam",
 	"cheesepizza.text":"Siera Pica",
 	"and.text":"un",
 	"bluecheese.text":"Zilais Siers",
@@ -46,5 +46,8 @@
 	"tomato.text":"Tomāts",
 	"onion.text":"Sīpoli",
 	"pickles.text":"Sālītie Gurķi",
-	"jalapeno.text":"Halapenjo"
+	"jalapeno.text":"Halapenjo",
+	"placedorder.text":"Pievienots: ",
+	"amount.text":"Daudzums:",
+	"price.text":"Cena"
 }

@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -37,9 +39,10 @@ import localisation.ThemePanel;
 import localisation.ThemeRoundPanel;
 import main.Global;
 import main.Settings;
+import objects.CartItem;
 import objects.IngredientHolder;
-import objects.Pizza;
 import objects.IngredientPanel;
+import objects.Pizza;
 import raven.glasspanepopup.GlassPanePopup;
 import ui.RoundPanel;
 
@@ -47,6 +50,7 @@ public class MainView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel presetpizzascroll, sizepanel, sizepanelScroll,infopanel, doughpanel, doughpanelscroll, saucepanelscroll, cheesepanelscroll, meatpanelscroll, additivepanelscroll;
+	private static JPanel cartpanelscroll;
 	private JLabel welcomelabel, prdctprc, imglbl, prdctlbl;
 	private ThemePanel transitionpanel;
 	private JButton orderbutton;
@@ -56,7 +60,9 @@ public class MainView extends JFrame {
 	private IngredientPanel twenty, thirty, sixty;
 	private JSpinner spinner;
 	private JTextArea desc;
+	public static JScrollPane cartscr;
 	private ThemeRoundPanel pizzaimg;
+	public static ArrayList<CartItem> cart = new ArrayList<CartItem>();
 	// Custom pizza
 	private Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
 	
@@ -279,6 +285,7 @@ public class MainView extends JFrame {
 		custompizza.add(desc);
 		
 		orderbutton = new JButton("Add to Order - $99.99");
+		orderbutton.addActionListener(e -> sendToCart(custom, (Integer)spinner.getValue()));
 		orderbutton.setBounds(86, 476, 174, 36);
 		custompizza.add(orderbutton);
 		
@@ -496,21 +503,35 @@ public class MainView extends JFrame {
 		infopanel.add(prdctprc);
 		// END OF INFO PANEL
 		// END OF CUSTOM
-		
+		// START OF CART
 		JPanel cart = new JPanel();
 		tabbedPane.addTab("Grozs", null, cart, null);
 		cart.setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 47, 245, 465);
+		JPanel panel_1 = new ThemeRoundPanel(20, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
+		panel_1.setBounds(10, 47, 260, 465);
 		cart.add(panel_1);
+		panel_1.setLayout(null);
 		
-		JLabel grozslbl = new JLabel("Grozs");
+		cartpanelscroll = new JPanel(new FlowLayout(FlowLayout.LEFT));	
+		cartpanelscroll.setOpaque(false);
+		cartpanelscroll.setBackground(new Color(0,0,0,0));
+		cartpanelscroll.setPreferredSize(new Dimension(235, 500));
+		
+		cartscr = new JScrollPane(cartpanelscroll);
+		cartscr.setBorder(BorderFactory.createEmptyBorder());
+		cartscr.setOpaque(false);
+		cartscr.getViewport().setOpaque(false);              
+		cartscr.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		cartscr.setBounds(0, 5, 255, 450);
+		panel_1.add(cartscr);
+		
+		LocalisedLabel grozslbl = new LocalisedLabel("cart.text");
 		grozslbl.setHorizontalAlignment(SwingConstants.CENTER);
 		grozslbl.setFont(new Font("Tahoma", Font.BOLD, 20));
-		grozslbl.setBounds(10, 11, 245, 34);
+		grozslbl.setBounds(10, 11, 260, 34);
 		cart.add(grozslbl);
-		
+		// END OF CART
 		JPanel bakery = new JPanel();
 		tabbedPane.addTab("Virtuve", null, bakery, null);
 		TimingTargetAdapter timingTarget = new TimingTargetAdapter() {
@@ -529,6 +550,7 @@ public class MainView extends JFrame {
 		addIngredients();
 		updateDesc();
 		updateImage();
+		updateCart();
 	}
 	private void addPizza() {
 		Pizza cheesePizza = new Pizza(20, "cheesepizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
@@ -666,5 +688,31 @@ public class MainView extends JFrame {
 	}
 	private void infoOff() {
 		infopanel.setVisible(false);
+	}
+	
+	public static void updateCart() {
+		cartpanelscroll.removeAll();
+		int newY = 500;
+		for (CartItem i : cart) {
+			CartPanel panel = new CartPanel(i, 20, new Color(50, 50, 50, 5), new Color(200, 200, 200, 5), new Color(0,0,0), new Color(200, 200, 200));
+			panel.update();
+			cartpanelscroll.add(panel);
+			newY += 150;
+		}
+		cartpanelscroll.setPreferredSize(new Dimension(235, newY));
+		cartscr.repaint();
+		cartscr.revalidate();
+	}
+	private void sendToCart(Pizza p, int amount) {
+		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm"); 
+		DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+		LocalDateTime now = LocalDateTime.now();   
+		CartItem cartitem = new CartItem(amount, new Pizza(p), dateformat.format(now), timeformat.format(now));
+		if (MainView.cart.contains(cartitem)) {
+			MainView.cart.get(MainView.cart.indexOf(cartitem)).setAmount(MainView.cart.get(MainView.cart.indexOf(cartitem)).getAmount()+cartitem.getAmount());
+		} else {
+			MainView.cart.add(cartitem);
+		}
+		updateCart();
 	}
 }

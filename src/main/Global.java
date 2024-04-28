@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
@@ -73,6 +74,10 @@ public class Global {
 		    UIManager.put("TabbedPane.minimumTabWidth", 100);
 			UIManager.put("TabbedPane.tabAreaAlignment", "center");
 			UIManager.put("Component.arc", 15);
+			UIManager.put("ScrollBar.trackArc", 20);
+			UIManager.put("ScrollBar.thumbArc", 20);
+			UIManager.put("ScrollBar.thumb", new Color(84, 158, 232));
+			UIManager.put("ScrollPane.arc", 20);
 		    if (frame != null)
 		    	SwingUtilities.updateComponentTreeUI(frame);
 		} catch(Exception ex) {

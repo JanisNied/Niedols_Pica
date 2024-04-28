@@ -189,10 +189,14 @@ public class DoughnSize extends JPanel {
 		}
 	}
 	private void addToCart() {
-		if (Settings.lang.containsKey(cartitem.getPizzaObj().getNickname()))
-			System.out.println("[CART] Forwarded x"+cartitem.getAmount()+" "+Settings.lang.get(cartitem.getPizzaObj().getNickname())+" to cart!");
-		else
-			System.out.println("[CART] Forwarded x"+cartitem.getAmount()+" "+cartitem.getPizzaObj().getNickname()+" to cart!");
+		System.out.println("[CART] Forwarded x"+cartitem.getAmount()+" "+Settings.lang.get(cartitem.getPizzaObj().getNickname())+" to cart!");
+		System.out.print(MainView.cart.contains(cartitem));
+		if (MainView.cart.contains(cartitem)) {
+			MainView.cart.get(MainView.cart.indexOf(cartitem)).setAmount(MainView.cart.get(MainView.cart.indexOf(cartitem)).getAmount()+cartitem.getAmount());
+		} else {
+			MainView.cart.add(cartitem);
+		}
+		MainView.updateCart();
 		GlassPanePopup.closePopupLast();
 	}
 	private void back() {

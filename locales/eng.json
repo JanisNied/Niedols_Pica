@@ -46,5 +46,8 @@
 	"tomato.text":"Tomato",
 	"onion.text":"Onion",
 	"pickles.text":"Pickles",
-	"jalapeno.text":"Jalapeño"
+	"jalapeno.text":"Jalapeño",
+	"placedorder.text":"Order placed: ",
+	"amount.text":"Amount:",
+	"price.text":"Price"
 }

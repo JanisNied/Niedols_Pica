@@ -1,6 +1,7 @@
 package objects;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import main.Settings;
 
@@ -75,4 +76,18 @@ public class Pizza {
 		}
 		return desc.toString();
 	}
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pizza pizza = (Pizza) o;
+        return doughSize == pizza.doughSize &&
+                Objects.equals(doughType, pizza.doughType) &&
+                Objects.equals(nickname, pizza.nickname) &&
+                Objects.equals(ingredients, pizza.ingredients);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(doughSize, doughType, nickname, ingredients);
+    }
 }

@@ -9,17 +9,23 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import localisation.LocalisedButton;
+import localisation.LocalisedLabel;
 import main.Settings;
 import objects.CartItem;
 import objects.IngredientHolder;
@@ -36,6 +42,9 @@ public class PizzaPanel extends JPanel{
 	private Color bglight, bgdark, borderlight, borderdark;
 	private RoundPanel pizza;
 	private Pizza pizzaObj;
+	private JButton addtocart;
+	private DecimalFormat df;
+	private JSpinner spinner;
 	
 	public PizzaPanel(Pizza pizzaObj, int bordersize, Color bglight, Color bgdark, Color borderlight, Color borderdark) {
 		this.bglight = bglight;
@@ -44,6 +53,8 @@ public class PizzaPanel extends JPanel{
 		this.borderdark = borderdark;
 		this.bordersize = bordersize;
 		this.pizzaObj = pizzaObj;
+		
+		df = new DecimalFormat("0.00");
         setLayout(null);
         setPreferredSize(new Dimension(360, 155));
         
@@ -51,7 +62,14 @@ public class PizzaPanel extends JPanel{
         pizza.setBounds(10, 11, 133, 133);
         add(pizza);
         pizza.setLayout(null);
-  
+        
+        JLabel bbq = new JLabel("");
+        bbq.setName("bbqsauce");
+        bbq.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/bbq.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
+        bbq.setHorizontalAlignment(SwingConstants.CENTER);
+        bbq.setBounds(0, 0, 133, 133);
+        pizza.add(bbq);
+        
         JLabel chicken = new JLabel("");
         chicken.setName("chicken");
         chicken.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/chicken.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
@@ -95,7 +113,7 @@ public class PizzaPanel extends JPanel{
         pizza.add(pineapple);
         
         JLabel pickle = new JLabel("");
-        pickle.setName("pickle");
+        pickle.setName("pickles");
         pickle.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/pickle.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
         pickle.setHorizontalAlignment(SwingConstants.CENTER);
         pickle.setBounds(0, 0, 133, 133);
@@ -114,14 +132,7 @@ public class PizzaPanel extends JPanel{
         onion.setHorizontalAlignment(SwingConstants.CENTER);
         onion.setBounds(0, 0, 133, 133);
         pizza.add(onion);
-        
-        JLabel bbq = new JLabel("");
-        bbq.setName("bbqsauce");
-        bbq.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/bbq.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
-        bbq.setHorizontalAlignment(SwingConstants.CENTER);
-        bbq.setBounds(0, 0, 133, 133);
-        pizza.add(bbq);
-        
+           
         JLabel mozzarella = new JLabel("");
         mozzarella.setName("mozzarella");
         mozzarella.setIcon(new ImageIcon(new ImageIcon(PizzaPanel.class.getResource("/img/layers/mozzarellacheese.png")).getImage().getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH)));
@@ -157,7 +168,7 @@ public class PizzaPanel extends JPanel{
         dough.setBounds(0, 0, 133, 133);
         pizza.add(dough);
         
-        JLabel pizzatitle = new JLabel(Settings.lang.get(pizzaObj.getNickname()));
+        LocalisedLabel pizzatitle = new LocalisedLabel(pizzaObj.getNickname());
         pizzatitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
         pizzatitle.setBounds(153, 11, 197, 30);
         add(pizzatitle);
@@ -177,17 +188,33 @@ public class PizzaPanel extends JPanel{
         add(desc);
         
         
-        JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));   
+        spinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+        spinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updateButton();
+            }
+        });
         ((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setEditable(false);
         spinner.setBounds(153, 105, 79, 39);
         add(spinner);
         
-        LocalisedButton addtocart = new LocalisedButton("addorder.text", () -> addToCart(this.pizzaObj, (Integer)spinner.getValue()));
+        addtocart = new JButton();
+        addtocart.addActionListener(e -> addToCart(this.pizzaObj, (Integer)spinner.getValue()));
         addtocart.setBounds(242, 105, 108, 39);
-        add(addtocart);     
+        add(addtocart);
+        updateButton();
+	}
+	
+	private void updateButton() {
+		addtocart.setText("€"+df.format(pizzaObj.getPrice() * ((Integer)spinner.getValue()).doubleValue()));
 	}
 	private void addToCart(Pizza pizzaObj, int amount) {
-		CartItem cartitem = new CartItem(amount, new Pizza(pizzaObj));
+		
+		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm"); 
+		DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+		LocalDateTime now = LocalDateTime.now();   
+		CartItem cartitem = new CartItem(amount, new Pizza(pizzaObj), dateformat.format(now), timeformat.format(now));
 		Option option = new DefaultOption() {
 		    @Override
 		    public float opacity() {
