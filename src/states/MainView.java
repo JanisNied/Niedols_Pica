@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -33,12 +36,15 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.Interpolator;
 
 import animation.EaseInQuad;
+import localisation.LocalisedButton;
 import localisation.LocalisedLabel;
 import localisation.MainViewTabbedPane;
 import localisation.ThemePanel;
 import localisation.ThemeRoundPanel;
+import localisation.ThemeSelectionPanel;
 import main.Global;
 import main.Settings;
+import objects.AnimatedButton;
 import objects.CartItem;
 import objects.IngredientHolder;
 import objects.IngredientPanel;
@@ -51,7 +57,10 @@ public class MainView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel presetpizzascroll, sizepanel, sizepanelScroll,infopanel, doughpanel, doughpanelscroll, saucepanelscroll, cheesepanelscroll, meatpanelscroll, additivepanelscroll;
 	private static JPanel cartpanelscroll;
+	private Animator animatorData;
 	private JLabel welcomelabel, prdctprc, imglbl, prdctlbl;
+	private static JLabel total;
+	private static JLabel deliveryfee;
 	private ThemePanel transitionpanel;
 	private JButton orderbutton;
 	private int size = 240;
@@ -60,9 +69,12 @@ public class MainView extends JFrame {
 	private IngredientPanel twenty, thirty, sixty;
 	private JSpinner spinner;
 	private JTextArea desc;
+	private static boolean sideB = false, isAnimationRunning = false;
+	private JTextField textField, textField_1, textField_2;
 	public static JScrollPane cartscr;
 	private ThemeRoundPanel pizzaimg;
 	public static ArrayList<CartItem> cart = new ArrayList<CartItem>();
+	private static DecimalFormat df = new DecimalFormat("0.00");
 	// Custom pizza
 	private Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
 	
@@ -507,7 +519,205 @@ public class MainView extends JFrame {
 		JPanel cart = new JPanel();
 		tabbedPane.addTab("Grozs", null, cart, null);
 		cart.setLayout(null);
+		// DATA FIELD ANIMATOR
 		
+		
+		JPanel bgforenterfield = new ThemeRoundPanel(20, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
+		bgforenterfield.setLayout(null);
+		bgforenterfield.setBounds(280, 47, 479, 465);
+		cart.add(bgforenterfield);	
+		
+		ThemeSelectionPanel homebtnholder = new ThemeSelectionPanel(15, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
+		homebtnholder.setBounds(173, 11, 60, 60);
+		homebtnholder.setEnabled(true);
+		homebtnholder.setLayout(null);
+		bgforenterfield.add(homebtnholder);
+		
+		ThemeSelectionPanel deliverybtnholder = new ThemeSelectionPanel(15, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
+		deliverybtnholder.setBounds(246, 11, 60, 60);
+		deliverybtnholder.setLayout(null);
+		bgforenterfield.add(deliverybtnholder);
+		
+		AnimatedButton home = new AnimatedButton("",MainView.class.getResource("/img/restaurant-svgrepo-com(1).svg"));
+		home.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (sideB && !isAnimationRunning) {
+					homebtnholder.setEnabled(true);
+					deliverybtnholder.setEnabled(false);
+					sideB = false;
+					isAnimationRunning = true;
+					animatorData.start();
+				}
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				homebtnholder.setSelected(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				homebtnholder.setSelected(false);
+			}
+		});
+		home.setBounds(173, 11, 60, 60);
+		bgforenterfield.add(home);
+		
+		
+		AnimatedButton delivery = new AnimatedButton("",MainView.class.getResource("/img/delivery(2).svg"));
+		delivery.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (!sideB && !isAnimationRunning) {
+					deliverybtnholder.setEnabled(true);
+					homebtnholder.setEnabled(false);
+					sideB = true; 
+					isAnimationRunning = true;
+					animatorData.start();
+				}
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				deliverybtnholder.setSelected(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				deliverybtnholder.setSelected(false);
+			}
+		});
+		delivery.setBounds(246, 11, 60, 60);
+		bgforenterfield.add(delivery);
+		
+		JPanel panel_2 = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));
+		panel_2.setBounds(144, 91, 191, 288);
+		bgforenterfield.add(panel_2);
+		panel_2.setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 36, 171, 28);
+		panel_2.add(textField);
+		textField.setColumns(10);
+		
+		LocalisedLabel nm = new LocalisedLabel("name.text");
+		nm.setBounds(10, 11, 114, 14);
+		panel_2.add(nm);
+		nm.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		LocalisedLabel surnm = new LocalisedLabel("surname.text");
+		surnm.setBounds(10, 75, 114, 14);
+		panel_2.add(surnm);
+		surnm.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(10, 96, 171, 28);
+		panel_2.add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(10, 156, 171, 28);
+		panel_2.add(textField_2);
+		textField_2.setColumns(10);
+		
+		LocalisedLabel mobile = new LocalisedLabel("phone.text");
+		mobile.setBounds(10, 135, 171, 14);
+		panel_2.add(mobile);
+		mobile.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		JButton pickup_1 = new JButton("");
+		pickup_1.setBounds(10, 195, 81, 81);
+		panel_2.add(pickup_1);
+		
+		JButton pickup_1_1 = new JButton("");
+		pickup_1_1.setBounds(101, 195, 81, 81);
+		panel_2.add(pickup_1_1);
+		
+		JPanel mapdata = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));
+		mapdata.setLayout(null);
+		mapdata.setBounds(600, 91, 258, 322);
+		bgforenterfield.add(mapdata);
+		
+		LocalisedLabel lblAdresesLauks = new LocalisedLabel("address.text");
+		lblAdresesLauks.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAdresesLauks.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblAdresesLauks.setBounds(10, 11, 238, 14);
+		mapdata.add(lblAdresesLauks);
+		
+		JPanel map = new JPanel();
+		map.setBounds(10, 36, 238, 276);
+		mapdata.add(map);
+		
+		JPanel panel_3 = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));
+		panel_3.setBounds(10, 390, 191, 64);
+		bgforenterfield.add(panel_3);
+		panel_3.setLayout(null);
+		
+		LocalisedLabel lblPiegde = new LocalisedLabel("orderingcost.text");
+		lblPiegde.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPiegde.setBounds(10, 11, 171, 19);
+		panel_3.add(lblPiegde);
+		
+		LocalisedLabel lblKop = new LocalisedLabel("totalcost.text");
+		lblKop.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblKop.setBounds(10, 34, 171, 19);
+		panel_3.add(lblKop);
+		
+		deliveryfee = new JLabel();
+		deliveryfee.setHorizontalAlignment(SwingConstants.TRAILING);
+		deliveryfee.setFont(new Font("Tahoma", Font.BOLD, 14));
+		deliveryfee.setBounds(10, 11, 171, 19);
+		panel_3.add(deliveryfee);
+		
+		total = new JLabel();
+		total.setHorizontalAlignment(SwingConstants.TRAILING);
+		total.setFont(new Font("Tahoma", Font.BOLD, 14));
+		total.setBounds(10, 34, 171, 19);
+		panel_3.add(total);
+		
+		LocalisedButton pickup_1_1_1 = new LocalisedButton("ordering.text", this::placeholder);
+		pickup_1_1_1.setBounds(211, 390, 119, 64);
+		bgforenterfield.add(pickup_1_1_1);
+		pickup_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		LocalisedButton pickup_1_1_1_1 = new LocalisedButton("cleanup.text", this::placeholder);
+		pickup_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		pickup_1_1_1_1.setBounds(350, 390, 119, 64);
+		bgforenterfield.add(pickup_1_1_1_1);
+		
+		LocalisedLabel data = new LocalisedLabel("dataform.text");
+		data.setFont(new Font("Tahoma", Font.BOLD, 19));
+		data.setHorizontalAlignment(SwingConstants.CENTER);
+		data.setBounds(280, 11, 479, 23);	
+		cart.add(data);
+		
+		TimingTargetAdapter target = new TimingTargetAdapter() {
+			@Override
+	        public void timingEvent(float fraction) {
+				int nameLocation = sideB ? 10 : 144;
+				int mapLocation = sideB ? 211 : 600;
+				int buttonsY = sideB ? 425 : 390;
+				int buttonsH = sideB ? 30 : 65;	
+				
+				int newXName = (int) (panel_2.getX() + (nameLocation - panel_2.getX()) * fraction);
+				int newXMap = (int) (mapdata.getX() + (mapLocation - mapdata.getX()) * fraction);
+				
+				int newHButton = (int) (pickup_1_1_1.getHeight() + (buttonsH - pickup_1_1_1.getHeight()) * fraction);
+				int newYButton = (int) (pickup_1_1_1.getY() + (buttonsY - pickup_1_1_1.getY()) * fraction);
+				
+				pickup_1_1_1.setBounds(211, newYButton, 119, newHButton);
+				pickup_1_1_1_1.setBounds(350, newYButton, 119, newHButton);
+				panel_2.setBounds(newXName, 91, 191, 288);
+				mapdata.setBounds(newXMap, 91, 258, 322);
+			}
+		};
+		animatorData = new Animator(1000, target);
+		animatorData.setEndBehavior(Animator.EndBehavior.HOLD);
+		Interpolator intr = new EaseInQuad();
+		animatorData.setInterpolator(intr);
+		animatorData.addTarget(new TimingTargetAdapter() {
+		    @Override
+		    public void end() {
+		    	isAnimationRunning = false; 
+		    }
+		});
 		JPanel panel_1 = new ThemeRoundPanel(20, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
 		panel_1.setBounds(10, 47, 260, 465);
 		cart.add(panel_1);
@@ -534,6 +744,7 @@ public class MainView extends JFrame {
 		// END OF CART
 		JPanel bakery = new JPanel();
 		tabbedPane.addTab("Virtuve", null, bakery, null);
+		// opening scene
 		TimingTargetAdapter timingTarget = new TimingTargetAdapter() {
 			@Override
 	        public void timingEvent(float fraction) {
@@ -546,6 +757,7 @@ public class MainView extends JFrame {
 		Interpolator interpolator = new EaseInQuad();
 		animator.setInterpolator(interpolator);
 		animator.start();
+		// opening scene
 		addPizza();
 		addIngredients();
 		updateDesc();
@@ -668,13 +880,11 @@ public class MainView extends JFrame {
 	private void updateDesc() {
 		Integer val = (Integer) spinner.getValue();
 		double spinnerValdb = val.doubleValue();
-		DecimalFormat df = new DecimalFormat("0.00");
 		desc.setText(custom.description(true));
 		orderbutton.setText(Settings.lang.get("addorder.text")+" - €"+df.format(custom.getPrice() * spinnerValdb));
 		updateImage();
 	}
 	private void info(String title, String text, ImageIcon img, double price) {
-		DecimalFormat df = new DecimalFormat("0.00");
 		infopanel.setVisible(true);
 		prdctlbl.setText(title);
 		if (text != null) {
@@ -689,17 +899,25 @@ public class MainView extends JFrame {
 	private void infoOff() {
 		infopanel.setVisible(false);
 	}
-	
+	private void placeholder() {
+		System.out.println("pl.");
+	}
 	public static void updateCart() {
 		cartpanelscroll.removeAll();
 		int newY = 500;
+		double totalprice = 0.00;
 		for (CartItem i : cart) {
 			CartPanel panel = new CartPanel(i, 20, new Color(50, 50, 50, 5), new Color(200, 200, 200, 5), new Color(0,0,0), new Color(200, 200, 200));
 			panel.update();
 			cartpanelscroll.add(panel);
 			newY += 150;
+			totalprice += i.getFinalPrice();
 		}
 		cartpanelscroll.setPreferredSize(new Dimension(235, newY));
+		if (!sideB) {
+			deliveryfee.setText("€0.00");
+		}
+		total.setText("€"+df.format(totalprice));
 		cartscr.repaint();
 		cartscr.revalidate();
 	}

@@ -26,5 +26,6 @@
 	<classpathentry kind="lib" path="lib/flatlaf-extras-3.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/jsvg-1.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/glasspane-popup-2.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/swing-animation-icon-1.0.1-modified.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

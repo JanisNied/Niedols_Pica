@@ -49,5 +49,15 @@
 	"jalapeno.text":"Jalapeño",
 	"placedorder.text":"Order placed: ",
 	"amount.text":"Amount:",
-	"price.text":"Price"
+	"price.text":"Price",
+	"dataform.text":"Data",
+	"ordering.text":"Order",
+	"cleanup.text":"Empty Cart",
+	"orderingcost.text":"Delivery Fee: ",
+	"totalcost.text":"Total: ",
+	"address.text":"Address Field",
+	"phone.text":"Phone Number",
+	"name.text":"Name",
+	"surname.text":"Surname"
+
 }

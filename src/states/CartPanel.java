@@ -208,8 +208,6 @@ public class CartPanel extends JPanel{
         add(desc);   
         add(pizzatitle); 
         
-   
-        
         btnNewButton = new JButton("V");
         btnNewButton.addActionListener(e -> button(btnNewButton));
         btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 8));
@@ -231,6 +229,9 @@ public class CartPanel extends JPanel{
         add(descpizza);
         
         JScrollPane scrollPane = new JScrollPane(descpizza);
+        scrollPane.getViewport().setOpaque(false);   
+        scrollPane.setOpaque(false);
+        scrollPane.setBackground(new Color(0,0,0,0));
         scrollPane.setBounds(10, 100, 218, 59);
         add(scrollPane);
         

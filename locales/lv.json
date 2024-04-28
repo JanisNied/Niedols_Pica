@@ -20,7 +20,7 @@
 	"regular.text":"Parastā",
 	"thick.text":"Biezā",
 	"dough.text":"Mīkla",
-	"tomatosauce.text":"Tomātu mērce",
+	"tomatosauce.text":"Tomātu Mērce",
 	"ham.text":"Sķiņķis",
 	"addorder.text":"Pievienot Grozam",
 	"cheesepizza.text":"Siera Pica",
@@ -49,5 +49,14 @@
 	"jalapeno.text":"Halapenjo",
 	"placedorder.text":"Pievienots: ",
 	"amount.text":"Daudzums:",
-	"price.text":"Cena"
+	"price.text":"Cena",
+	"dataform.text":"Dati",
+	"ordering.text":"Pasūtīt",
+	"cleanup.text":"Tirīt Grozu",
+	"orderingcost.text":"Piegāde: ",
+	"totalcost.text":"Kopā: ",
+	"address.text":"Adreses Lauks",
+	"phone.text":"Tālrunis",
+	"name.text":"Vārds",
+	"surname.text":"Uzvārds"
 }

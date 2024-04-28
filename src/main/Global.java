@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.formdev.flatlaf.ui.FlatButtonBorder;
 
 import states.WindowHandler;
 import themes.DarkTheme;
@@ -78,6 +79,7 @@ public class Global {
 			UIManager.put("ScrollBar.thumbArc", 20);
 			UIManager.put("ScrollBar.thumb", new Color(84, 158, 232));
 			UIManager.put("ScrollPane.arc", 20);
+			UIManager.put("Button.focusedBorderColor", new Color(0,0,0,0));
 		    if (frame != null)
 		    	SwingUtilities.updateComponentTreeUI(frame);
 		} catch(Exception ex) {

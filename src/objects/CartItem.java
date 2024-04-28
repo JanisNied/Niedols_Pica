@@ -5,7 +5,6 @@ import java.util.Objects;
 public class CartItem {
 	private Pizza pizzaObj;
 	private int amount;
-	private double finalprice;
 	private String date, time;
 	
 	
@@ -22,10 +21,8 @@ public class CartItem {
 		this.amount = amount;
 	}
 	public double getFinalPrice() {
+		double finalprice = pizzaObj.getPrice() * Double.valueOf(amount);
 		return finalprice;
-	}
-	public void setFinalPrice(int finalprice) {
-		this.finalprice = finalprice;
 	}
 	public Pizza getPizzaObj() {
 		return pizzaObj;
