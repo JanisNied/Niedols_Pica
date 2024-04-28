@@ -18,7 +18,6 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.formdev.flatlaf.ui.FlatButtonBorder;
 
 import states.WindowHandler;
 import themes.DarkTheme;

@@ -44,8 +44,10 @@ import localisation.ThemeRoundPanel;
 import localisation.ThemeSelectionPanel;
 import main.Global;
 import main.Settings;
+import map.MapCustom;
 import objects.AnimatedButton;
 import objects.CartItem;
+import objects.Customer;
 import objects.IngredientHolder;
 import objects.IngredientPanel;
 import objects.Pizza;
@@ -75,6 +77,7 @@ public class MainView extends JFrame {
 	private ThemeRoundPanel pizzaimg;
 	public static ArrayList<CartItem> cart = new ArrayList<CartItem>();
 	private static DecimalFormat df = new DecimalFormat("0.00");
+	private static Customer customer = new Customer();
 	// Custom pizza
 	private Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
 	
@@ -548,6 +551,7 @@ public class MainView extends JFrame {
 					sideB = false;
 					isAnimationRunning = true;
 					animatorData.start();
+					customer.setTypeofdelivery("restaurant");
 				}
 			}
 			@Override
@@ -573,6 +577,7 @@ public class MainView extends JFrame {
 					sideB = true; 
 					isAnimationRunning = true;
 					animatorData.start();
+					customer.setTypeofdelivery("home");
 				}
 			}
 			@Override
@@ -641,9 +646,15 @@ public class MainView extends JFrame {
 		lblAdresesLauks.setBounds(10, 11, 238, 14);
 		mapdata.add(lblAdresesLauks);
 		
-		JPanel map = new JPanel();
-		map.setBounds(10, 36, 238, 276);
-		mapdata.add(map);
+		JPanel mappnl = new JPanel();
+		mappnl.setBounds(10, 36, 238, 276);
+		mappnl.setLayout(null);
+		mapdata.add(mappnl);
+		
+		MapCustom map = new MapCustom();
+		map.setBounds(0, 0, 238, 276);
+		mappnl.add(map);
+		map.init();
 		
 		JPanel panel_3 = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));
 		panel_3.setBounds(10, 390, 191, 64);
