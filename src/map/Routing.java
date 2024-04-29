@@ -28,7 +28,7 @@ public class Routing {
     static GraphHopper createGraphHopperInstance(String ghLoc) {
         GraphHopper hopper = new GraphHopper();
         hopper.setOSMFile(ghLoc);
-        hopper.setGraphHopperLocation("target/routing-graph-cache");
+        hopper.setGraphHopperLocation("routingcache/routing-graph-cache");
         hopper.setEncodedValuesString("car_access, car_average_speed");
         hopper.setProfiles(new Profile("car").setCustomModel(GHUtility.loadCustomModelFromJar("car.json")));
         hopper.getCHPreparationHandler().setCHProfiles(new CHProfile("car"));
