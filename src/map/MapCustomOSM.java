@@ -28,7 +28,7 @@ import org.jxmapviewer.viewer.WaypointPainter;
 import com.github.kevinsawicki.http.HttpRequest;
 
 @SuppressWarnings("serial")
-public class MapCustom extends JXMapViewer {
+public class MapCustomOSM extends JXMapViewer {
 	private static final int EARTH_RADIUS_KM = 6371;
 	private Set<SwingWaypoint> waypoints;
 	private WaypointPainter<SwingWaypoint> swingWaypointPainter;
