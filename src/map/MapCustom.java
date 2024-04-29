@@ -1,14 +1,22 @@
 package map;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
@@ -26,18 +34,27 @@ import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.WaypointPainter;
 
 import com.github.kevinsawicki.http.HttpRequest;
+import com.graphhopper.util.shapes.GHPoint3D;
 
 @SuppressWarnings("serial")
 public class MapCustom extends JXMapViewer {
-	private static final int EARTH_RADIUS_KM = 6371;
 	private Set<SwingWaypoint> waypoints;
 	private WaypointPainter<SwingWaypoint> swingWaypointPainter;
 	private GeoPosition start = new GeoPosition(56.53536283021426, 21.026817730163003);
-	
+	private DecimalFormat df = new DecimalFormat(".00");
     public EventLocationSelected getEvent() {
         return event;
     }
+    public List<RoutingData> getRoutingData() {
+        return routingData;
+    }
 
+    public void setRoutingData(List<RoutingData> routingData) {
+        this.routingData = routingData;
+        repaint();
+    }
+
+    private List<RoutingData> routingData;
     public void setEvent(EventLocationSelected event) {
         this.event = event;
     }
@@ -84,34 +101,13 @@ public class MapCustom extends JXMapViewer {
        revalidate();
        waypoints = new HashSet<SwingWaypoint>(Arrays.asList(new SwingWaypoint("Pizzeria", new GeoPosition(56.53536283021426, 21.026817730163003)), new SwingWaypoint("Home", pos)));
        swingWaypointPainter.setWaypoints(waypoints);
-       List<GeoPosition> track = Arrays.asList(start, pos);
-       RoutePainter routePainter = new RoutePainter(track);
        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
-       painters.add(routePainter);
        painters.add(swingWaypointPainter);
-       CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
-       setOverlayPainter(painter);
+       setOverlayPainter(swingWaypointPainter);
        for (SwingWaypoint w : waypoints) {
        		add(w.getButton());
        }
-       System.out.println(calculateDistance(start, pos));
-    }
-    public double calculateDistance(GeoPosition pos1, GeoPosition pos2) {
-        double lat1 = Math.toRadians(pos1.getLatitude());
-        double lon1 = Math.toRadians(pos1.getLongitude());
-        double lat2 = Math.toRadians(pos2.getLatitude());
-        double lon2 = Math.toRadians(pos2.getLongitude());
-
-        double dLat = lat2 - lat1;
-        double dLon = lon2 - lon1;
-
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                   Math.cos(lat1) * Math.cos(lat2) *
-                   Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return EARTH_RADIUS_KM * c;
+       setRoutingData(Routing.createRoute(start, pos));
     }
     public String getLocation(GeoPosition pos) {
         String body = HttpRequest.get("https://nominatim.openstreetmap.org/reverse?lat=" + pos.getLatitude() + "&lon=" + pos.getLongitude() + "&format=json").body();
@@ -125,5 +121,35 @@ public class MapCustom extends JXMapViewer {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if (routingData != null && !routingData.isEmpty()) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            Path2D p2 = new Path2D.Double();
+            first = true;
+            for (RoutingData d : routingData) {
+                draw(p2, d);
+            }
+            g2.setColor(new Color(28, 23, 255));
+            g2.setStroke(new BasicStroke(5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g2.draw(p2);
+            g2.dispose();
+        }
     }
+
+    private boolean first = true;
+
+    private void draw(Path2D p2, RoutingData d) {
+        d.getPointList().forEach(new Consumer<GHPoint3D>() {
+            @Override
+            public void accept(GHPoint3D t) {
+                Point2D point = convertGeoPositionToPoint(new GeoPosition(t.getLat(), t.getLon()));
+                if (first) {
+                    first = false;
+                    p2.moveTo(point.getX(), point.getY());
+                } else {
+                    p2.lineTo(point.getX(), point.getY());
+                }
+            }
+        });
+}
 }

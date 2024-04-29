@@ -76,7 +76,7 @@ public class MainView extends JFrame {
 	public static JScrollPane cartscr;
 	private ThemeRoundPanel pizzaimg;
 	public static ArrayList<CartItem> cart = new ArrayList<CartItem>();
-	private static DecimalFormat df = new DecimalFormat("0.00");
+	private static DecimalFormat df = new DecimalFormat("#.00");
 	private static Customer customer = new Customer();
 	// Custom pizza
 	private Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
