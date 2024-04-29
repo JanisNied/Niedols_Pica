@@ -36,6 +36,8 @@ import org.jxmapviewer.viewer.WaypointPainter;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.graphhopper.util.shapes.GHPoint3D;
 
+import states.MainView;
+
 @SuppressWarnings("serial")
 public class MapCustom extends JXMapViewer {
 	private Set<SwingWaypoint> waypoints;
@@ -96,18 +98,23 @@ public class MapCustom extends JXMapViewer {
         }
     }
     private void addHomeWaypoint(GeoPosition pos) {
-       removeAll();
-       repaint();
-       revalidate();
-       waypoints = new HashSet<SwingWaypoint>(Arrays.asList(new SwingWaypoint("Pizzeria", new GeoPosition(56.53536283021426, 21.026817730163003)), new SwingWaypoint("Home", pos)));
-       swingWaypointPainter.setWaypoints(waypoints);
-       List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
-       painters.add(swingWaypointPainter);
-       setOverlayPainter(swingWaypointPainter);
-       for (SwingWaypoint w : waypoints) {
-       		add(w.getButton());
+       List<RoutingData> data = Routing.createRoute(start, pos);
+       if (!data.isEmpty()) {
+	       removeAll();
+	       repaint();
+	       revalidate();
+	       waypoints = new HashSet<SwingWaypoint>(Arrays.asList(new SwingWaypoint("Pizzeria", new GeoPosition(56.53536283021426, 21.026817730163003)), new SwingWaypoint("Home", pos)));
+	       swingWaypointPainter.setWaypoints(waypoints);
+	       List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+	       painters.add(swingWaypointPainter);
+	       setOverlayPainter(swingWaypointPainter);
+	       for (SwingWaypoint w : waypoints) {
+	       		add(w.getButton());
+	       }
+	       MainView.customer.setDeliveryFee((data.get(0).getDistance() * 0.001) * 0.56);
+	       MainView.updateCart();
+	       setRoutingData(data);
        }
-       setRoutingData(Routing.createRoute(start, pos));
     }
     public String getLocation(GeoPosition pos) {
         String body = HttpRequest.get("https://nominatim.openstreetmap.org/reverse?lat=" + pos.getLatitude() + "&lon=" + pos.getLongitude() + "&format=json").body();

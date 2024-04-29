@@ -5,6 +5,7 @@ import org.jxmapviewer.viewer.GeoPosition;
 public class Customer {
 	private String name, surname, number, typeofpayment, extraInfo, typeofdelivery;
 	private GeoPosition address;
+	private double total, deliveryFee;
 	
 	public Customer() {}
 
@@ -63,4 +64,27 @@ public class Customer {
 	public void setTypeofdelivery(String typeofdelivery) {
 		this.typeofdelivery = typeofdelivery;
 	};
+	public String toString() {
+		String data = "Name: "+getName()+
+					  ", Surname: "+getSurname()+
+					  ", Type of Payment: "+getTypeofpayment()+
+					  ", Delivery: "+getTypeofdelivery();
+		return data;
+	}
+
+	public double getDeliveryFee() {
+		return deliveryFee;
+	}
+
+	public void setDeliveryFee(double deliveryFee) {
+		this.deliveryFee = deliveryFee;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
 }

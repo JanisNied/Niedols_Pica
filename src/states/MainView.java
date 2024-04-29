@@ -76,8 +76,8 @@ public class MainView extends JFrame {
 	public static JScrollPane cartscr;
 	private ThemeRoundPanel pizzaimg;
 	public static ArrayList<CartItem> cart = new ArrayList<CartItem>();
-	private static DecimalFormat df = new DecimalFormat("#.00");
-	private static Customer customer = new Customer();
+	private static DecimalFormat df = new DecimalFormat("0.00");
+	public static Customer customer = new Customer();
 	// Custom pizza
 	private Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
 	
@@ -86,6 +86,7 @@ public class MainView extends JFrame {
 	 */
 	public static void main(String[] args) {
 		Global.setup();
+		customer.setTypeofdelivery("restaurant");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -545,18 +546,20 @@ public class MainView extends JFrame {
 		home.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if (sideB && !isAnimationRunning) {
+				if (sideB && !isAnimationRunning && !homebtnholder.isOn()) {
 					homebtnholder.setEnabled(true);
 					deliverybtnholder.setEnabled(false);
 					sideB = false;
 					isAnimationRunning = true;
 					animatorData.start();
 					customer.setTypeofdelivery("restaurant");
+					updateCart();
 				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				homebtnholder.setSelected(true);
+				if (!homebtnholder.isOn())
+					homebtnholder.setSelected(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -571,18 +574,20 @@ public class MainView extends JFrame {
 		delivery.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if (!sideB && !isAnimationRunning) {
+				if (!sideB && !isAnimationRunning && !deliverybtnholder.isOn()) {
 					deliverybtnholder.setEnabled(true);
 					homebtnholder.setEnabled(false);
 					sideB = true; 
 					isAnimationRunning = true;
 					animatorData.start();
 					customer.setTypeofdelivery("home");
+					updateCart();
 				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				deliverybtnholder.setSelected(true);
+				if (!deliverybtnholder.isOn())
+					deliverybtnholder.setSelected(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -626,12 +631,63 @@ public class MainView extends JFrame {
 		mobile.setBounds(10, 135, 171, 14);
 		panel_2.add(mobile);
 		mobile.setFont(new Font("Tahoma", Font.BOLD, 16));
+		AnimatedButton pickup_1 = new AnimatedButton("",MainView.class.getResource("/img/dollarpayment2.svg"));
+		AnimatedButton pickup_1_1 = new AnimatedButton("",MainView.class.getResource("/img/cardsvg2.svg"));
+		ThemeSelectionPanel cardbuttonholder = new ThemeSelectionPanel(15, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
+		ThemeSelectionPanel moneybuttonholder = new ThemeSelectionPanel(15, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
+		moneybuttonholder.setEnabled(true);
+		pickup_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if(!moneybuttonholder.isOn()) {
+					moneybuttonholder.setEnabled(true);
+					cardbuttonholder.setEnabled(false);
+					customer.setTypeofpayment("money");
+					System.out.println("[CUSTOMER] "+customer.toString());
+				}
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(!moneybuttonholder.isOn())
+					moneybuttonholder.setSelected(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				moneybuttonholder.setSelected(false);
+			}
+		});
+		moneybuttonholder.setBounds(10, 195, 81, 81);
+		moneybuttonholder.setLayout(null);
+		panel_2.add(moneybuttonholder);
 		
-		JButton pickup_1 = new JButton("");
+		cardbuttonholder.setBounds(101, 195, 81, 81);
+		pickup_1_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if(!cardbuttonholder.isOn()) {
+					cardbuttonholder.setEnabled(true);
+					moneybuttonholder.setEnabled(false);
+					customer.setTypeofpayment("card");
+					System.out.println("[CUSTOMER] "+customer.toString());
+				}
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (!cardbuttonholder.isOn())
+					cardbuttonholder.setSelected(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				cardbuttonholder.setSelected(false);
+			}
+		});
+		cardbuttonholder.setLayout(null);
+		panel_2.add(cardbuttonholder);
+		
 		pickup_1.setBounds(10, 195, 81, 81);
 		panel_2.add(pickup_1);
 		
-		JButton pickup_1_1 = new JButton("");
 		pickup_1_1.setBounds(101, 195, 81, 81);
 		panel_2.add(pickup_1_1);
 		
@@ -927,8 +983,12 @@ public class MainView extends JFrame {
 		cartpanelscroll.setPreferredSize(new Dimension(235, newY));
 		if (!sideB) {
 			deliveryfee.setText("€0.00");
-		}
-		total.setText("€"+df.format(totalprice));
+		} else if (sideB && customer.getDeliveryFee() == 0.00)
+			deliveryfee.setText("€-.--");
+		else
+			deliveryfee.setText("€"+df.format(customer.getDeliveryFee()));
+		customer.setTotal(totalprice);
+		total.setText("€"+df.format(customer.getTotal()));
 		cartscr.repaint();
 		cartscr.revalidate();
 	}

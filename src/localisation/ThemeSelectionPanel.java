@@ -35,6 +35,9 @@ public class ThemeSelectionPanel extends JPanel {
 		selected = toggle;
 		repaint();
 	}
+	public boolean isOn() {
+		return enabled;
+	}
     @Override
     protected void paintComponent(Graphics g) {
     	Color bg = bglight;
