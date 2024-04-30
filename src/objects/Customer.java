@@ -87,4 +87,9 @@ public class Customer {
 	public void setTotal(double total) {
 		this.total = total;
 	}
+	public double getFull() {
+		double full = 0.00;
+		full = getTotal() + getDeliveryFee();
+		return full;
+	}
 }

@@ -42,7 +42,10 @@ public class MapCustom extends JXMapViewer {
 	private Set<SwingWaypoint> waypoints;
 	private WaypointPainter<SwingWaypoint> swingWaypointPainter;
 	private GeoPosition start = new GeoPosition(56.53536283021426, 21.026817730163003);
+	private GeoPosition end;
 	private double lastDeliveryfee;
+	private MouseInputListener mm, action;
+	private ZoomMouseWheelListenerCenter zoom;
 	
     public EventLocationSelected getEvent() {
         return event;
@@ -73,10 +76,11 @@ public class MapCustom extends JXMapViewer {
         setTileFactory(new DefaultTileFactory(new OSMTileFactoryInfo("", "https://b.tile.openstreetmap.fr/hot")));
         setAddressLocation(start);
         setZoom(20);
-        MouseInputListener mm = new PanMouseInputListener(this);
+        mm = new PanMouseInputListener(this);
+        zoom = new ZoomMouseWheelListenerCenter(this);
         addMouseListener(mm);
         addMouseMotionListener(mm);
-        addMouseWheelListener(new ZoomMouseWheelListenerCenter(this));
+        addMouseWheelListener(zoom);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent me) {
@@ -88,7 +92,6 @@ public class MapCustom extends JXMapViewer {
 	                double latitude = geoPosition.getLatitude();
 	                double longitude = geoPosition.getLongitude();
 	                System.out.println("[MAP] "+latitude+", "+longitude);
-	                System.out.println("[MAP] Location Info: "+getLocation(geoPosition));
 	                addHomeWaypoint(geoPosition);
                 }
             }
@@ -117,7 +120,17 @@ public class MapCustom extends JXMapViewer {
 	       System.out.print("[Delivery]"+(route.getDistance()*0.001)+"km * "+Settings.deliveryfee+"(per km) = "+fee);
 	       MainView.updateCart();
 	       setRoutingData(route.getRoutingData());
+	       MainView.addressbox.setText(getLocation(pos));
+	       MainView.mapMenuFull = false;
+	       MainView.animatorDataMap.start();
+	       setEnd(pos);
+	       removeMouseListener(mm);
+	       removeMouseMotionListener(mm);
+	       removeMouseWheelListener(zoom);
        }
+    }
+    public GeoPosition getStart() {
+    	return start;
     }
     public String getLocation(GeoPosition pos) {
         String body = HttpRequest.get("https://nominatim.openstreetmap.org/reverse?lat=" + pos.getLatitude() + "&lon=" + pos.getLongitude() + "&format=json").body();
@@ -167,5 +180,11 @@ public class MapCustom extends JXMapViewer {
 	}
 	public void setLastDeliveryfee(double lastDeliveryfee) {
 		this.lastDeliveryfee = lastDeliveryfee;
+	}
+	public GeoPosition getEnd() {
+		return end;
+	}
+	public void setEnd(GeoPosition end) {
+		this.end = end;
 	}
 }

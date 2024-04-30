@@ -18,6 +18,9 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import java.awt.Component;
 
 public class MainViewTesting extends JFrame {
 
@@ -140,9 +143,46 @@ public class MainViewTesting extends JFrame {
 		lblAdresesLauks.setBounds(10, 11, 238, 14);
 		mapdata.add(lblAdresesLauks);
 		
+		JLabel mobile_1 = new JLabel("Papildus Info:");
+		mobile_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		mobile_1.setBounds(10, 233, 171, 20);
+		mapdata.add(mobile_1);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 258, 238, 53);
+		mapdata.add(panel);
+		panel.setLayout(null);
+		
+		
+		JTextArea textArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(0, 0, 238, 53);
+		panel.add(scrollPane);
+		
+		JLabel mobile_1_1 = new JLabel("Jūsu Adrese: ");
+		mobile_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		mobile_1_1.setBounds(10, 147, 171, 14);
+		mapdata.add(mobile_1_1);
+		JTextArea textArea_2 = new JTextArea();
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setLayout(null);
+		panel_4.setBounds(10, 169, 238, 53);
+		mapdata.add(panel_4);
+		
+		JScrollPane scrollPane_1 = new JScrollPane(textArea_2);
+		scrollPane_1.setBounds(0, 0, 238, 53);
+		panel_4.add(scrollPane_1);
+		
 		JPanel map = new JPanel();
-		map.setBounds(10, 36, 238, 276);
+		map.setBounds(10, 36, 238, 275);
 		mapdata.add(map);
+		map.setLayout(null);
+		
+		JPanel map_1 = new JPanel();
+		map_1.setLayout(null);
+		map_1.setBounds(0, 0, 238, 100);
+		map.add(map_1);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(10, 390, 191, 64);

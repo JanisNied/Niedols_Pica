@@ -83,7 +83,17 @@ public class Global {
 			UIManager.put("Button.focusedBorderColor", new Color(0,0,0,0));
 			UIManager.put(ToastClientProperties.TOAST_ERROR_ICON, new FlatSVGIcon(Global.class.getResource("/img/download(1).svg")));
 			UIManager.put("Toast.showCloseButton", false);
-			UIManager.put("Toast.background", new Color(90, 90, 90));
+			switch (Settings.currentSettings.get("theme")) {
+				case "dark":
+					UIManager.put("Toast.background", new Color(90, 90, 90));
+					break;
+				case "light":
+					UIManager.put("Toast.background", new Color(230, 230, 230));
+					break;
+			}
+			UIManager.put("Toast.limit", 5);
+			UIManager.put("Toast.outlineWidth", 1);
+			UIManager.put("Toast.error.outlineColor", new Color(255,0,0));
 		    if (frame != null)
 		    	SwingUtilities.updateComponentTreeUI(frame);
 		} catch(Exception ex) {
