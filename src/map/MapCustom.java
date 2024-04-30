@@ -10,7 +10,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -27,7 +26,6 @@ import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCenter;
-import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -36,6 +34,7 @@ import org.jxmapviewer.viewer.WaypointPainter;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.graphhopper.util.shapes.GHPoint3D;
 
+import main.Settings;
 import states.MainView;
 
 @SuppressWarnings("serial")
@@ -43,7 +42,8 @@ public class MapCustom extends JXMapViewer {
 	private Set<SwingWaypoint> waypoints;
 	private WaypointPainter<SwingWaypoint> swingWaypointPainter;
 	private GeoPosition start = new GeoPosition(56.53536283021426, 21.026817730163003);
-	private DecimalFormat df = new DecimalFormat(".00");
+	private double lastDeliveryfee;
+	
     public EventLocationSelected getEvent() {
         return event;
     }
@@ -98,8 +98,8 @@ public class MapCustom extends JXMapViewer {
         }
     }
     private void addHomeWaypoint(GeoPosition pos) {
-       List<RoutingData> data = Routing.createRoute(start, pos);
-       if (!data.isEmpty()) {
+       FullRoute route = Routing.createRoute(start, pos);
+       if (!route.getRoutingData().isEmpty()) {
 	       removeAll();
 	       repaint();
 	       revalidate();
@@ -111,9 +111,12 @@ public class MapCustom extends JXMapViewer {
 	       for (SwingWaypoint w : waypoints) {
 	       		add(w.getButton());
 	       }
-	       MainView.customer.setDeliveryFee((data.get(0).getDistance() * 0.001) * 0.56);
+	       double fee = (route.getDistance()*0.001)*Settings.deliveryfee;
+	       MainView.customer.setDeliveryFee(fee);
+	       setLastDeliveryfee(fee);
+	       System.out.print("[Delivery]"+(route.getDistance()*0.001)+"km * "+Settings.deliveryfee+"(per km) = "+fee);
 	       MainView.updateCart();
-	       setRoutingData(data);
+	       setRoutingData(route.getRoutingData());
        }
     }
     public String getLocation(GeoPosition pos) {
@@ -159,4 +162,10 @@ public class MapCustom extends JXMapViewer {
             }
         });
 }
+	public double getLastDeliveryfee() {
+		return lastDeliveryfee;
+	}
+	public void setLastDeliveryfee(double lastDeliveryfee) {
+		this.lastDeliveryfee = lastDeliveryfee;
+	}
 }

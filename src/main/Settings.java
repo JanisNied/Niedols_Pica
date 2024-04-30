@@ -8,6 +8,7 @@ public class Settings {
 	public static HashMap<String, String> lang = 
 			new HashMap<String, String>();
 	
+	public static double deliveryfee = 0.99;
 	public static HashMap<String, Double> prices;
 	static {
 		prices = new HashMap<String, Double>();

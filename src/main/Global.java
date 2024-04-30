@@ -18,7 +18,9 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
+import raven.toast.ToastClientProperties;
 import states.WindowHandler;
 import themes.DarkTheme;
 import themes.LightTheme;
@@ -79,6 +81,9 @@ public class Global {
 			UIManager.put("ScrollBar.thumb", new Color(84, 158, 232));
 			UIManager.put("ScrollPane.arc", 20);
 			UIManager.put("Button.focusedBorderColor", new Color(0,0,0,0));
+			UIManager.put(ToastClientProperties.TOAST_ERROR_ICON, new FlatSVGIcon(Global.class.getResource("/img/download(1).svg")));
+			UIManager.put("Toast.showCloseButton", false);
+			UIManager.put("Toast.background", new Color(90, 90, 90));
 		    if (frame != null)
 		    	SwingUtilities.updateComponentTreeUI(frame);
 		} catch(Exception ex) {

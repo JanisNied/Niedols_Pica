@@ -32,5 +32,6 @@
 	<classpathentry kind="lib" path="lib/json-20230227.jar"/>
 	<classpathentry kind="lib" path="lib/jxmapviewer2-2.5.jar"/>
 	<classpathentry kind="lib" path="lib/graphhopper-web-9.0.jar"/>
+	<classpathentry kind="lib" path="lib/swing-toast-notifications-1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

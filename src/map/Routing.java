@@ -18,11 +18,11 @@ import com.graphhopper.util.InstructionList;
 import com.graphhopper.util.Translation;
 
 public class Routing {
-    public static List<RoutingData> createRoute(GeoPosition start, GeoPosition end) {
+    public static FullRoute createRoute(GeoPosition start, GeoPosition end) {
         GraphHopper hopper = createGraphHopperInstance("./core/files/latvia.osm.pbf");
-        List<RoutingData> distance = routing(hopper, start, end);
+        FullRoute route = routing(hopper, start, end);
         hopper.close();
-        return distance;
+        return route;
     }
 
     static GraphHopper createGraphHopperInstance(String ghLoc) {
@@ -36,11 +36,12 @@ public class Routing {
         return hopper;
     }
 
-    public static List<RoutingData> routing(GraphHopper hopper, GeoPosition start, GeoPosition end) {
+    public static FullRoute routing(GraphHopper hopper, GeoPosition start, GeoPosition end) {
         GHRequest req = new GHRequest(start.getLatitude(), start.getLongitude(), end.getLatitude(), end.getLongitude()).
                 setProfile("car").
                 setLocale(Locale.US);
         List<RoutingData> list = new ArrayList<>();
+        double distance = 0.00;
         try {
 	        GHResponse rsp = hopper.route(req);
 	        ResponsePath path = rsp.getBest();
@@ -49,9 +50,10 @@ public class Routing {
 	        for (Instruction instruction : il) {
 	        	list.add(new RoutingData(instruction.getDistance(), instruction.getTurnDescription(tr), instruction.getPoints()));
 	        }
+	        distance = path.getDistance();
         } catch (RuntimeException e) {
         	System.out.println("[GRAPHHOPPER] Invalid Location!");
         }
-        return list;
+        return new FullRoute(list, distance);
     }
 }

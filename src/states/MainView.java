@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
@@ -27,6 +29,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -51,7 +54,9 @@ import objects.Customer;
 import objects.IngredientHolder;
 import objects.IngredientPanel;
 import objects.Pizza;
+import objects.Sound;
 import raven.glasspanepopup.GlassPanePopup;
+import raven.toast.Notifications;
 import ui.RoundPanel;
 
 public class MainView extends JFrame {
@@ -72,12 +77,14 @@ public class MainView extends JFrame {
 	private JSpinner spinner;
 	private JTextArea desc;
 	private static boolean sideB = false, isAnimationRunning = false;
-	private JTextField textField, textField_1, textField_2;
+	private JTextField name, surname, phone;
 	public static JScrollPane cartscr;
 	private ThemeRoundPanel pizzaimg;
 	public static ArrayList<CartItem> cart = new ArrayList<CartItem>();
 	private static DecimalFormat df = new DecimalFormat("0.00");
 	public static Customer customer = new Customer();
+	private MapCustom map;
+	private boolean canSubmit = true;
 	// Custom pizza
 	private Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
 	
@@ -92,6 +99,7 @@ public class MainView extends JFrame {
 				try {
 					MainView frame = new MainView();
 					GlassPanePopup.install(frame);
+			        Notifications.getInstance().setJFrame(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -553,6 +561,7 @@ public class MainView extends JFrame {
 					isAnimationRunning = true;
 					animatorData.start();
 					customer.setTypeofdelivery("restaurant");
+					customer.setDeliveryFee(0.00);
 					updateCart();
 				}
 			}
@@ -581,6 +590,7 @@ public class MainView extends JFrame {
 					isAnimationRunning = true;
 					animatorData.start();
 					customer.setTypeofdelivery("home");
+					customer.setDeliveryFee(map.getLastDeliveryfee());
 					updateCart();
 				}
 			}
@@ -602,10 +612,10 @@ public class MainView extends JFrame {
 		bgforenterfield.add(panel_2);
 		panel_2.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 36, 171, 28);
-		panel_2.add(textField);
-		textField.setColumns(10);
+		name = new JTextField();
+		name.setBounds(10, 36, 171, 28);
+		panel_2.add(name);
+		name.setColumns(10);
 		
 		LocalisedLabel nm = new LocalisedLabel("name.text");
 		nm.setBounds(10, 11, 114, 14);
@@ -617,15 +627,15 @@ public class MainView extends JFrame {
 		panel_2.add(surnm);
 		surnm.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(10, 96, 171, 28);
-		panel_2.add(textField_1);
-		textField_1.setColumns(10);
+		surname = new JTextField();
+		surname.setBounds(10, 96, 171, 28);
+		panel_2.add(surname);
+		surname.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(10, 156, 171, 28);
-		panel_2.add(textField_2);
-		textField_2.setColumns(10);
+		phone = new JTextField();
+		phone.setBounds(10, 156, 171, 28);
+		panel_2.add(phone);
+		phone.setColumns(10);
 		
 		LocalisedLabel mobile = new LocalisedLabel("phone.text");
 		mobile.setBounds(10, 135, 171, 14);
@@ -707,7 +717,7 @@ public class MainView extends JFrame {
 		mappnl.setLayout(null);
 		mapdata.add(mappnl);
 		
-		MapCustom map = new MapCustom();
+		map = new MapCustom();
 		map.setBounds(0, 0, 238, 276);
 		mappnl.add(map);
 		map.init();
@@ -739,12 +749,12 @@ public class MainView extends JFrame {
 		total.setBounds(10, 34, 171, 19);
 		panel_3.add(total);
 		
-		LocalisedButton pickup_1_1_1 = new LocalisedButton("ordering.text", this::placeholder);
+		LocalisedButton pickup_1_1_1 = new LocalisedButton("ordering.text", this::checkData);
 		pickup_1_1_1.setBounds(211, 390, 119, 64);
 		bgforenterfield.add(pickup_1_1_1);
 		pickup_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		LocalisedButton pickup_1_1_1_1 = new LocalisedButton("cleanup.text", this::placeholder);
+		LocalisedButton pickup_1_1_1_1 = new LocalisedButton("cleanup.text", this::checkData);
 		pickup_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pickup_1_1_1_1.setBounds(350, 390, 119, 64);
 		bgforenterfield.add(pickup_1_1_1_1);
@@ -966,8 +976,44 @@ public class MainView extends JFrame {
 	private void infoOff() {
 		infopanel.setVisible(false);
 	}
-	private void placeholder() {
-		System.out.println("pl.");
+	private void checkData() {
+		if (canSubmit) {
+			StringBuilder message = new StringBuilder();
+			canSubmit = false;
+			boolean isDataCorrect = true;	
+			if (name.getText().isBlank()) {
+				message.append("Name missing!\n");
+				isDataCorrect = false;
+			}
+			if (surname.getText().isBlank()) {
+				message.append("Surname missing!\n");
+				isDataCorrect = false;
+			}
+			if (phone.getText().isBlank()) {
+				message.append("Phone Number missing!\n");
+				isDataCorrect = false;
+			}
+			if (customer.getTypeofdelivery().equalsIgnoreCase("home") && customer.getDeliveryFee() <= 0) {
+				message.append("No Delivery Address!\n");
+				isDataCorrect = false;
+			}
+			if (!message.isEmpty())
+				message.deleteCharAt(message.length()-1);
+			if (!isDataCorrect) {
+				new Sound(Global.sounds.get("err"), 1f, false).play();
+				Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_RIGHT, message.toString());
+				Timer cooldownTimer = new Timer(700, new ActionListener() {
+		            @Override
+		            public void actionPerformed(ActionEvent e) {
+		                canSubmit = true;
+		            }
+		        });
+				cooldownTimer.setRepeats(false);
+				cooldownTimer.start();
+			} else {
+
+			}
+		}
 	}
 	public static void updateCart() {
 		cartpanelscroll.removeAll();
@@ -984,7 +1030,7 @@ public class MainView extends JFrame {
 		if (!sideB) {
 			deliveryfee.setText("€0.00");
 		} else if (sideB && customer.getDeliveryFee() == 0.00)
-			deliveryfee.setText("€-.--");
+			deliveryfee.setText("€-,--");
 		else
 			deliveryfee.setText("€"+df.format(customer.getDeliveryFee()));
 		customer.setTotal(totalprice);
