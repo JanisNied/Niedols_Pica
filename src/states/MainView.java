@@ -15,8 +15,6 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -40,7 +38,6 @@ import javax.swing.event.ChangeListener;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.Interpolator;
-import org.jxmapviewer.viewer.GeoPosition;
 
 import animation.EaseInQuad;
 import localisation.LocalisedButton;
@@ -82,7 +79,7 @@ public class MainView extends JFrame {
 	private JSpinner spinner;
 	private JTextArea desc;
 	public static JTextArea addressbox;
-	private static boolean sideB = false, isAnimationRunning = false, isAnimationRunningMap = false;
+	private static boolean sideB = false, isAnimationRunning = false;
 	private JTextField name, surname, phone;
 	public static JScrollPane cartscr;
 	private ThemeRoundPanel pizzaimg;
@@ -732,25 +729,7 @@ public class MainView extends JFrame {
 		mappnl.add(map);
 		mappnl.setOpaque(false);
 		map.init();
-		TimingTargetAdapter target2 = new TimingTargetAdapter() {
-			@Override
-	        public void timingEvent(float fraction) {
-				int mapScale = mapMenuFull ? 276  : 100;
-				int newYScale = (int) ((int) (map.getHeight()) + (mapScale - map.getHeight() * fraction));
-				map.setBounds(0, 0, 238, newYScale);
-			}
-		};
 		
-		JLabel address = new JLabel("Jūsu Adrese: ");
-		address.setFont(new Font("Tahoma", Font.BOLD, 16));
-		address.setBounds(10, 147, 171, 14);
-		mapdata.add(address);
-		
-		addressbox = new JTextArea();
-		addressbox.setOpaque(false);
-		addressbox.setEditable(false);
-		addressbox.setLineWrap(true);
-		addressbox.setWrapStyleWord(true);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setOpaque(false);
@@ -758,24 +737,7 @@ public class MainView extends JFrame {
 		panel_4.setBounds(10, 169, 238, 53);
 		mapdata.add(panel_4);
 		
-		JScrollPane scrollPane_1 = new JScrollPane(addressbox);
-		scrollPane_1.setBounds(0, 0, 238, 53);
-		panel_4.add(scrollPane_1);
 		
-		animatorDataMap = new Animator(1000, target2);
-		animatorDataMap.setEndBehavior(Animator.EndBehavior.HOLD);
-		Interpolator intr2 = new EaseInQuad();
-		animatorDataMap.setInterpolator(intr2);
-		animatorDataMap.addTarget(new TimingTargetAdapter() {
-		    @Override
-		    public void end() {
-		    	isAnimationRunningMap = false;
-		    	Set<GeoPosition> points = new HashSet<GeoPosition>();
-		    	points.add(map.getStart());
-		    	points.add(map.getEnd());
-		    	map.zoomToBestFit(points, 0.7);
-		    }
-		});
 		JPanel panel_3 = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));
 		panel_3.setBounds(10, 390, 191, 64);
 		bgforenterfield.add(panel_3);
@@ -1036,19 +998,23 @@ public class MainView extends JFrame {
 			canSubmit = false;
 			boolean isDataCorrect = true;	
 			if (name.getText().isBlank()) {
-				message.append("Name missing!\n");
+				message.append(Settings.lang.get("noname.text")+"\n");
 				isDataCorrect = false;
 			}
 			if (surname.getText().isBlank()) {
-				message.append("Surname missing!\n");
+				message.append(Settings.lang.get("nosurname.text")+"\n");
 				isDataCorrect = false;
 			}
 			if (phone.getText().isBlank()) {
-				message.append("Phone Number missing!\n");
+				message.append(Settings.lang.get("nophone.text")+"\n");
 				isDataCorrect = false;
 			}
 			if (customer.getTypeofdelivery().equalsIgnoreCase("home") && customer.getDeliveryFee() <= 0) {
-				message.append("No Delivery Address!\n");
+				message.append(Settings.lang.get("nohome.text")+"\n");
+				isDataCorrect = false;
+			}
+			if(cart.isEmpty()) {
+				message.append(Settings.lang.get("nocart.text")+"\n");
 				isDataCorrect = false;
 			}
 			if (!message.isEmpty())

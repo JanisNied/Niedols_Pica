@@ -58,6 +58,14 @@
 	"address.text":"Address Field",
 	"phone.text":"Phone Number",
 	"name.text":"Name",
-	"surname.text":"Surname"
+	"surname.text":"Surname",
+	"personaladdress.text":"Your Address:",
+	"additional.text":"Additional Info (Optional): ",
+	"pizzeria.text":"Pizzeria's Address: ",
+	"noname.text":"Name Missing!",
+	"nosurname.text":"Surname Missing!",
+	"nophone.text":"Phone Missing!",
+	"nohome.text":"Address Missing!",
+	"nocart.text":"Cart is Empty!"	
 
 }

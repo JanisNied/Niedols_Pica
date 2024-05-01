@@ -16,10 +16,13 @@ import java.awt.event.MouseListener;
 public class SwingWaypoint extends DefaultWaypoint {
     private final JButton button;
     private final String text;
+    private Runnable action;
 
-    public SwingWaypoint(String text, GeoPosition coord) {
+    public SwingWaypoint(String text, GeoPosition coord, Runnable action) {
         super(coord);
         this.text = text;
+        this.action = action;
+        
         button = new JButton(text.substring(0, 1));
         button.setSize(24, 24);
         button.setPreferredSize(new Dimension(24, 24));
@@ -37,7 +40,7 @@ public class SwingWaypoint extends DefaultWaypoint {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            JOptionPane.showMessageDialog(button, "You clicked on " + text);
+            action.run();
         }
 
         @Override

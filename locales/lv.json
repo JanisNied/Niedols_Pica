@@ -58,5 +58,13 @@
 	"address.text":"Adreses Lauks",
 	"phone.text":"Tālrunis",
 	"name.text":"Vārds",
-	"surname.text":"Uzvārds"
+	"surname.text":"Uzvārds",
+	"personaladdress.text":"Jūsu Adrese:",
+	"additional.text":"Papildus Info (Nav Obligāti): ",
+	"pizzeria.text":"Picērijas Adrese: ",
+	"noname.text":"Trūkst Vārds!",
+	"nosurname.text":"Trūkst Uzvārds!",
+	"nophone.text":"Trūkst Tālrunis!",
+	"nohome.text":"Trūkst Adrese!",
+	"nocart.text":"Grozs ir tukšs!"	
 }

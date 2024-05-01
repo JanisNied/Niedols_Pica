@@ -19,9 +19,6 @@ import java.util.function.Consumer;
 
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.PanMouseInputListener;
@@ -30,11 +27,13 @@ import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.WaypointPainter;
-
-import com.github.kevinsawicki.http.HttpRequest;
 import com.graphhopper.util.shapes.GHPoint3D;
 
 import main.Settings;
+import raven.glasspanepopup.DefaultOption;
+import raven.glasspanepopup.GlassPanePopup;
+import raven.glasspanepopup.Option;
+import states.AddressPopup;
 import states.MainView;
 
 @SuppressWarnings("serial")
@@ -44,7 +43,7 @@ public class MapCustom extends JXMapViewer {
 	private GeoPosition start = new GeoPosition(56.53536283021426, 21.026817730163003);
 	private GeoPosition end;
 	private double lastDeliveryfee;
-	private MouseInputListener mm, action;
+	private MouseInputListener mm;
 	private ZoomMouseWheelListenerCenter zoom;
 	
     public EventLocationSelected getEvent() {
@@ -67,7 +66,7 @@ public class MapCustom extends JXMapViewer {
     private EventLocationSelected event;
 
     public void init() {
-    	waypoints = new HashSet<SwingWaypoint>(Arrays.asList(new SwingWaypoint("Pizzeria", new GeoPosition(56.53536283021426, 21.026817730163003))));
+    	waypoints = new HashSet<SwingWaypoint>(Arrays.asList(new SwingWaypoint("Pizzeria", new GeoPosition(56.53536283021426, 21.026817730163003), () -> showInfo(true))));
         swingWaypointPainter = new SwingWaypointOverlayPainter();
         
         swingWaypointPainter.setWaypoints(waypoints);
@@ -106,7 +105,7 @@ public class MapCustom extends JXMapViewer {
 	       removeAll();
 	       repaint();
 	       revalidate();
-	       waypoints = new HashSet<SwingWaypoint>(Arrays.asList(new SwingWaypoint("Pizzeria", new GeoPosition(56.53536283021426, 21.026817730163003)), new SwingWaypoint("Home", pos)));
+	       waypoints = new HashSet<SwingWaypoint>(Arrays.asList(new SwingWaypoint("Pizzeria", new GeoPosition(56.53536283021426, 21.026817730163003), () -> showInfo(true)), new SwingWaypoint("Home", pos, () -> showInfo(false))));
 	       swingWaypointPainter.setWaypoints(waypoints);
 	       List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
 	       painters.add(swingWaypointPainter);
@@ -120,25 +119,27 @@ public class MapCustom extends JXMapViewer {
 	       System.out.print("[Delivery]"+(route.getDistance()*0.001)+"km * "+Settings.deliveryfee+"(per km) = "+fee);
 	       MainView.updateCart();
 	       setRoutingData(route.getRoutingData());
-	       MainView.addressbox.setText(getLocation(pos));
-	       MainView.mapMenuFull = false;
-	       MainView.animatorDataMap.start();
 	       setEnd(pos);
-	       removeMouseListener(mm);
-	       removeMouseMotionListener(mm);
-	       removeMouseWheelListener(zoom);
-       }
+	       MainView.customer.setAddress(pos);
+	       showInfo(false);
+		}
+    }
+    public void showInfo(boolean pizzeria) {
+    	Option option = new DefaultOption() {
+		    @Override
+		    public float opacity() {
+		        return 0.5f;
+		    }
+		    @Override
+		    public boolean closeWhenClickOutside() {
+		        return false;
+		    }
+
+		};
+    	GlassPanePopup.showPopup(new AddressPopup(pizzeria, MainView.customer, 20, new Color(200, 200, 200, 250), new Color(70,70,70, 250), new Color(0,0,0), new Color(200, 200, 200), start), option);
     }
     public GeoPosition getStart() {
     	return start;
-    }
-    public String getLocation(GeoPosition pos) {
-        String body = HttpRequest.get("https://nominatim.openstreetmap.org/reverse?lat=" + pos.getLatitude() + "&lon=" + pos.getLongitude() + "&format=json").body();
-        JSONObject json = new JSONObject(body);
-        try {
-        	return json.getString("display_name");
-        } catch(JSONException e) {}
-        return "Unknown Location.";
     }
 
     @Override
