@@ -116,13 +116,26 @@ public class MapCustom extends JXMapViewer {
 	       double fee = (route.getDistance()*0.001)*Settings.deliveryfee;
 	       MainView.customer.setDeliveryFee(fee);
 	       setLastDeliveryfee(fee);
-	       System.out.print("[Delivery]"+(route.getDistance()*0.001)+"km * "+Settings.deliveryfee+"(per km) = "+fee);
+	       System.out.println("[Delivery]"+(route.getDistance()*0.001)+"km * "+Settings.deliveryfee+"(per km) = "+fee);
 	       MainView.updateCart();
 	       setRoutingData(route.getRoutingData());
 	       setEnd(pos);
 	       MainView.customer.setAddress(pos);
 	       showInfo(false);
 		}
+    }
+    public void resetWaypoints() {
+    	removeAll();
+	    repaint();
+	    revalidate();
+	    waypoints = new HashSet<SwingWaypoint>(Arrays.asList(new SwingWaypoint("Pizzeria", new GeoPosition(56.53536283021426, 21.026817730163003), () -> showInfo(true))));
+	    swingWaypointPainter.setWaypoints(waypoints);
+	    List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+	    painters.add(swingWaypointPainter);
+	    setOverlayPainter(swingWaypointPainter);
+	    for (SwingWaypoint w : waypoints) {
+	      add(w.getButton());
+	    }
     }
     public void showInfo(boolean pizzeria) {
     	Option option = new DefaultOption() {

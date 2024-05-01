@@ -1,11 +1,18 @@
 package objects;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import org.jxmapviewer.viewer.GeoPosition;
 
-public class Customer {
-	private String name, surname, number, typeofpayment, extraInfo, typeofdelivery;
+public class Customer implements Serializable{
+	private static final long serialVersionUID = 5972435378762824013L;
+	private String name, surname, number, typeofpayment, extraInfo, typeofdelivery, date, time;
 	private GeoPosition address;
 	private double total, deliveryFee;
+	private long orderNum;
+	private ArrayList<CartItem> cart = new ArrayList<CartItem>();
+	private boolean orderComplete = false;
 	
 	public Customer() {}
 
@@ -91,5 +98,45 @@ public class Customer {
 		double full = 0.00;
 		full = getTotal() + getDeliveryFee();
 		return full;
+	}
+
+	public ArrayList<CartItem> getCart() {
+		return cart;
+	}
+
+	public void setCart(ArrayList<CartItem> cart) {
+		this.cart = cart;
+	}
+
+	public long getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(long orderNum) {
+		this.orderNum = orderNum;
+	}
+
+	public boolean isOrderComplete() {
+		return orderComplete;
+	}
+
+	public void setOrderComplete(boolean orderComplete) {
+		this.orderComplete = orderComplete;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 }

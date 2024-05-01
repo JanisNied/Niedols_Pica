@@ -1,11 +1,13 @@
 package objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import main.Settings;
 
-public class Pizza {
+public class Pizza implements Serializable {
+	private static final long serialVersionUID = 5972435378762824013L;
 	private int doughSize;
 	private IngredientHolder doughType;
 	private String nickname;

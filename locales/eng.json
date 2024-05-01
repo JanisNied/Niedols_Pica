@@ -52,7 +52,7 @@
 	"price.text":"Price",
 	"dataform.text":"Data",
 	"ordering.text":"Order",
-	"cleanup.text":"Empty Cart",
+	"cleanup.text":"Clean Data",
 	"orderingcost.text":"Delivery Fee: ",
 	"totalcost.text":"Total: ",
 	"address.text":"Address Field",
@@ -60,12 +60,26 @@
 	"name.text":"Name",
 	"surname.text":"Surname",
 	"personaladdress.text":"Your Address:",
-	"additional.text":"Additional Info (Optional): ",
+	"additional.text":"Additional Info: ",
 	"pizzeria.text":"Pizzeria's Address: ",
 	"noname.text":"Name Missing!",
 	"nosurname.text":"Surname Missing!",
 	"nophone.text":"Phone Missing!",
 	"nohome.text":"Address Missing!",
-	"nocart.text":"Cart is Empty!"	
-
+	"nocart.text":"Cart is Empty!",
+	"receipt.text":"Receipt",
+	"cooking.text":"Cook",
+	"infobutton.text":"Info",
+	"orderinfo.text":"Client Info: ",
+	"ordertitle.text":"Order",
+	"data.text":"Data",
+	"value.text":"Value",
+	"paymenttype.text":"Type of Payment",
+	"addresstitle.text":"Address",
+	"cardpayment.text":"Card",
+	"moneypayment.text":"Cash"
+	"deliverytype.text":"Type of Delivery",
+	"restaurantdelivery.text":"Pickup",
+	"homedelivery.text":"To Home",
+	"additionaltitle.text":"Additional Info"	
 }

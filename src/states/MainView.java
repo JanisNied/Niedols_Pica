@@ -40,6 +40,7 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import org.jdesktop.animation.timing.interpolation.Interpolator;
 
 import animation.EaseInQuad;
+import db.Database;
 import localisation.LocalisedButton;
 import localisation.LocalisedLabel;
 import localisation.MainViewTabbedPane;
@@ -52,6 +53,7 @@ import map.MapCustom;
 import objects.AnimatedButton;
 import objects.CartItem;
 import objects.Customer;
+import objects.CustomerPanel;
 import objects.IngredientHolder;
 import objects.IngredientPanel;
 import objects.Pizza;
@@ -63,7 +65,7 @@ import ui.RoundPanel;
 public class MainView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel presetpizzascroll, sizepanel, sizepanelScroll,infopanel, doughpanel, doughpanelscroll, saucepanelscroll, cheesepanelscroll, meatpanelscroll, additivepanelscroll;
+	private JPanel presetpizzascroll, sizepanel, sizepanelScroll,infopanel, doughpanel, doughpanelscroll, saucepanelscroll, cheesepanelscroll, meatpanelscroll, additivepanelscroll, customerscroll;
 	private static JPanel cartpanelscroll;
 	private Animator animatorData;
 	public static Animator animatorDataMap;
@@ -87,7 +89,10 @@ public class MainView extends JFrame {
 	private static DecimalFormat df = new DecimalFormat("0.00");
 	public static Customer customer = new Customer();
 	private MapCustom map;
+	private AnimatedButton pickup_1, pickup_1_1;
 	private boolean canSubmit = true;
+	private ArrayList<Customer> customers = new ArrayList<Customer>();
+	private ThemeSelectionPanel cardbuttonholder, moneybuttonholder;
 	public static boolean  mapMenuFull = true;
 	// Custom pizza
 	private Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
@@ -647,10 +652,10 @@ public class MainView extends JFrame {
 		mobile.setBounds(10, 135, 171, 14);
 		panel_2.add(mobile);
 		mobile.setFont(new Font("Tahoma", Font.BOLD, 16));
-		AnimatedButton pickup_1 = new AnimatedButton("",MainView.class.getResource("/img/dollarpayment2.svg"));
-		AnimatedButton pickup_1_1 = new AnimatedButton("",MainView.class.getResource("/img/cardsvg2.svg"));
-		ThemeSelectionPanel cardbuttonholder = new ThemeSelectionPanel(15, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
-		ThemeSelectionPanel moneybuttonholder = new ThemeSelectionPanel(15, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
+		pickup_1 = new AnimatedButton("",MainView.class.getResource("/img/dollarpayment2.svg"));
+		pickup_1_1 = new AnimatedButton("",MainView.class.getResource("/img/cardsvg2.svg"));
+		cardbuttonholder = new ThemeSelectionPanel(15, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
+		moneybuttonholder = new ThemeSelectionPanel(15, new Color(50, 50, 50, 20), new Color(200, 200, 200, 30), new Color(0,0,0), new Color(200,200,200));
 		moneybuttonholder.setEnabled(true);
 		pickup_1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -770,7 +775,7 @@ public class MainView extends JFrame {
 		bgforenterfield.add(pickup_1_1_1);
 		pickup_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		LocalisedButton pickup_1_1_1_1 = new LocalisedButton("cleanup.text", this::checkData);
+		LocalisedButton pickup_1_1_1_1 = new LocalisedButton("cleanup.text", () -> cleanData(false));
 		pickup_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		pickup_1_1_1_1.setBounds(350, 390, 119, 64);
 		bgforenterfield.add(pickup_1_1_1_1);
@@ -835,8 +840,41 @@ public class MainView extends JFrame {
 		grozslbl.setBounds(10, 11, 260, 34);
 		cart.add(grozslbl);
 		// END OF CART
+		
+		//START OF KITCHEN
 		JPanel bakery = new JPanel();
 		tabbedPane.addTab("Virtuve", null, bakery, null);
+		bakery.setLayout(null);
+		
+		LocalisedLabel kitchentitle = new LocalisedLabel("kitchen.text");
+		kitchentitle.setFont(new Font("Tahoma", Font.BOLD, 19));
+		kitchentitle.setHorizontalAlignment(SwingConstants.CENTER);
+		kitchentitle.setBounds(10, 11, 749, 23);
+		bakery.add(kitchentitle);
+		
+		JPanel furnaces = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));
+		furnaces.setBounds(10, 45, 749, 327);
+		bakery.add(furnaces);
+		
+		JPanel customers = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));	
+		customers.setBounds(10, 383, 749, 129);
+		customers.setLayout(null);
+		bakery.add(customers);
+		
+		customerscroll = new JPanel(new FlowLayout(FlowLayout.LEFT));	
+		customerscroll.setOpaque(false);
+		customerscroll.setBackground(new Color(0,0,0,0));
+		customerscroll.setPreferredSize(new Dimension(500, 0));
+		
+		JScrollPane customerscr = new JScrollPane(customerscroll);
+		customerscr.setBorder(BorderFactory.createEmptyBorder());
+		customerscr.setOpaque(false);
+		customerscr.getViewport().setOpaque(false);              
+		customerscr.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		customerscr.setBounds(10, 11, 729, 118);
+		customers.add(customerscr);
+		
+		// end of kitchen
 		// opening scene
 		TimingTargetAdapter timingTarget = new TimingTargetAdapter() {
 			@Override
@@ -856,6 +894,17 @@ public class MainView extends JFrame {
 		updateDesc();
 		updateImage();
 		updateCart();
+		updateCustomers();
+	}
+	private void updateCustomers() {
+		customers = Database.getAllCustomers(Global.database);
+		int newX = 500;
+		customerscroll.removeAll();
+		for (Customer c : customers) {
+			newX += 300;
+			customerscroll.add(new CustomerPanel(c, 20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200)));
+		}
+		customerscroll.setPreferredSize(new Dimension(newX, 0));
 	}
 	private void addPizza() {
 		Pizza cheesePizza = new Pizza(20, "cheesepizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
@@ -1031,7 +1080,8 @@ public class MainView extends JFrame {
 				cooldownTimer.setRepeats(false);
 				cooldownTimer.start();
 			} else {
-
+				sendData();
+				canSubmit = true;
 			}
 		}
 	}
@@ -1043,12 +1093,12 @@ public class MainView extends JFrame {
 			CartPanel panel = new CartPanel(i, 20, new Color(50, 50, 50, 5), new Color(200, 200, 200, 5), new Color(0,0,0), new Color(200, 200, 200));
 			panel.update();
 			cartpanelscroll.add(panel);
-			newY += 150;
+			newY += 250;
 			totalprice += i.getFinalPrice();
 		}
 		cartpanelscroll.setPreferredSize(new Dimension(235, newY));
 		if (!sideB) {
-			deliveryfee.setText("€0.00");
+			deliveryfee.setText("€0,00");
 		} else if (sideB && customer.getDeliveryFee() == 0.00)
 			deliveryfee.setText("€-,--");
 		else
@@ -1069,5 +1119,37 @@ public class MainView extends JFrame {
 			MainView.cart.add(cartitem);
 		}
 		updateCart();
+	}
+	private void cleanData(boolean dataSendOff) {
+		if (dataSendOff) {
+			
+		}
+		name.setText("");
+		surname.setText("");
+		phone.setText("");
+		cart.clear();
+		customer.setAddress(null);
+		customer.setDeliveryFee(0.00);
+		map.setRoutingData(null);
+		map.setLastDeliveryfee(0.00);
+		map.resetWaypoints();
+		updateCart();
+		System.out.println("[DEBUG] Customer Total: "+customer.getTotal());
+		
+	}
+	private void sendData() {
+		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm"); 
+		DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+		LocalDateTime now = LocalDateTime.now();
+		customer.setName(name.getText());
+		customer.setSurname(surname.getText());
+		customer.setNumber(phone.getText());
+		customer.setCart(cart);
+		customer.setOrderNum(Database.countEntries(Global.database, "Customers")+1);
+		customer.setDate(dateformat.format(now));
+		customer.setTime(timeformat.format(now));
+		Database.insertCustomerStatement(Global.database, customer);
+		updateCustomers();
+		cleanData(true);
 	}
 }

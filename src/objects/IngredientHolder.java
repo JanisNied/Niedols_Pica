@@ -1,8 +1,10 @@
 package objects;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class IngredientHolder {
+public class IngredientHolder implements Serializable {
+	private static final long serialVersionUID = 5972435378762824013L;
 	private String type, locale, name, identifier;
 	
 	public IngredientHolder(String type, String locale, String name, String identifier) {

@@ -91,7 +91,7 @@ public class Global {
 					UIManager.put("Toast.background", new Color(230, 230, 230));
 					break;
 			}
-			UIManager.put("Toast.limit", 5);
+			UIManager.put("Toast.limit", 3);
 			UIManager.put("Toast.outlineWidth", 1);
 			UIManager.put("Toast.error.outlineColor", new Color(255,0,0));
 		    if (frame != null)

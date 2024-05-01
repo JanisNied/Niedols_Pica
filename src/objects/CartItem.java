@@ -1,14 +1,16 @@
 package objects;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CartItem {
+public class CartItem implements Serializable {
+	private static final long serialVersionUID = 5972435378762824013L;
 	private Pizza pizzaObj;
-	private int amount;
+	private Integer amount;
 	private String date, time;
 	
 	
-	public CartItem(int amount, Pizza pizzaObj, String date, String time) {
+	public CartItem(Integer amount, Pizza pizzaObj, String date, String time) {
 		this.amount = amount;
 		this.pizzaObj = pizzaObj;
 		this.date = date;
@@ -21,7 +23,7 @@ public class CartItem {
 		this.amount = amount;
 	}
 	public double getFinalPrice() {
-		double finalprice = pizzaObj.getPrice() * Double.valueOf(amount);
+		double finalprice = pizzaObj.getPrice() * amount.doubleValue();
 		return finalprice;
 	}
 	public Pizza getPizzaObj() {
