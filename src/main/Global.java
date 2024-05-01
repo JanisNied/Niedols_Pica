@@ -42,6 +42,9 @@ public class Global {
 		sounds = new HashMap<>();
 		sounds.put("err", "/sounds/NewProfitQuota.wav");
 		sounds.put("success", "/sounds/accountmade.wav");
+		sounds.put("printing", "/sounds/printing.wav");
+		sounds.put("pickuppaper", "/sounds/pickuppaper.wav");
+		sounds.put("trash", "/sounds/trash.wav");
     }
 	
 	public static String user = "John Doe";

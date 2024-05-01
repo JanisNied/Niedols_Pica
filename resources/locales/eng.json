@@ -81,5 +81,11 @@
 	"deliverytype.text":"Type of Delivery",
 	"restaurantdelivery.text":"Pickup",
 	"homedelivery.text":"To Home",
-	"additionaltitle.text":"Additional Info"
+	"additionaltitle.text":"Additional Info",
+	"orderstaken.text":"Orders Taken",
+	"workerid.text":"WORKER ID",
+	"register.button":"Register",
+	"nickname.text":"Nickname",
+	"registration.text":"Registration",
+	"exit.text":"Exit"
 }

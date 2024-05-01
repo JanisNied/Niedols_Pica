@@ -29,6 +29,7 @@ public class Database {
             		"CREATE TABLE IF NOT EXISTS Users (" +
             				"login TEXT NOT NULL," +
             				"password TEXT NOT NULL," +
+            				"display_name TEXT NOT NULL,"+
             				"orders INTEGER NOT NULL" +
                     ")";
             
@@ -58,14 +59,14 @@ public class Database {
             }
         }
     }
-	public static String insertStatement(File db, String login, String password) {
+	public static String insertStatement(File db, String login, String displayname, String password) {
 		String status = "unknown";
 		if (login.isEmpty() || password.isEmpty())
 			status = "empty";
 		else {
 			Connection connection = null;
 			String checkUserSql = "SELECT COUNT(*) FROM Users WHERE login = ?";
-			String insertSql = "INSERT INTO Users (login, password, orders) VALUES (?, ?, ?)";
+			String insertSql = "INSERT INTO Users (login, password, display_name, orders) VALUES (?, ?, ?, ?)";
 	        try {
 	            Class.forName("org.sqlite.JDBC");
 	            String url = "jdbc:sqlite:"+db;
@@ -79,7 +80,8 @@ public class Database {
 	            if (resultSet.getInt(1) == 0) {
 	            	insertStmt.setString(1, login);
 	            	insertStmt.setString(2, password);
-	            	insertStmt.setInt(3, 0);
+	            	insertStmt.setString(3, displayname);
+	            	insertStmt.setInt(4, 0);
 	            	insertStmt.executeUpdate();
 	            	System.out.println("[DB] Data inserted successfully for user: " + login);
 	            	status = "success";

@@ -36,7 +36,7 @@
 	"chicken.text":"Vista",
 	"salami.text":"Salami",
 	"size.text":"Izmērs",
-	"back.text":"Atgriezties",
+	"back.text":"Atpakaļ",
 	"sauce.text":"Mērce",
 	"cheese.text":"Siers",
 	"meat.text":"Gaļa",
@@ -81,5 +81,11 @@
 	"homedelivery.text":"Uz Norādīto Adresi",
 	"additionaltitle.text":"Papildus Info",
 	"data.text":"Dati",
-	"value.text":"Vērtība"
+	"value.text":"Vērtība",
+	"orderstaken.text":"Pieņemti Pasūtījumi",
+	"workerid.text":"DARBINIEKA ID",
+	"register.button":"Reģistrēties",
+	"nickname.text":"Segvārds",
+	"registration.text":"Reģistrācija",
+	"exit.text":"Iziet"
 }

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -45,6 +46,7 @@ import localisation.LatvianNumberTextField;
 import localisation.LocalisedButton;
 import localisation.LocalisedLabel;
 import localisation.MainViewTabbedPane;
+import localisation.ThemeIcon;
 import localisation.ThemePanel;
 import localisation.ThemeRoundPanel;
 import localisation.ThemeSelectionPanel;
@@ -74,21 +76,21 @@ public class MainView extends JFrame {
 	private static JLabel total;
 	private static JLabel deliveryfee;
 	private ThemePanel transitionpanel;
-	private JButton orderbutton;
+	private static JButton orderbutton;
 	private int size = 240;
 	private JPanel contentPane;
 	private JScrollBar verticalScrollBar;
 	private IngredientPanel twenty, thirty, sixty;
-	private JSpinner spinner;
-	private JTextArea desc;
+	private static JSpinner spinner;
+	private static JTextArea desc;
 	public static JTextArea addressbox;
 	private static boolean sideB = false, isAnimationRunning = false;
 	private JTextField name, surname;
 	private LatvianNumberTextField phone;
 	public static JScrollPane cartscr;
-	private ThemeRoundPanel pizzaimg;
+	private static ThemeRoundPanel pizzaimg;
 	public static ArrayList<CartItem> cart = new ArrayList<CartItem>();
-	private static DecimalFormat df = new DecimalFormat("0.00");
+	public static DecimalFormat df = new DecimalFormat("0.00");
 	public static Customer customer = new Customer();
 	private MapCustom map;
 	private AnimatedButton pickup_1, pickup_1_1;
@@ -96,8 +98,9 @@ public class MainView extends JFrame {
 	private ArrayList<Customer> customers = new ArrayList<Customer>();
 	private ThemeSelectionPanel cardbuttonholder, moneybuttonholder;
 	public static boolean  mapMenuFull = true;
-	// Custom pizza
-	private Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
+	public LanyardBadge id = null;
+	public static MainView frame;
+	private static Pizza custom = new Pizza(20, "custompizza.text", new IngredientHolder("dough", "thin.text", "thin", "dough"));
 	static {
 		df.setRoundingMode(RoundingMode.CEILING);
 		customer.setTypeofdelivery("restaurant");
@@ -111,7 +114,7 @@ public class MainView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainView frame = new MainView();
+					frame = new MainView();
 					GlassPanePopup.install(frame);
 			        Notifications.getInstance().setJFrame(frame);
 					frame.setVisible(true);
@@ -135,6 +138,23 @@ public class MainView extends JFrame {
 		
         setContentPane(contentPane);
         contentPane.setLayout(null);
+        
+        JLabel lblNewLabel = new ThemeIcon(new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/idlight.png")).getImage().getScaledInstance(52, 52, java.awt.Image.SCALE_SMOOTH)), new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/iddark.png")).getImage().getScaledInstance(52, 52, java.awt.Image.SCALE_SMOOTH)));
+        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	if (id == null) {
+            		id = new LanyardBadge();
+            		id.setVisible(true);
+            	} else {
+            		id.dispose();
+            		id = null;
+            	}
+            }
+        });
+        lblNewLabel.setBounds(746, 528, 28, 28);
+        contentPane.add(lblNewLabel);
         
         transitionpanel = new ThemePanel(Color.WHITE, new Color(72, 72, 72));
         transitionpanel.setBounds(0, 0, 784, 561);
@@ -986,7 +1006,7 @@ public class MainView extends JFrame {
 		custom.removeIngredient(new IngredientHolder(type, locale, name, identifier));
 		updateDesc();
 	}
-	private void updateImage() {
+	private static void updateImage() {
 		Component[] components = pizzaimg.getComponents();
 		ArrayList<String> items = new ArrayList<String>();
 		for (IngredientHolder i : custom.ingredients()) {
@@ -1021,7 +1041,7 @@ public class MainView extends JFrame {
 		}
 		updateDesc();
 	}
-	private void updateDesc() {
+	public static void updateDesc() {
 		Integer val = (Integer) spinner.getValue();
 		double spinnerValdb = val.doubleValue();
 		desc.setText(custom.description(true));
@@ -1123,9 +1143,6 @@ public class MainView extends JFrame {
 		updateCart();
 	}
 	private void cleanData(boolean dataSendOff) {
-		if (dataSendOff) {
-			
-		}
 		name.setText("");
 		surname.setText("");
 		phone.setText("");
@@ -1152,6 +1169,24 @@ public class MainView extends JFrame {
 		customer.setTime(timeformat.format(now));
 		Database.insertCustomerStatement(Global.database, customer);
 		updateCustomers();
+		Receipt receipt = new Receipt(customer);
+		receipt.setVisible(true);
+		TimingTargetAdapter timingTarget = new TimingTargetAdapter() {
+			@Override
+	        public void timingEvent(float fraction) {
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		        int yend = (screenSize.height - receipt.getWidth()) / 2;
+				int newY = (int) (receipt.getY() + (yend - receipt.getY()) * fraction);
+				receipt.setLocation(receipt.getX(), newY);
+			}
+		};
+		Animator animator = new Animator(3500, timingTarget);
+		animator.setEndBehavior(Animator.EndBehavior.HOLD);
+		Interpolator interpolator = new EaseInQuad();
+		animator.setInterpolator(interpolator);
+		new Sound(Global.sounds.get("printing"), 1f, false).play();
+		animator.start();
+		
 		cleanData(true);
 	}
 }

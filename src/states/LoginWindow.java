@@ -35,22 +35,25 @@ import main.JSON;
 import main.Settings;
 import objects.BoxItem;
 import objects.Sound;
+import raven.glasspanepopup.DefaultOption;
+import raven.glasspanepopup.GlassPanePopup;
+import raven.glasspanepopup.Option;
 import ui.Shaker;
 
 public class LoginWindow extends JPanel {
 	private static final long serialVersionUID = -8071787828056377082L;
-	private JTextField loginfield;
-	private JPasswordField passwordfield;
+	private static JTextField loginfield;
+	private static JPasswordField passwordfield;
 	
-	private JLabel infolabel, welcomelabel;
+	private static JLabel infolabel, welcomelabel;
 	private ThemeIcon themeSwitch, languageSwitch, bg;
 	
 	private LocalisedLabel passwordtitle, logintitle;
-	private LocalisedButton btnRegister, btnLogin;
+	private static LocalisedButton btnRegister, btnLogin;
 	private JComboBox<BoxItem> comboBox;
 	private ThemePanel transitionpanel;
 	private boolean valid = false;
-	private Timer debounce;
+	private static Timer debounce;
 	
 	public LoginWindow() {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -147,7 +150,7 @@ public class LoginWindow extends JPanel {
 		passwordtitle.setBounds(302, 366, 137, 22);
 		loginpanel.add(passwordtitle);
 		
-		btnRegister = new LocalisedButton("register.text", this::registerData);
+		btnRegister = new LocalisedButton("register.text", this::registration);
 		btnRegister.setBounds(398, 456, 84, 44);
 		loginpanel.add(btnRegister);
 		
@@ -169,6 +172,21 @@ public class LoginWindow extends JPanel {
 		
 		setupLanguageSelector();
 		valid = true;
+	}
+	private void registration() {
+		Registration register = new Registration();
+		Option options = new DefaultOption() {
+		    @Override
+		    public float opacity() {
+		        return 0.5f;
+		    }
+		    @Override
+		    public boolean closeWhenClickOutside() {
+		        return false;
+		    }
+
+		};
+		GlassPanePopup.showPopup(register, options);
 	}
 	private void changeTheme() {
 		Global.themeSwitcher();
@@ -195,11 +213,21 @@ public class LoginWindow extends JPanel {
 			}
 		}
     }
-    private void registerData() {
+    public static void timerThing(int ms, String login, String password, String displayName) {
+    	Timer time = new Timer(ms, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {                           	
+            	registerData(login, password, displayName);
+            }
+        });
+    	time.setRepeats(false);
+    	time.start();
+    }
+    public static void registerData(String login, String password, String displayName) {
     	int cooldown = 1000;
     	if (debounce != null)
     		debounce.stop();
-    	String status = Database.insertStatement(Global.database, loginfield.getText(), new String(passwordfield.getPassword()));
+    	String status = Database.insertStatement(Global.database, login, displayName, password);
     	switch (status) {
     		case "unknown":
     		case "exists":

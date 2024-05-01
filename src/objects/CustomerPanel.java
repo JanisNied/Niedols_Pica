@@ -9,7 +9,11 @@ import javax.swing.JPanel;
 import localisation.LocalisedButton;
 import localisation.LocalisedLabelAttributed;
 import localisation.ThemeRoundPanel;
+import main.Global;
+import raven.glasspanepopup.DefaultOption;
 import raven.glasspanepopup.GlassPanePopup;
+import raven.glasspanepopup.Option;
+import states.Receipt;
 
 @SuppressWarnings("serial")
 public class CustomerPanel extends JPanel {
@@ -26,7 +30,7 @@ public class CustomerPanel extends JPanel {
 		lblNewLabel.setBounds(10, 11, 210, 21);
 		add(lblNewLabel);
 		
-		LocalisedButton btnNewButton = new LocalisedButton("receipt.text", this::plc);
+		LocalisedButton btnNewButton = new LocalisedButton("receipt.text", this::receipt);
 		btnNewButton.setBounds(131, 34, 89, 23);
 		add(btnNewButton);
 		
@@ -46,7 +50,24 @@ public class CustomerPanel extends JPanel {
 	private void plc() {
 		System.out.println("[PLACEHOLDER] Button click");
 	}
+	private void receipt() {
+		Receipt receipt = new Receipt(customer);
+		receipt.setVisible(true);
+		new Sound(Global.sounds.get("pickuppaper"), 1f, false).play();
+		Global.centerFrameOnScreen(receipt);
+	}
 	private void info() {
-		GlassPanePopup.showPopup(new InfoPanel(customer,20, new Color(200, 200, 200, 250), new Color(70,70,70, 250), new Color(0,0,0), new Color(200, 200, 200)));
+		Option options = new DefaultOption() {
+		    @Override
+		    public float opacity() {
+		        return 0.5f;
+		    }
+		    @Override
+		    public boolean closeWhenClickOutside() {
+		        return false;
+		    }
+
+		};
+		GlassPanePopup.showPopup(new InfoPanel(customer,20, new Color(200, 200, 200, 250), new Color(70,70,70, 250), new Color(0,0,0), new Color(200, 200, 200)),options);
 	}
 }

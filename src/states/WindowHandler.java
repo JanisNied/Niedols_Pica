@@ -3,6 +3,9 @@ package states;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import raven.glasspanepopup.GlassPanePopup;
+import raven.toast.Notifications;
+
 public class WindowHandler extends JFrame {
 	private static final long serialVersionUID = -4846037374513777426L;
 	public WindowHandler(JPanel contentPane) {
@@ -11,6 +14,8 @@ public class WindowHandler extends JFrame {
 		setContentPane(contentPane);
 		setResizable(false);
 		getContentPane().setLayout(null);
+		GlassPanePopup.install(this);
+        Notifications.getInstance().setJFrame(this);
 	}
 	
 	public void replaceContentPane(JPanel contentPane) {
