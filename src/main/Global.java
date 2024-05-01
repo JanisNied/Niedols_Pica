@@ -31,6 +31,12 @@ public class Global {
 	public static File persistenceLocation = new File(System.getProperty("user.home") + fileSeparator + ".pizzeria/SliceHaven");
 	public static File settings = new File(persistenceLocation + fileSeparator + "settings.json");
 	public static File database = new File(persistenceLocation + fileSeparator + "data.db");
+	public static File locales = new File(persistenceLocation + fileSeparator + "/locales");
+	public static File routing = new File(persistenceLocation + fileSeparator + "/routing");
+	public static File routingcache = new File(routing + fileSeparator + "routingcache");
+	public static File eng = new File(locales + fileSeparator + "eng.json");
+	public static File lv = new File(locales + fileSeparator + "lv.json");
+	public static File pbf = new File(routing + fileSeparator + "latvia.osm.pbf");
 	public static HashMap <String, String> sounds;
 	static {
 		sounds = new HashMap<>();
@@ -41,9 +47,9 @@ public class Global {
 	public static String user = "John Doe";
 	
 	public static void setup() {
-		JSON.setupFiles(Global.persistenceLocation, Global.settings, Global.database);
+		JSON.setupFiles(Global.persistenceLocation, Global.settings, Global.database, Global.lv, Global.eng, Global.locales, Global.pbf, Global.routing, Global.routingcache);
 		Settings.currentSettings = JSON.jsonToHashMap(Global.settings, "CURRENT SETTINGS");
-		Settings.lang = JSON.jsonToHashMap(new File(System.getProperty("user.dir")+Global.fileSeparator+"locales"+Global.fileSeparator+Settings.currentSettings.get("lang")+".json"), "LANGUAGE");
+		Settings.lang = JSON.jsonToHashMap(new File(persistenceLocation+Global.fileSeparator+"locales"+Global.fileSeparator+Settings.currentSettings.get("lang")+".json"), "LANGUAGE");
 		reloadLAF();
 		if (frame != null)
 			centerFrameOnScreen(frame);
@@ -117,8 +123,9 @@ public class Global {
 	public static void changeLanguage(String lang) {
 		Settings.currentSettings.put("lang", lang);
 		JSON.writeData("lang", lang, settings);
-		Settings.lang = JSON.jsonToHashMap(new File(System.getProperty("user.dir")+Global.fileSeparator+"locales"+Global.fileSeparator+Settings.currentSettings.get("lang")+".json"), "LANGUAGE");
+		Settings.lang = JSON.jsonToHashMap(new File(persistenceLocation+Global.fileSeparator+"locales"+Global.fileSeparator+Settings.currentSettings.get("lang")+".json"), "LANGUAGE");
 	}
+	
 	public static String removeExtension(String s) {
 	    String separator = System.getProperty("file.separator");
 	    String filename;

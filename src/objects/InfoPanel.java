@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -54,9 +53,10 @@ public class InfoPanel extends JPanel {
                 return column != 0;
             }
         };
+//        BoxItem[] choices = {new BoxItem("card", Settings.lang.get("cardpayment.text")), new BoxItem("money", Settings.lang.get("moneypayment.text"))};
 	    JTable customertable = new JTable(model);
 	    customertable.setDefaultRenderer(Object.class, new TooltipCellRenderer());
-	    
+	      
 		setLayout(null);
 		setPreferredSize(new Dimension(450, 235));
 		setOpaque(false);

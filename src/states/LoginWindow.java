@@ -181,7 +181,7 @@ public class LoginWindow extends JPanel {
         repaint();
     }
     private void setupLanguageSelector() {
-    	File locales = new File(System.getProperty("user.dir")+Global.fileSeparator+"locales");
+    	File locales = new File(Global.persistenceLocation+Global.fileSeparator+Global.fileSeparator+"locales");
     	for(File f : locales.listFiles()){
 			if(f.isFile()){
 				if (f.getName().endsWith(".json")) {

@@ -41,6 +41,7 @@ import org.jdesktop.animation.timing.interpolation.Interpolator;
 
 import animation.EaseInQuad;
 import db.Database;
+import localisation.LatvianNumberTextField;
 import localisation.LocalisedButton;
 import localisation.LocalisedLabel;
 import localisation.MainViewTabbedPane;
@@ -82,7 +83,8 @@ public class MainView extends JFrame {
 	private JTextArea desc;
 	public static JTextArea addressbox;
 	private static boolean sideB = false, isAnimationRunning = false;
-	private JTextField name, surname, phone;
+	private JTextField name, surname;
+	private LatvianNumberTextField phone;
 	public static JScrollPane cartscr;
 	private ThemeRoundPanel pizzaimg;
 	public static ArrayList<CartItem> cart = new ArrayList<CartItem>();
@@ -99,6 +101,7 @@ public class MainView extends JFrame {
 	static {
 		df.setRoundingMode(RoundingMode.CEILING);
 		customer.setTypeofdelivery("restaurant");
+		customer.setTypeofpayment("money");
 	}
 	/**
 	 * Launch the application.
@@ -643,10 +646,9 @@ public class MainView extends JFrame {
 		panel_2.add(surname);
 		surname.setColumns(10);
 		
-		phone = new JTextField();
+		phone = new LatvianNumberTextField();
 		phone.setBounds(10, 156, 171, 28);
 		panel_2.add(phone);
-		phone.setColumns(10);
 		
 		LocalisedLabel mobile = new LocalisedLabel("phone.text");
 		mobile.setBounds(10, 135, 171, 14);

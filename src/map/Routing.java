@@ -1,5 +1,6 @@
 package map;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -17,18 +18,20 @@ import com.graphhopper.util.Instruction;
 import com.graphhopper.util.InstructionList;
 import com.graphhopper.util.Translation;
 
+import main.Global;
+
 public class Routing {
     public static FullRoute createRoute(GeoPosition start, GeoPosition end) {
-        GraphHopper hopper = createGraphHopperInstance("./core/files/latvia.osm.pbf");
+        GraphHopper hopper = createGraphHopperInstance(Global.pbf);
         FullRoute route = routing(hopper, start, end);
         hopper.close();
         return route;
     }
 
-    static GraphHopper createGraphHopperInstance(String ghLoc) {
+    static GraphHopper createGraphHopperInstance(File ghLoc) {
         GraphHopper hopper = new GraphHopper();
-        hopper.setOSMFile(ghLoc);
-        hopper.setGraphHopperLocation("routingcache/routing-graph-cache");
+        hopper.setOSMFile(ghLoc.toString());
+        hopper.setGraphHopperLocation(Global.routingcache.toString());
         hopper.setEncodedValuesString("car_access, car_average_speed");
         hopper.setProfiles(new Profile("car").setCustomModel(GHUtility.loadCustomModelFromJar("car.json")));
         hopper.getCHPreparationHandler().setCHProfiles(new CHProfile("car"));
