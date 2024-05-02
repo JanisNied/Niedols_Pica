@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import db.Database;
 import localisation.LocalisedLabel;
 import main.Global;
 import main.Settings;
@@ -60,7 +61,7 @@ public class Receipt extends JFrame {
 		
 		JPanel panel_1_1_1 = new JPanel();
 		panel_1_1_1.setBackground(Color.BLACK);
-		panel_1_1_1.setBounds(17, 479, 269, 3);
+		panel_1_1_1.setBounds(17, 522, 269, 3);
 		panel.add(panel_1_1_1);
 		
 		
@@ -92,24 +93,33 @@ public class Receipt extends JFrame {
 		drag.setBounds(10, 22, 284, 550);
 		panel.add(drag);
 		
+		LocalisedLabel lblNewLabel_1 = new LocalisedLabel("receipt.text");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(Color.BLACK);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel_1.setBounds(87, 36, 129, 32);
+		panel.add(lblNewLabel_1);
+		
 		JLabel lblNewLabel_1_1_2 = new JLabel("€"+MainView.df.format(customer.getDeliveryFee()));
 		lblNewLabel_1_1_2.setForeground(Color.BLACK);
 		lblNewLabel_1_1_2.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1_2.setBounds(157, 393, 129, 32);
 		panel.add(lblNewLabel_1_1_2);
-		
-		JLabel lblNewLabel_1_1_2_1 = new JLabel("€"+MainView.df.format(customer.getFull()));
+		double sale = 0;
+		sale = Global.saleCurve(customer.getSavedLevel());
+		System.out.println("[SALE] "+sale);
+		JLabel lblNewLabel_1_1_2_1 = new JLabel("€"+MainView.df.format(customer.getFull()-sale));
 		lblNewLabel_1_1_2_1.setForeground(Color.BLACK);
 		lblNewLabel_1_1_2_1.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_1_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_2_1.setBounds(156, 436, 129, 32);
+		lblNewLabel_1_1_2_1.setBounds(156, 479, 129, 32);
 		panel.add(lblNewLabel_1_1_2_1);
 		
 		LocalisedLabel lblNewLabel_1_1_1 = new LocalisedLabel("totalcost.text");
 		lblNewLabel_1_1_1.setForeground(Color.BLACK);
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_1.setBounds(17, 436, 129, 32);
+		lblNewLabel_1_1_1.setBounds(17, 479, 129, 32);
 		panel.add(lblNewLabel_1_1_1);
 		
 		LocalisedLabel lblNewLabel_1_1 = new LocalisedLabel("orderingcost.text");
@@ -128,17 +138,25 @@ public class Receipt extends JFrame {
 		panel_1.setBounds(17, 68, 269, 3);
 		panel.add(panel_1);
 		
-		LocalisedLabel lblNewLabel_1 = new LocalisedLabel("receipt.text");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(Color.BLACK);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(87, 36, 129, 32);
-		panel.add(lblNewLabel_1);
+		
+		LocalisedLabel lblNewLabel_1_1_3 = new LocalisedLabel("sale.text");
+		lblNewLabel_1_1_3.setForeground(Color.BLACK);
+		lblNewLabel_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_1_3.setBounds(17, 436, 129, 32);
+		panel.add(lblNewLabel_1_1_3);
+		
+		JLabel lblNewLabel_1_1_2_2 = new JLabel("-€"+MainView.df.format(sale));
+		lblNewLabel_1_1_2_2.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_1_1_2_2.setForeground(Color.BLACK);
+		lblNewLabel_1_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_1_2_2.setBounds(157, 436, 129, 32);
+		panel.add(lblNewLabel_1_1_2_2);
 		
 		JLabel lblNewLabel = new JLabel(new ImageIcon(new ImageIcon(Receipt.class.getResource("/img/receipt.png")).getImage().getScaledInstance(530, 594, java.awt.Image.SCALE_SMOOTH)));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(0, 0, 304, 594);
 		panel.add(lblNewLabel);
+
 		addPizzas();
 		centerOnX();
 	}

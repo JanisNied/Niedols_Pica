@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import main.Global;
 import objects.Customer;
 
 public class Database {
@@ -38,8 +39,16 @@ public class Database {
             				"serialized_data TEXT NOT NULL,"
             				+ "order_number INTEGER NOT NULL"+
             		")";
+            String customerLevels = 
+            		"CREATE TABLE IF NOT EXISTS CustomerLevels (" +
+            			    "number TEXT NOT NULL,"+
+            			    "level INTEGER NOT NULL,"+
+            			    "cur_xp INTEGER NOT NULL,"+
+            			    "max_xp INTEGER NOT NULL"+
+            		")";
             statement.execute(customerregistry);
             statement.execute(usertable);
+            statement.execute(customerLevels);
             System.out.println("[DB] Table(s) created successfully.");
             statement.close();
         } catch (ClassNotFoundException e) {
@@ -331,5 +340,77 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public static String insertCustomerLevel(File db, Customer customer) {
+		Connection connection = null;
+		String returnstr = "";
+        try {
+            Class.forName("org.sqlite.JDBC");
+            String url = "jdbc:sqlite:"+db;
+            connection = DriverManager.getConnection(url);        
+            System.out.println("[DB] Connected to the database.");
+            String checkUserSql = "SELECT COUNT(*) FROM CustomerLevels WHERE number = ?";
+            PreparedStatement checkUserStmt = connection.prepareStatement(checkUserSql);
+            checkUserStmt.setString(1, customer.getNumber());
+            ResultSet resultSet = checkUserStmt.executeQuery();
+            resultSet.next();  
+            if (resultSet.getInt(1) == 0) {
+            	 String insertSql = "INSERT INTO CustomerLevels (number, level, cur_xp, max_xp) VALUES (?, ?, ?, ?)";
+                 PreparedStatement insertStmt = connection.prepareStatement(insertSql);
+                 insertStmt.setString(1, customer.getNumber());
+                 insertStmt.setInt(2, 1);
+                 insertStmt.setInt(3, 0);
+                 insertStmt.setInt(4, Global.levelCurve(1));
+                 insertStmt.executeUpdate();
+                 insertStmt.close();
+            } else 
+            	returnstr = "exists";     
+            resultSet.close();
+            checkUserStmt.close();
+        } catch (ClassNotFoundException e) {
+            System.out.println("[DB] SQLite JDBC driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("[DB] Failed to connect to the database or make changes.");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                    System.out.println("[DB] Connection closed.");
+                }
+            } catch (SQLException e) {
+                System.out.println("[DB] Failed to close the connection.");
+                e.printStackTrace();
+            }
+       }
+        return returnstr;
+    }
+    public static void setSomething(File db, Customer c, String query, int something) {
+    	String URL = "jdbc:sqlite:"+db;
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE CustomerLevels SET "+query+" = ? WHERE number = ?")) {
+            preparedStatement.setInt(1, something);
+            preparedStatement.setString(2, c.getNumber());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static int getSomething(File db, Customer c, String query) {
+        int orders = 0;
+        String URL = "jdbc:sqlite:"+db;
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT "+query+" FROM CustomerLevels WHERE number = ?")) {
+            preparedStatement.setString(1, c.getNumber());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    orders = resultSet.getInt(query);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
     }
 }

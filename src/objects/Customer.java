@@ -10,6 +10,7 @@ public class Customer implements Serializable{
 	private static final long serialVersionUID = 5972435378762824013L;
 	private String name, surname, number, typeofpayment, extraInfo, typeofdelivery, date, time;
 	private GeoPosition address;
+	private int savedLevel;
 	private double total, deliveryFee;
 	private long orderNum;
 	private ArrayList<CartItem> cart = new ArrayList<CartItem>();
@@ -167,4 +168,12 @@ public class Customer implements Serializable{
                 Objects.equals(address, customer.address) &&
                 Objects.equals(cart, customer.cart);
     }
+
+	public int getSavedLevel() {
+		return savedLevel;
+	}
+
+	public void setSavedLevel(int savedLevel) {
+		this.savedLevel = savedLevel;
+	}
 }

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -82,7 +83,7 @@ public class Stove extends JPanel{
 		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                timer = new Timer(1000, new ActionListener() {
+                timer = new Timer(10, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (count < max) {
@@ -100,7 +101,7 @@ public class Stove extends JPanel{
                     		MainView.updateCustomers();
                     		Database.updateOrders(Global.database, Global.user, Database.getOrders(Global.database, Global.user)+1);
                     		String message = Settings.lang.get("ordertitle.text")+" #"+c.getOrderNum()+" "+Settings.lang.get("pizzamade.text");
-                    		Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_RIGHT, message.toString());
+                    		Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_RIGHT, message.toString()+"\n"+countExp());
                     		new Sound(Global.sounds.get("cooked"), 1f, false).play();
                         }
                     }
@@ -111,6 +112,26 @@ public class Stove extends JPanel{
         };
 
         worker.execute();
+	}
+	private String countExp() {
+		Random rand = new Random();
+		int max = countPizzas();
+		int min = max/2;
+		if (min == 0) {
+			min = 1;
+		}
+		int newXp = rand.nextInt(max - min + 1) + min;
+		int maxXp = Database.getSomething(Global.database, c, "max_xp");
+		int curXp = Database.getSomething(Global.database, c, "cur_xp") + newXp;
+		while (maxXp < curXp) {
+			curXp -= maxXp;
+			Database.setSomething(Global.database, c, "level", Database.getSomething(Global.database, c, "level")+1);
+			Database.setSomething(Global.database, c, "max_xp", Global.levelCurve(Database.getSomething(Global.database, c, "level")));
+		}
+		System.out.println(Global.levelCurve(Database.getSomething(Global.database, c, "level")));
+		Database.setSomething(Global.database, c, "cur_xp", curXp);
+		System.out.println("[CUSTOMER "+c.getNumber()+"] lvl "+Database.getSomething(Global.database, c, "level")+", xp: "+Database.getSomething(Global.database, c, "cur_xp")+"/"+Database.getSomething(Global.database, c, "max_xp"));
+		return "Customer is now Level "+Database.getSomething(Global.database, c, "level")+" with "+Database.getSomething(Global.database, c, "cur_xp")+"/"+Database.getSomething(Global.database, c, "max_xp")+" xp";
 	}
 	private String getFormattedTime(int seconds) {
         int minutes = seconds / 60;

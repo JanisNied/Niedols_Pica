@@ -1109,7 +1109,7 @@ public class MainView extends ThemePanel {
 				isDataCorrect = false;
 			}
 			if (!message.isEmpty())
-				message.deleteCharAt(message.length()-1);
+				message.deleteCharAt(message.length()-1);	
 			if (!isDataCorrect) {
 				new Sound(Global.sounds.get("err"), 1f, false).play();
 				Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_RIGHT, message.toString());
@@ -1122,7 +1122,11 @@ public class MainView extends ThemePanel {
 				cooldownTimer.setRepeats(false);
 				cooldownTimer.start();
 			} else {
-				sendData();
+				customer.setNumber(phone.getText());
+				if (!Database.insertCustomerLevel(Global.database, customer).equals("no")) {
+					sendData();					
+				} else
+					Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_RIGHT, "Number exists in database!");
 				canSubmit = true;
 			}
 		}
@@ -1187,6 +1191,7 @@ public class MainView extends ThemePanel {
 		customer.setOrderNum(Database.countEntries(Global.database, "Customers")+1);
 		customer.setDate(dateformat.format(now));
 		customer.setTime(timeformat.format(now));
+		customer.setSavedLevel(Database.getSomething(Global.database, customer, "level"));
 		Database.insertCustomerStatement(Global.database, customer);
 		updateCustomers();
 		Receipt receipt = new Receipt(customer);

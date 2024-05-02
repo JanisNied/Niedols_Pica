@@ -48,6 +48,15 @@ public class Global {
 		sounds.put("cooked", "/sounds/cooked.wav");
     }
 	
+	public static int levelCurve(int level) {
+		return (int) Math.pow(level, 1.3);
+	}
+	public static double saleCurve(int level) {
+		if (level == 1)
+			return 0;
+		return (Math.pow(level, 0.8))/100;
+	}
+	
 	public static String user = "John Doe";
 	
 	public static void setup() {

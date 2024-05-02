@@ -94,5 +94,6 @@
 	"pizzamade.text":"has cooked!",
 	"weak.text":"Weak",
 	"medium.text":"Medium",
-	"strong.text":"Strong"
+	"strong.text":"Strong",
+	"sale.text":"Sale: "
 }
