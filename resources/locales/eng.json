@@ -90,5 +90,6 @@
 	"exit.text":"Exit",
 	"pizzasleft.text":"Pizzas",
 	"timeleft.text":"Remaining: ",
-	"thankyou.text":"Thank you!"
+	"thankyou.text":"Thank you!",
+	"pizzamade.text":"has cooked!"
 }

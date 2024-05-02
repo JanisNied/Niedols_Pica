@@ -90,5 +90,6 @@
 	"exit.text":"Iziet",
 	"pizzasleft.text":"picas",
 	"timeleft.text":"Atlika: ",
-	"thankyou.text":"Paldies!"
+	"thankyou.text":"Paldies!",
+	"pizzamade.text":"ir gatavs!"
 }

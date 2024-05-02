@@ -45,6 +45,7 @@ public class Global {
 		sounds.put("printing", "/sounds/printing.wav");
 		sounds.put("pickuppaper", "/sounds/pickuppaper.wav");
 		sounds.put("trash", "/sounds/trash.wav");
+		sounds.put("cooked", "/sounds/cooked.wav");
     }
 	
 	public static String user = "John Doe";
@@ -90,6 +91,7 @@ public class Global {
 			UIManager.put("ScrollBar.thumb", new Color(84, 158, 232));
 			UIManager.put("ScrollPane.arc", 20);
 			UIManager.put(ToastClientProperties.TOAST_ERROR_ICON, new FlatSVGIcon(Global.class.getResource("/img/download(1).svg")));
+			UIManager.put(ToastClientProperties.TOAST_SUCCESS_ICON, new FlatSVGIcon(Global.class.getResource("/img/download(2).svg")));
 			UIManager.put("Toast.showCloseButton", false);
 			switch (Settings.currentSettings.get("theme")) {
 				case "dark":
@@ -102,6 +104,7 @@ public class Global {
 			UIManager.put("Toast.limit", 3);
 			UIManager.put("Toast.outlineWidth", 1);
 			UIManager.put("Toast.error.outlineColor", new Color(255,0,0));
+			UIManager.put("Toast.success.outlineColor", new Color(0,255,0));
 		    if (frame != null)
 		    	SwingUtilities.updateComponentTreeUI(frame);
 		} catch(Exception ex) {

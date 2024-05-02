@@ -45,6 +45,7 @@ import db.Database;
 import localisation.LatvianNumberTextField;
 import localisation.LocalisedButton;
 import localisation.LocalisedLabel;
+import localisation.LocalisedLabelAttributed;
 import localisation.MainViewTabbedPane;
 import localisation.ThemeIcon;
 import localisation.ThemePanel;
@@ -157,7 +158,7 @@ public class MainView extends ThemePanel {
         add(transitionpanel);
         transitionpanel.setLayout(null);
         
-        welcomelabel = new JLabel("{Welcome.text}, {user}!");
+        welcomelabel = new LocalisedLabelAttributed("welcome.text",Global.user+"!");
         welcomelabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
         welcomelabel.setHorizontalAlignment(SwingConstants.CENTER);
         welcomelabel.setBounds(182, 230, 420, 100);

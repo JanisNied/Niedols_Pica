@@ -23,6 +23,8 @@ import main.Global;
 import main.Settings;
 import objects.CartItem;
 import objects.Customer;
+import objects.Sound;
+import raven.toast.Notifications;
 
 public class Stove extends JPanel{
 
@@ -97,6 +99,9 @@ public class Stove extends JPanel{
                     		MainView.cooking.remove(c);
                     		MainView.updateCustomers();
                     		Database.updateOrders(Global.database, Global.user, Database.getOrders(Global.database, Global.user)+1);
+                    		String message = Settings.lang.get("ordertitle.text")+" #"+c.getOrderNum()+" "+Settings.lang.get("pizzamade.text");
+                    		Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_RIGHT, message.toString());
+                    		new Sound(Global.sounds.get("cooked"), 1f, false).play();
                         }
                     }
                 });

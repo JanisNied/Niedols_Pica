@@ -31,7 +31,7 @@ public class Registration extends JPanel {
 		pnl.setBounds(0,0,265,374);
 		add(pnl);
 		
-		JLabel lblNewLabel = new JLabel("Registration");
+		JLabel lblNewLabel = new LocalisedLabel("registration.text");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(10, 32, 245, 37);
