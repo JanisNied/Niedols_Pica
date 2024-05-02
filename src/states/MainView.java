@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -57,6 +58,7 @@ import objects.AnimatedButton;
 import objects.CartItem;
 import objects.Customer;
 import objects.CustomerPanel;
+import objects.CustomerPanelHistory;
 import objects.IngredientHolder;
 import objects.IngredientPanel;
 import objects.Pizza;
@@ -83,6 +85,7 @@ public class MainView extends JFrame {
 	private IngredientPanel twenty, thirty, sixty;
 	private static JSpinner spinner;
 	private static JTextArea desc;
+	private JLabel lblNewLabel_1, lblNewLabel;
 	public static JTextArea addressbox;
 	private static boolean sideB = false, isAnimationRunning = false;
 	private JTextField name, surname;
@@ -117,7 +120,7 @@ public class MainView extends JFrame {
 					frame = new MainView();
 					GlassPanePopup.install(frame);
 			        Notifications.getInstance().setJFrame(frame);
-					frame.setVisible(true);
+					frame.setVisible(true);		
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -137,9 +140,27 @@ public class MainView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
         setContentPane(contentPane);
-        contentPane.setLayout(null);
+        contentPane.setLayout(null);     
+        lblNewLabel_1 = new ThemeIcon(new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/historywhite.png")).getImage().getScaledInstance(22, 22, java.awt.Image.SCALE_SMOOTH)), new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/historyblack.png")).getImage().getScaledInstance(22,22, java.awt.Image.SCALE_SMOOTH)));
+        lblNewLabel_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	int newY = 700;
+            	History pnl = new History();
+            	ArrayList<Customer> temp = Database.getAllCustomers(Global.database, true);
+            	for (Customer c : temp) {
+            		pnl.scroll.add(new CustomerPanelHistory(c, 20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200)));
+            		newY += 300;
+            	}
+            	pnl.scroll.setPreferredSize(new Dimension(0, newY));
+            	GlassPanePopup.showPopup(pnl);
+            }
+        });
+        lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_1.setBounds(708, 528, 28, 28);
+        contentPane.add(lblNewLabel_1);
         
-        JLabel lblNewLabel = new ThemeIcon(new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/idlight.png")).getImage().getScaledInstance(52, 52, java.awt.Image.SCALE_SMOOTH)), new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/iddark.png")).getImage().getScaledInstance(52, 52, java.awt.Image.SCALE_SMOOTH)));
+        lblNewLabel = new ThemeIcon(new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/idlight.png")).getImage().getScaledInstance(52, 52, java.awt.Image.SCALE_SMOOTH)), new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/iddark.png")).getImage().getScaledInstance(52, 52, java.awt.Image.SCALE_SMOOTH)));
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -155,6 +176,8 @@ public class MainView extends JFrame {
         });
         lblNewLabel.setBounds(746, 528, 28, 28);
         contentPane.add(lblNewLabel);
+        contentPane.setComponentZOrder(lblNewLabel, 0);
+        contentPane.setComponentZOrder(lblNewLabel_1, 1);
         
         transitionpanel = new ThemePanel(Color.WHITE, new Color(72, 72, 72));
         transitionpanel.setBounds(0, 0, 784, 561);
@@ -167,13 +190,19 @@ public class MainView extends JFrame {
         welcomelabel.setBounds(182, 230, 420, 100);
         transitionpanel.add(welcomelabel);
 
-        ThemePanel mainpanel = new ThemePanel(new Color(225, 225, 225), new Color(35, 35, 35));
+        JLayeredPane mainpanel = new JLayeredPane();
         mainpanel.setBounds(5, 5, 774, 551);
         contentPane.add(mainpanel);
 		mainpanel.setLayout(null);
 		
 		MainViewTabbedPane tabbedPane = new MainViewTabbedPane(4, new String[]{"premade.text", "custom.text", "cart.text", "kitchen.text"});
 		tabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
+		tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+            	contentPane.setComponentZOrder(lblNewLabel, 0);
+                contentPane.setComponentZOrder(lblNewLabel_1, 1);
+            }
+        });
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setBounds(0, 0, 774, 551);
 		mainpanel.add(tabbedPane);
@@ -919,7 +948,7 @@ public class MainView extends JFrame {
 		updateCustomers();
 	}
 	private void updateCustomers() {
-		customers = Database.getAllCustomers(Global.database);
+		customers = Database.getAllCustomers(Global.database, false);
 		int newX = 500;
 		customerscroll.removeAll();
 		for (Customer c : customers) {
@@ -1189,4 +1218,5 @@ public class MainView extends JFrame {
 		
 		cleanData(true);
 	}
+	
 }

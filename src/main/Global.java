@@ -89,7 +89,6 @@ public class Global {
 			UIManager.put("ScrollBar.thumbArc", 20);
 			UIManager.put("ScrollBar.thumb", new Color(84, 158, 232));
 			UIManager.put("ScrollPane.arc", 20);
-			UIManager.put("Button.focusedBorderColor", new Color(0,0,0,0));
 			UIManager.put(ToastClientProperties.TOAST_ERROR_ICON, new FlatSVGIcon(Global.class.getResource("/img/download(1).svg")));
 			UIManager.put("Toast.showCloseButton", false);
 			switch (Settings.currentSettings.get("theme")) {

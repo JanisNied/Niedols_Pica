@@ -228,7 +228,7 @@ public class Database {
 	            }
 	       }
 	}
-	public static ArrayList<Customer> getAllCustomers(File db) {
+	public static ArrayList<Customer> getAllCustomers(File db, boolean exceptions) {
         ArrayList<Customer> customers = new ArrayList<>();
         Connection conn = null;
         try {
@@ -241,7 +241,7 @@ public class Database {
                 while (resultSet.next()) {
                     byte[] serializedData = resultSet.getBytes("serialized_data");
                     Customer customer = (Customer) deserialize(serializedData);
-                    if (!customer.isOrderComplete())
+                    if (!customer.isOrderComplete() || exceptions)
                     	customers.add(customer);
                 }
             }

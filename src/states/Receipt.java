@@ -52,6 +52,7 @@ public class Receipt extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Paldies!");
+		lblNewLabel_1_2.setForeground(Color.BLACK);
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel_1_2.setBounds(17, 493, 269, 32);
@@ -72,6 +73,7 @@ public class Receipt extends JFrame {
 		
 		area = new JTextArea();
 		area.setOpaque(false);
+		area.setForeground(Color.BLACK);
 		area.getCaret().setVisible(false);
 		area.setFocusable(false);
 		area.setBackground(new Color(0,0,0,0));
@@ -91,23 +93,27 @@ public class Receipt extends JFrame {
 		panel.add(drag);
 		
 		JLabel lblNewLabel_1_1_2 = new JLabel("€"+MainView.df.format(customer.getDeliveryFee()));
+		lblNewLabel_1_1_2.setForeground(Color.BLACK);
 		lblNewLabel_1_1_2.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1_2.setBounds(157, 393, 129, 32);
 		panel.add(lblNewLabel_1_1_2);
 		
 		JLabel lblNewLabel_1_1_2_1 = new JLabel("€"+MainView.df.format(customer.getFull()));
+		lblNewLabel_1_1_2_1.setForeground(Color.BLACK);
 		lblNewLabel_1_1_2_1.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_1_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1_2_1.setBounds(156, 436, 129, 32);
 		panel.add(lblNewLabel_1_1_2_1);
 		
 		LocalisedLabel lblNewLabel_1_1_1 = new LocalisedLabel("totalcost.text");
+		lblNewLabel_1_1_1.setForeground(Color.BLACK);
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1_1.setBounds(17, 436, 129, 32);
 		panel.add(lblNewLabel_1_1_1);
 		
 		LocalisedLabel lblNewLabel_1_1 = new LocalisedLabel("orderingcost.text");
+		lblNewLabel_1_1.setForeground(Color.BLACK);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1.setBounds(17, 393, 129, 32);
 		panel.add(lblNewLabel_1_1);
@@ -124,6 +130,7 @@ public class Receipt extends JFrame {
 		
 		LocalisedLabel lblNewLabel_1 = new LocalisedLabel("receipt.text");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(Color.BLACK);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel_1.setBounds(87, 36, 129, 32);
 		panel.add(lblNewLabel_1);
