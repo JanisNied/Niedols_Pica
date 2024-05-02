@@ -83,7 +83,7 @@ public class Stove extends JPanel{
 		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                timer = new Timer(10, new ActionListener() {
+                timer = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (count < max) {
