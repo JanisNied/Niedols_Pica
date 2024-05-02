@@ -91,5 +91,8 @@
 	"pizzasleft.text":"Pizzas",
 	"timeleft.text":"Remaining: ",
 	"thankyou.text":"Thank you!",
-	"pizzamade.text":"has cooked!"
+	"pizzamade.text":"has cooked!",
+	"weak.text":"Weak",
+	"medium.text":"Medium",
+	"strong.text":"Strong"
 }

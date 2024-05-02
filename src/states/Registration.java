@@ -10,10 +10,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import localisation.LocalisedButton;
 import localisation.LocalisedLabel;
 import localisation.ThemeRoundPanel;
+import objects.LabelStatus;
 import raven.glasspanepopup.GlassPanePopup;
 
 @SuppressWarnings("serial")
@@ -21,6 +24,9 @@ public class Registration extends JPanel {
 	private JTextField nicknme;
 	private JTextField lgn;
 	private JPasswordField pswd;
+	private DocumentListener documentListener;
+	private LabelStatus sts;
+	
 	public Registration() {
 		setPreferredSize(new Dimension(265, 374));
 		setLayout(null);
@@ -45,7 +51,7 @@ public class Registration extends JPanel {
 		         }
 		     }
 		});
-		nicknme.setBounds(10, 117, 245, 24);
+		nicknme.setBounds(10, 117, 245, 34);
 		pnl.add(nicknme);
 		nicknme.setColumns(10);
 		
@@ -64,7 +70,7 @@ public class Registration extends JPanel {
 		     }
 		});
 		lgn.setColumns(10);
-		lgn.setBounds(10, 177, 245, 24);
+		lgn.setBounds(10, 177, 245, 34);
 		pnl.add(lgn);
 		
 		LocalisedLabel lblLogin = new LocalisedLabel("login.text");
@@ -81,7 +87,7 @@ public class Registration extends JPanel {
 		
 		pswd = new JPasswordField();
 		pswd.setColumns(10);
-		pswd.setBounds(10, 237, 245, 24);
+		pswd.setBounds(10, 237, 245, 34);
 		pnl.add(pswd);
 		
 		LocalisedButton btnNewButton = new LocalisedButton("registration.text", this::registrationInitiate);
@@ -91,6 +97,15 @@ public class Registration extends JPanel {
 		LocalisedButton btnNewButton_1 = new LocalisedButton("exit.text", this::windowDie);
 		btnNewButton_1.setBounds(190, 320, 65, 43);
 		pnl.add(btnNewButton_1);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setBounds(113, 271, 99, 23);
+		pnl.add(lblNewLabel_1);
+		
+		sts = new LabelStatus(lblNewLabel_1);
+		sts.setBounds(10, 276, 99, 14);
+		pnl.add(sts);
+		initPasswordField(pswd);
 	}
 	private void windowDie() {
 		GlassPanePopup.closePopupLast();
@@ -99,4 +114,30 @@ public class Registration extends JPanel {
 		LoginWindow.timerThing(1000, lgn.getText(), new String(pswd.getPassword()), nicknme.getText());
 		GlassPanePopup.closePopupLast();
 	}
+	public void initPasswordField(JPasswordField txt) {
+        if (documentListener == null) {
+            documentListener = new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    sts.checkPassword(String.valueOf(txt.getPassword()));
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                	sts.checkPassword(String.valueOf(txt.getPassword()));
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                	sts.checkPassword(String.valueOf(txt.getPassword()));
+                }
+            };
+        }
+        if (pswd != null) {
+        	pswd.getDocument().removeDocumentListener(documentListener);
+        }
+        txt.getDocument().addDocumentListener(documentListener);
+        pswd = txt;
+    }
+
 }

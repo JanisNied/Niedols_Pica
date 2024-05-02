@@ -80,6 +80,7 @@ public class Global {
 		}
 		try {
 		    UIManager.put("TextComponent.arc", 30);
+		    UIManager.put("PasswordField.showRevealButton", true);
 		    UIManager.put("Button.arc", 15);
 		    UIManager.put("ComboBox.arc", 30);
 		    UIManager.put( "TabbedPane.showTabSeparators", true );

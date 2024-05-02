@@ -91,5 +91,8 @@
 	"pizzasleft.text":"picas",
 	"timeleft.text":"Atlika: ",
 	"thankyou.text":"Paldies!",
-	"pizzamade.text":"ir gatavs!"
+	"pizzamade.text":"ir gatavs!",
+	"weak.text":"Vājš",
+	"medium.text":"Vidējs",
+	"strong.text":"Stiprs"
 }
