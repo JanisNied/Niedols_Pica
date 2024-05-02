@@ -2,6 +2,7 @@ package objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
@@ -139,4 +140,31 @@ public class Customer implements Serializable{
 	public void setDate(String date) {
 		this.date = date;
 	}
+	@Override
+    public int hashCode() {
+        return Objects.hash(name, surname, number, typeofpayment, extraInfo, typeofdelivery, date, time, address, total, deliveryFee, orderNum, orderComplete, cart);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Customer customer = (Customer) obj;
+        return Double.compare(customer.total, total) == 0 &&
+                Double.compare(customer.deliveryFee, deliveryFee) == 0 &&
+                orderNum == customer.orderNum &&
+                orderComplete == customer.orderComplete &&
+                Objects.equals(name, customer.name) &&
+                Objects.equals(surname, customer.surname) &&
+                Objects.equals(number, customer.number) &&
+                Objects.equals(typeofpayment, customer.typeofpayment) &&
+                Objects.equals(extraInfo, customer.extraInfo) &&
+                Objects.equals(typeofdelivery, customer.typeofdelivery) &&
+                Objects.equals(date, customer.date) &&
+                Objects.equals(time, customer.time) &&
+                Objects.equals(address, customer.address) &&
+                Objects.equals(cart, customer.cart);
+    }
 }

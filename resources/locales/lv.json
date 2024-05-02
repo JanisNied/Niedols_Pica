@@ -82,10 +82,13 @@
 	"additionaltitle.text":"Papildus Info",
 	"data.text":"Dati",
 	"value.text":"Vērtība",
-	"orderstaken.text":"Pieņemti Pasūtījumi",
+	"orderstaken.text":"Pabeigti Pasūtījumi",
 	"workerid.text":"DARBINIEKA ID",
 	"register.button":"Reģistrēties",
 	"nickname.text":"Segvārds",
 	"registration.text":"Reģistrācija",
-	"exit.text":"Iziet"
+	"exit.text":"Iziet",
+	"pizzasleft.text":"picas",
+	"timeleft.text":"Atlika: ",
+	"thankyou.text":"Paldies!"
 }

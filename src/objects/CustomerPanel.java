@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JPanel;
-
 import localisation.LocalisedButton;
 import localisation.LocalisedLabelAttributed;
 import localisation.ThemeRoundPanel;
@@ -13,7 +12,9 @@ import main.Global;
 import raven.glasspanepopup.DefaultOption;
 import raven.glasspanepopup.GlassPanePopup;
 import raven.glasspanepopup.Option;
+import states.MainView;
 import states.Receipt;
+import states.Stove;
 
 @SuppressWarnings("serial")
 public class CustomerPanel extends JPanel {
@@ -48,7 +49,14 @@ public class CustomerPanel extends JPanel {
 		
 	}
 	private void plc() {
-		System.out.println("[PLACEHOLDER] Button click");
+		if (MainView.cooking.size() < 3) {
+			MainView.frncscroll.add(new Stove(customer, 20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200)));
+			MainView.frncscroll.repaint();
+			MainView.frncscroll.revalidate();
+			MainView.cooking.add(customer);
+			MainView.updateCustomers();
+			
+		}
 	}
 	private void receipt() {
 		Receipt receipt = new Receipt(customer);

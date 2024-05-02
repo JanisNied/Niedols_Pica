@@ -35,7 +35,8 @@ public class Database {
             
             String customerregistry = 
             		"CREATE TABLE IF NOT EXISTS Customers (" +
-            				"serialized_data TEXT NOT NULL"+
+            				"serialized_data TEXT NOT NULL,"
+            				+ "order_number INTEGER NOT NULL"+
             		")";
             statement.execute(customerregistry);
             statement.execute(usertable);
@@ -201,9 +202,10 @@ public class Database {
 	            
 	            
 	            byte[] serializedObject = serialize(customer);
-	            String insertSql = "INSERT INTO Customers (serialized_data) VALUES (?)";
+	            String insertSql = "INSERT INTO Customers (serialized_data, order_number) VALUES (?, ?)";
 	            PreparedStatement insertStmt = connection.prepareStatement(insertSql);
 	            insertStmt.setBytes(1, serializedObject);
+	            insertStmt.setInt(2, (int) customer.getOrderNum());
 	            insertStmt.executeUpdate();
                 System.out.println("Serialized data inserted successfully.");
 	            insertStmt.close();
@@ -262,6 +264,72 @@ public class Database {
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
              ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
             return objectInputStream.readObject();
+        }
+    }
+    public static void overrideCustomer(File db, Customer c) {
+    	String url = "jdbc:sqlite:"+db;
+        String sql = "UPDATE Customers SET serialized_data = ? WHERE order_number = ?";
+        
+        byte[] newSerializedData = null;
+		try {
+			newSerializedData = serialize(c);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+        long specificOrderNumber = c.getOrderNum();
+        
+        try (Connection conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setBytes(1, newSerializedData);
+            pstmt.setInt(2, (int) specificOrderNumber);
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public static String getDisplayName(File db, String login) {
+        String displayName = null;
+        String URL = "jdbc:sqlite:"+db;
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT display_name FROM Users WHERE login = ?")) {
+            preparedStatement.setString(1, login);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    displayName = resultSet.getString("display_name");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return displayName;
+    }
+    public static int getOrders(File db, String login) {
+        int orders = 0;
+        String URL = "jdbc:sqlite:"+db;
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT orders FROM Users WHERE login = ?")) {
+            preparedStatement.setString(1, login);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    orders = resultSet.getInt("orders");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+    public static void updateOrders(File db, String login, int newOrders) {
+    	String URL = "jdbc:sqlite:"+db;
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Users SET orders = ? WHERE login = ?")) {
+            preparedStatement.setInt(1, newOrders);
+            preparedStatement.setString(2, login);
+            preparedStatement.executeUpdate();
+            System.out.println("Orders updated successfully for login '" + login + "'.");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

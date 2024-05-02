@@ -51,7 +51,7 @@ public class Receipt extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel_1_2 = new JLabel("Paldies!");
+		LocalisedLabel lblNewLabel_1_2 = new LocalisedLabel("thankyou.text");
 		lblNewLabel_1_2.setForeground(Color.BLACK);
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 20));

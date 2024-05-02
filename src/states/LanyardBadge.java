@@ -1,7 +1,6 @@
 package states;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import db.Database;
 import localisation.LocalisedLabel;
 import localisation.LocalisedLabelAttributed;
 import localisation.ThemeIcon;
@@ -39,26 +39,7 @@ public class LanyardBadge extends JFrame {
 	private JLabel languageSwitch;
 	private JComboBox<BoxItem> comboBox;
 	private boolean valid = false;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		Global.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LanyardBadge frame = new LanyardBadge();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public LanyardBadge() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 419, 265);
@@ -98,12 +79,12 @@ public class LanyardBadge extends JFrame {
 		nametitle.setBounds(125, 60, 176, 34);
 		personalinfo.add(nametitle);
 		
-		username = new JLabel("12345678912345678912");
+		username = new JLabel(Database.getDisplayName(Global.database, Global.user));
 		username.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		username.setBounds(135, 81, 194, 34);
 		personalinfo.add(username);
 		
-		username_1 = new JLabel("0");
+		username_1 = new JLabel(Integer.toString(Database.getOrders(Global.database, Global.user)));
 		username_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		username_1.setBounds(135, 136, 194, 34);
 		personalinfo.add(username_1);

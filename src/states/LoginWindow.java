@@ -326,7 +326,7 @@ public class LoginWindow extends JPanel {
     	    	Timer transition = new Timer(animtime, new ActionListener() {
     	            @Override
     	            public void actionPerformed(ActionEvent e) {                           	
-    	            	Global.frame.replaceContentPane(new LoginWindow());
+    	            	Global.frame.replaceContentPane(new MainView());
     	            }
     	        });
     	    	transition.setRepeats(false);

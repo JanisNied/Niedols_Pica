@@ -3,7 +3,6 @@ package states;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -16,11 +15,11 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -67,11 +66,12 @@ import raven.glasspanepopup.GlassPanePopup;
 import raven.toast.Notifications;
 import ui.RoundPanel;
 
-public class MainView extends JFrame {
+public class MainView extends ThemePanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel presetpizzascroll, sizepanel, sizepanelScroll,infopanel, doughpanel, doughpanelscroll, saucepanelscroll, cheesepanelscroll, meatpanelscroll, additivepanelscroll, customerscroll;
-	private static JPanel cartpanelscroll;
+	private JPanel presetpizzascroll, sizepanel, sizepanelScroll,infopanel, doughpanel, doughpanelscroll, saucepanelscroll, cheesepanelscroll, meatpanelscroll, additivepanelscroll;
+	private static JPanel customerscroll;
+	public static JPanel cartpanelscroll, frncscroll;
 	private Animator animatorData;
 	public static Animator animatorDataMap;
 	private JLabel welcomelabel, prdctprc, imglbl, prdctlbl;
@@ -80,7 +80,6 @@ public class MainView extends JFrame {
 	private ThemePanel transitionpanel;
 	private static JButton orderbutton;
 	private int size = 240;
-	private JPanel contentPane;
 	private JScrollBar verticalScrollBar;
 	private IngredientPanel twenty, thirty, sixty;
 	private static JSpinner spinner;
@@ -98,7 +97,8 @@ public class MainView extends JFrame {
 	private MapCustom map;
 	private AnimatedButton pickup_1, pickup_1_1;
 	private boolean canSubmit = true;
-	private ArrayList<Customer> customers = new ArrayList<Customer>();
+	public static ArrayList<Customer> cooking = new ArrayList<Customer>();
+	private static ArrayList<Customer> customers = new ArrayList<Customer>();
 	private ThemeSelectionPanel cardbuttonholder, moneybuttonholder;
 	public static boolean  mapMenuFull = true;
 	public LanyardBadge id = null;
@@ -109,38 +109,10 @@ public class MainView extends JFrame {
 		customer.setTypeofdelivery("restaurant");
 		customer.setTypeofpayment("money");
 	}
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		Global.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					frame = new MainView();
-					GlassPanePopup.install(frame);
-			        Notifications.getInstance().setJFrame(frame);
-					frame.setVisible(true);		
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public MainView() {		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		setResizable(false);
-		contentPane = new ThemePanel(new Color(225, 225, 225), new Color(35, 35, 35));
-		contentPane.setBackground(new Color(225, 225, 225));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-        setContentPane(contentPane);
-        contentPane.setLayout(null);     
+	public MainView() {
+		super(new Color(225, 225, 225), new Color(35, 35, 35));
+		setBorder(new EmptyBorder(5, 5, 5, 5));
+        setLayout(null);     
         lblNewLabel_1 = new ThemeIcon(new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/historywhite.png")).getImage().getScaledInstance(22, 22, java.awt.Image.SCALE_SMOOTH)), new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/historyblack.png")).getImage().getScaledInstance(22,22, java.awt.Image.SCALE_SMOOTH)));
         lblNewLabel_1.addMouseListener(new MouseAdapter() {
             @Override
@@ -148,6 +120,7 @@ public class MainView extends JFrame {
             	int newY = 700;
             	History pnl = new History();
             	ArrayList<Customer> temp = Database.getAllCustomers(Global.database, true);
+            	Collections.reverse(temp);
             	for (Customer c : temp) {
             		pnl.scroll.add(new CustomerPanelHistory(c, 20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200)));
             		newY += 300;
@@ -158,7 +131,7 @@ public class MainView extends JFrame {
         });
         lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_1.setBounds(708, 528, 28, 28);
-        contentPane.add(lblNewLabel_1);
+        add(lblNewLabel_1);
         
         lblNewLabel = new ThemeIcon(new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/idlight.png")).getImage().getScaledInstance(52, 52, java.awt.Image.SCALE_SMOOTH)), new ImageIcon(new ImageIcon(LoginWindow.class.getResource("/img/iddark.png")).getImage().getScaledInstance(52, 52, java.awt.Image.SCALE_SMOOTH)));
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -175,13 +148,13 @@ public class MainView extends JFrame {
             }
         });
         lblNewLabel.setBounds(746, 528, 28, 28);
-        contentPane.add(lblNewLabel);
-        contentPane.setComponentZOrder(lblNewLabel, 0);
-        contentPane.setComponentZOrder(lblNewLabel_1, 1);
+        add(lblNewLabel);
+        setComponentZOrder(lblNewLabel, 0);
+        setComponentZOrder(lblNewLabel_1, 1);
         
         transitionpanel = new ThemePanel(Color.WHITE, new Color(72, 72, 72));
         transitionpanel.setBounds(0, 0, 784, 561);
-        contentPane.add(transitionpanel);
+        add(transitionpanel);
         transitionpanel.setLayout(null);
         
         welcomelabel = new JLabel("{Welcome.text}, {user}!");
@@ -192,15 +165,15 @@ public class MainView extends JFrame {
 
         JLayeredPane mainpanel = new JLayeredPane();
         mainpanel.setBounds(5, 5, 774, 551);
-        contentPane.add(mainpanel);
+        add(mainpanel);
 		mainpanel.setLayout(null);
 		
 		MainViewTabbedPane tabbedPane = new MainViewTabbedPane(4, new String[]{"premade.text", "custom.text", "cart.text", "kitchen.text"});
 		tabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
 		tabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-            	contentPane.setComponentZOrder(lblNewLabel, 0);
-                contentPane.setComponentZOrder(lblNewLabel_1, 1);
+            	setComponentZOrder(lblNewLabel, 0);
+                setComponentZOrder(lblNewLabel_1, 1);
             }
         });
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -905,7 +878,21 @@ public class MainView extends JFrame {
 		
 		JPanel furnaces = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));
 		furnaces.setBounds(10, 45, 749, 327);
+		furnaces.setLayout(null);
 		bakery.add(furnaces);
+		
+		frncscroll = new JPanel(new FlowLayout(FlowLayout.CENTER));	
+		frncscroll.setOpaque(false);
+		frncscroll.setBackground(new Color(0,0,0,0));
+		frncscroll.setPreferredSize(new Dimension(0, 0));
+		
+		JScrollPane frncsc = new JScrollPane(frncscroll);
+		frncsc.setBorder(BorderFactory.createEmptyBorder());
+		frncsc.setOpaque(false);
+		frncsc.getViewport().setOpaque(false);              
+		frncsc.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		frncsc.setBounds(0, 0, 749, 327);
+		furnaces.add(frncsc);
 		
 		JPanel customers = new ThemeRoundPanel(20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200));	
 		customers.setBounds(10, 383, 749, 129);
@@ -947,13 +934,16 @@ public class MainView extends JFrame {
 		updateCart();
 		updateCustomers();
 	}
-	private void updateCustomers() {
+	public static void updateCustomers() {
 		customers = Database.getAllCustomers(Global.database, false);
 		int newX = 500;
 		customerscroll.removeAll();
+		customerscroll.repaint();
+		customerscroll.revalidate();
 		for (Customer c : customers) {
 			newX += 300;
-			customerscroll.add(new CustomerPanel(c, 20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200)));
+			if (!cooking.contains(c))
+				customerscroll.add(new CustomerPanel(c, 20, new Color(50, 50, 50, 10), new Color(200, 200, 200, 10), new Color(0,0,0), new Color(200,200,200)));
 		}
 		customerscroll.setPreferredSize(new Dimension(newX, 0));
 	}
@@ -1105,7 +1095,7 @@ public class MainView extends JFrame {
 				message.append(Settings.lang.get("nosurname.text")+"\n");
 				isDataCorrect = false;
 			}
-			if (phone.getText().isBlank()) {
+			if (phone.getText().isBlank() || phone.getText().length() != 8) {
 				message.append(Settings.lang.get("nophone.text")+"\n");
 				isDataCorrect = false;
 			}

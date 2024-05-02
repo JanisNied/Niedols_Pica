@@ -82,10 +82,13 @@
 	"restaurantdelivery.text":"Pickup",
 	"homedelivery.text":"To Home",
 	"additionaltitle.text":"Additional Info",
-	"orderstaken.text":"Orders Taken",
+	"orderstaken.text":"Orders Finished",
 	"workerid.text":"WORKER ID",
 	"register.button":"Register",
 	"nickname.text":"Nickname",
 	"registration.text":"Registration",
-	"exit.text":"Exit"
+	"exit.text":"Exit",
+	"pizzasleft.text":"Pizzas",
+	"timeleft.text":"Remaining: ",
+	"thankyou.text":"Thank you!"
 }
