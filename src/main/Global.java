@@ -54,6 +54,8 @@ public class Global {
 	public static double saleCurve(int level) {
 		if (level == 1)
 			return 0;
+		if (level == 130)
+			return 0.5;
 		return (Math.pow(level, 0.8))/100;
 	}
 	

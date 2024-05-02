@@ -107,9 +107,9 @@ public class Receipt extends JFrame {
 		lblNewLabel_1_1_2.setBounds(157, 393, 129, 32);
 		panel.add(lblNewLabel_1_1_2);
 		double sale = 0;
-		sale = Global.saleCurve(customer.getSavedLevel());
+		sale = Global.saleCurve(customer.getSavedLevel()) * customer.getFull();
 		System.out.println("[SALE] "+sale);
-		JLabel lblNewLabel_1_1_2_1 = new JLabel("€"+MainView.df.format(customer.getFull()-sale));
+		JLabel lblNewLabel_1_1_2_1 = new JLabel("€"+MainView.df.format(customer.getFull() - sale));
 		lblNewLabel_1_1_2_1.setForeground(Color.BLACK);
 		lblNewLabel_1_1_2_1.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_1_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
