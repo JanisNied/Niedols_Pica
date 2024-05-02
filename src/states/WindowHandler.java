@@ -1,5 +1,6 @@
 package states;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -11,6 +12,8 @@ public class WindowHandler extends JFrame {
 	public WindowHandler(JPanel contentPane) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
+		setTitle("Slice Haven");
+		setIconImage(new ImageIcon(WindowHandler.class.getResource("/img/logocentered.png")).getImage());
 		setContentPane(contentPane);
 		setResizable(false);
 		getContentPane().setLayout(null);
